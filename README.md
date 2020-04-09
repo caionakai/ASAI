@@ -3,14 +3,6 @@ Repositório para disciplina Administração de Serviços e Aplicações Inform�
 
 Professor: Sandro Renato Dias
 
-### FrontEnd: Updated with Sidebar, Template and Routing System.
-#### Was used those imports on that update:
-**npm install react-router-dom**\
-**npm install @material-ui/core**\
-**npm install @material-ui/icons**
-
-![](Example.gif)
-
 ## Where do I put my code?
 There are two main folders: frontend and backend.
 
