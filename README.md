@@ -9,11 +9,11 @@ There are two main folders: frontend and backend.
 ### For frontend files
 Inside the **frontend/src/pages** folder we have two more folders named: **CRM** and **ERP**, inside them you find folders with the name of the modules that must be developed. Feel free to create, update and delete files/folders inside your group's folder, but don't change files that are outside your group's folder! (ofc, package json can be modified)
 
-#### FrontEnd: Updated with Sidebar and Example Template.
-#### Was used those imports
-** npm install react-router-dom **
-** npm install @material-ui/core **
-** npm install @material-ui/icons **
+#### FrontEnd: Updated with Sidebar, Template and Routing System.
+#### Was used those imports on that update:
+**npm install react-router-dom**
+**npm install @material-ui/core**
+**npm install @material-ui/icons**
 
 ### For backend files
 
