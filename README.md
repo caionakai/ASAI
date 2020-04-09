@@ -7,7 +7,7 @@ Professor: Sandro Renato Dias
 #### Was used those imports on that update:
 **npm install react-router-dom**\
 **npm install @material-ui/core**\
-**npm install @material-ui/icons**\
+**npm install @material-ui/icons**
 
 ![](Example.gif)
 
