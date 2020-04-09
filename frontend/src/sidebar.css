@@ -1,0 +1,35 @@
+  .sidebar {
+    width: 260px;
+    background: #1D1D1D;
+    border: 0.25px solid #000000;
+    box-sizing: border-box;
+    display:flex;
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .sidebar-header-title {
+    font-size: 36px;
+    line-height: 5px;
+    font-style: normal;
+    font-weight: normal;
+    color: #ffffff;
+  }
+  
+  .sidebar-line-detail {
+    width: 220px;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sidebar-item-header {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #C5C5C5;
+  }
