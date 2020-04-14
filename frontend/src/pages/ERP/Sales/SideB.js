@@ -1,14 +1,13 @@
-import { Link } from "react-router-dom";
-import React from 'react'
-import PropTypes from "prop-types";
-import List from '@material-ui/core/List'
-import Box from '@material-ui/core/Box'
-import { withStyles } from "@material-ui/core/styles";
-import './sidebar.css';
-
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import { Link } from "react-router-dom";
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
@@ -24,36 +23,52 @@ import EmojiEventsOutlinedIcon from '@material-ui/icons/EmojiEventsOutlined';
 import EqualizerOutlinedIcon from '@material-ui/icons/EqualizerOutlined';
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
+import { Typography } from '@material-ui/core';
 
-const styles = theme => ({
-    sidebarItemIcon: {
-      color: '#C5C5C5',
-      paddingLeft: '12px'
-    },
-    sidebarItemIconCurrent: {
-        color: 'aqua',
-        paddingLeft: '12px'
-    },
-    sidebarHeaderIcon: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        color: '#C5C5C5',
-        float: 'right',
-      },
-    sidebarItemText: {
-        color: '#C5C5C5',
-        paddingLeft: '0px',
-    },
-    sidebarItemTextCurrent: {
-        color: 'aqua',
-        paddingLeft: '0px',
-    }
-  });
+const drawerWidth = 240;
 
-function Sidebar(props) {
-    const { classes } = props;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: "#1D1D1D"
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: '#aqua',
+    padding: theme.spacing(3),
+  },
+  sidebarItemText: {
+    color: '#C5C5C5',
+  },
+  sidebarItemTextCurrent: {
+    color: 'aqua',
+  },
+  sidebarItemIcon: {
+    color: '#C5C5C5',
+  },
+  sidebarItemIconCurrent: {
+      color: 'aqua',
+  },
+  dividerStyle: {
+    backgroundColor: '#C5C5C5',
+  },
+  
+}));
 
-    console.log("Classe=",props.currentPage);
+function SideB({ currentPage, ...rest}) {
+    const classes = useStyles();
 
     const menu = [
         // ERP -> Submenus
@@ -78,48 +93,43 @@ function Sidebar(props) {
             { name: 16, label: 'Reports', route: '/reports', Icon: ErrorOutlineOutlinedIcon},
         ]}
     ];
-    
-    return (
-            <div className="sidebar">
-                <>
-                <div className="sidebar-header">
-                <Link to={'/'} style={{ textDecoration: 'none' }}>
-                    <h1 className="sidebar-header-title">ASAI</h1>
-                </Link>
-                </div>
-                <hr className="sidebar-line-detail" />
-                </>
-                <List disablePadding>
-                
-                    {menu.map(({label, name, items, ...rest }) => (
 
-                        <React.Fragment key={label}>                     
-                        <ListItem>
-                            <ListItemText className={'sidebar-item-header'}>{label}</ListItemText>
+    return (
+    <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor="left"
+      >
+        <div className={classes.toolbar} style={{  display: 'flex', justifyContent: 'center', alignItems: 'center'}}><Typography variant={'h4'} style={{color: '#ffffff'}}>ASAI</Typography></div>
+        <Divider className={classes.dividerStyle} variant={"middle"} />
+        <List>
+          {menu.map(({label, name, items, ...rest }) => (
+            <React.Fragment key={label}>
+            <ListItem>
+              <ListItemText className={'sidebar-item-header'}>{label}</ListItemText>
+            </ListItem>
+            
+            {Array.isArray(items) ? (
+                items.map(({label, name, Icon, route, ...rest }) => (
+                    <Link key={label} to={route} style={{ textDecoration: 'none' }}>
+                        <ListItem button {...rest}>
+                            <ListItemIcon><Icon className={ name === currentPage ? classes.sidebarItemIconCurrent : classes.sidebarItemIcon } /></ListItemIcon>
+                            <ListItemText className={ name === currentPage ? classes.sidebarItemTextCurrent : classes.sidebarItemText }>{label}</ListItemText>
                         </ListItem>
-                        
-                        {Array.isArray(items) ? (
-                            items.map(({label, name, Icon, route, ...rest }) => (
-                                
-                                <Link key={label} to={route} style={{ textDecoration: 'none' }}>
-                                    {console.log(name," - ",props.currentPage)}
-                                    <ListItem button {...rest}>
-                                        <ListItemIcon><Icon className={ name === props.currentPage ? classes.sidebarItemIconCurrent : classes.sidebarItemIcon } /></ListItemIcon>
-                                        <ListItemText className={ name === props.currentPage ? classes.sidebarItemTextCurrent : classes.sidebarItemText }>{label}</ListItemText>
-                                    </ListItem>
-                                </Link>
-                            ))
-                        ) : null }
-                        </React.Fragment>
-                    ))}
-                    
-                </List>
-            </div>
-    )
+                    </Link>
+                ))
+            ) : null }
+             <Divider className={classes.dividerStyle} variant={"inset"} />
+            </React.Fragment>
+
+          ))}
+        </List>
+      </Drawer>
+
+    );
 }
 
-Sidebar.propTypes = {
-    classes: PropTypes.object.isRequired
-  };
-
-export default withStyles(styles)(Sidebar);
+export default SideB;

@@ -2,8 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import SideB from '../../ERP/Sales/SideB';
-import TopB from './TopB';
+import SideB from '../SideB';
+import TopB from '../TopB';
+import CustomTable from './customTable'
 
 import { Grid, Paper, Divider, Input, Box, Button  } from '@material-ui/core'
 import { FormLabel } from '@material-ui/core';
@@ -38,23 +39,28 @@ const useStyles = makeStyles((theme) => ({
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
 
+  const userColsFake = [
+    { id: 'identifier', label: 'ID', minWidth: '10%' },
+    { id: 'name', label: 'Name', minWidth: '250px' },
+    { id: 'select', label: '-', minWidth: '20%' },
+  ];
+
+  const userRowsFake = [
+    { identifier: 1, name: 'Lucas Mendes', select: 5 },
+    { identifier: 2, name: 'Joao Paulo', select: 12 },
+    { identifier: 3, name: 'Vinicius Lopes', select: 32 },
+    { identifier: 4, name: 'Leonardo Guth', select: 4 },
+    { identifier: 5, name: 'Alvaro Oliveira', select: 5 }
+  ]
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <TopB pageTitle={'Email Marketing'} />
-      <SideB currentPage={15} />
+      <TopB pageTitle={'SALES'} pageRoute={1} />
+      <SideB currentPage={3} />
       
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        { /*  **************************************************************************************************
-            Isso aqui eh a parte de dentro onde voce programa os cards/inputs e tals - Da uma olhada em:
-            
-            GRID MATERIAL UI 
-            INPUT MATERIAL UI
-            BUTTON MATERIAL UI
-            SPACING MATERIAL UI         
-            
-         */}
             <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <Paper elevation={2} className={classes.paperCard}>
@@ -73,6 +79,9 @@ export default function PermanentDrawerLeft() {
                                 <Box ml={4} />
                                 <Button className={classes.buttonForm}>Search</Button>
                             </form>
+                            <Box p={2} mt={2}>
+                                <CustomTable fakeRows={userRowsFake} fakeCols={userColsFake} />
+                            </Box>
                         </Grid>
                         </Box>
                     </Paper>
@@ -112,7 +121,6 @@ export default function PermanentDrawerLeft() {
                     </Paper>
                 </Grid>
             </Grid>
-        { /*  ******************************************************************************************************************************  */}
         </main>
       </div>
   );

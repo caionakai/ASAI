@@ -1,10 +1,8 @@
   .sidebar {
-    width: 260px;
     background: #1D1D1D;
     border: 0.25px solid #000000;
     box-sizing: border-box;
     display:flex;
-    height: 100vh;
     align-items: center;
     flex-direction: column;
   }
