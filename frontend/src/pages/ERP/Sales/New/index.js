@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import SideB from '../SideB';
 import TopB from '../TopB';
 import CustomTable from './customTable'
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import DoneOutlinedIcon from '@material-ui/icons/DoneOutlined';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
-import { Grid, Paper, Divider, Input, Box, Button  } from '@material-ui/core'
-import { FormLabel } from '@material-ui/core';
+import { Grid, Paper, Divider, Input, Box, Button, OutlinedInput   } from '@material-ui/core'
+import { FormLabel, InputAdornment, FormControl  } from '@material-ui/core';
+import CustomGrid from '../CustomGrid';
+import { render } from 'react-dom';
+
+import FadeIn from 'react-fade-in';
+
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   paperCard: {
     backgroundColor: '#f5f5f5'
   },
+  paperCard2: {
+    backgroundColor: '#1972B3'
+  },
   paperHeader: {
       backgroundColor: '#353535'
   },
@@ -33,26 +45,68 @@ const useStyles = makeStyles((theme) => ({
     background: '#1D1D1D',
     borderRadius: '8px',
     color: '#ffffff'
+  },
+  textFieldColor: {
+    backgroundColor: '#ffffff'
+  },
+  customButton: {
+    backgroundColor: '#ffffff',
+    color: '#000000',
+    '&:hover' : {
+      backgroundColor: '#d4d4d4',
+    }
   }
 }));
 
-export default function PermanentDrawerLeft() {
+export default function SalesNew() {
   const classes = useStyles();
+  const  [userSelected, setuserSelected] = useState(null);
+  const  [productSelected, setproductSelected] = useState(null);
+  const  [valores, setValores] = React.useState({
+    quantidade: 0
+  });
 
-  const userColsFake = [
-    { id: 'identifier', label: 'ID', minWidth: '10%' },
-    { id: 'name', label: 'Name', minWidth: '250px' },
-    { id: 'select', label: '-', minWidth: '20%' },
+  const handleChange = (prop) => (event) => {
+    setValores({ ...valores, [prop]: event.target.value });
+  };
+
+  function handleClick(data) {
+    return setuserSelected(data);
+  }
+
+  const userColumns = [
+    { key: 'id', name: 'ID', width: 60},
+    { key: 'name', name: 'Name' },
+    { key: 'nif', name: 'NIF' },
+    { key: 'select', name: 'Select',width: 60},
   ];
 
-  const userRowsFake = [
-    { identifier: 1, name: 'Lucas Mendes', select: 5 },
-    { identifier: 2, name: 'Joao Paulo', select: 12 },
-    { identifier: 3, name: 'Vinicius Lopes', select: 32 },
-    { identifier: 4, name: 'Leonardo Guth', select: 4 },
-    { identifier: 5, name: 'Alvaro Oliveira', select: 5 }
-  ]
+  const userRows = [
+    {id: 0, name: 'Ros Main', nif: '5599595741', select: '' },
+    {id: 1, name: 'Calvin Malk', nif: '3213211321', select: ''},
+    {id: 2, name: 'Wester Park', nif: '1235434351', select: ''},
+    {id: 3, name: 'Filer Ispor', nif: '7654677655', select: ''},
+    {id: 4, name: 'Catrine Bors', nif: '989066790', select: ''},
+  ];
 
+  const productColumns = [
+    { key: 'id', name: 'ID', width: 50},
+    { key: 'name', name: 'Nome' },
+    { key: 'price', name: 'Preço' },
+    { key: 'quantity', name: 'Quantidade'},
+    { key: 'select', name: 'Select',width: 60},
+  ];
+
+  const productRows = [
+    {id: 0, name: 'Raglan P', price: 59, quantity: 8, select: '' },
+    {id: 1, name: 'Camiseta Dark M', price: 32, quantity: 12, select: '' },
+    {id: 2, name: 'Sueter Rose Estelar', price: 123, quantity: 35, select: '' },
+    {id: 3, name: 'Calça Jeans Onimso P', price: 75.4, quantity: 22, select: '' },
+    {id: 4, name: 'Camisa Polo Xadrez GG', price: 99.98, quantity: 4, select: '' },
+  ];
+
+  
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -62,7 +116,7 @@ export default function PermanentDrawerLeft() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
             <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                     <Paper elevation={2} className={classes.paperCard}>
                         <div className={classes.paperHeader}>
                             <Box p={1}>
@@ -70,23 +124,39 @@ export default function PermanentDrawerLeft() {
                             </Box>
                         </div>
                         <Divider variant={"middle"} />
-                        <Box p={1}>
-                        <Grid container justify="center" alignItems="center" direction="row">
-                            <Typography variant={'h6'}> Name / NIF: </Typography>
-                            <Box ml={4} />
-                            <form className={classes.root} noValidate autoComplete="off">
-                                <Input placeholder="Example" />
-                                <Box ml={4} />
-                                <Button className={classes.buttonForm}>Search</Button>
-                            </form>
-                            <Box p={2} mt={2}>
-                                <CustomTable fakeRows={userRowsFake} fakeCols={userColsFake} />
-                            </Box>
-                        </Grid>
+                        <Box m={2}>
+                          <CustomGrid columns={userColumns} rows={userRows} handleClick={handleClick} />
+                        </Box>
+                        <Box m={2} pb={1}>
+                          {!!userSelected 
+                          ? 
+                            <FadeIn>
+                            <Paper elevation={1} className={classes.paperCard2}>
+                              <Grid
+                                container
+                                direction={'row'}
+                                alignItems={'center'}
+                              >
+                                <Grid item xs={2}>
+                                <Grid container justify={'center'}><AccountCircleOutlinedIcon className={classes.paperHeaderText} fontSize={'large'}/></Grid>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Box p={1}>
+                                    <Typography variant="h5" className={classes.paperHeaderText}>{userSelected.name}</Typography>
+                                    <Typography variant="body1" className={classes.paperHeaderText}>{userSelected.nif}</Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={1}>
+                                  <DoneOutlinedIcon className={classes.paperHeaderText} fontSize={'large'}/>
+                                </Grid>
+                              </Grid>
+                            </Paper>
+                            </FadeIn>
+                          : null }
                         </Box>
                     </Paper>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                 <Paper elevation={2} className={classes.paperCard}>
                         <div className={classes.paperHeader}>
                             <Box p={1}>
@@ -94,18 +164,57 @@ export default function PermanentDrawerLeft() {
                             </Box>
                         </div>
                         <Divider variant={"middle"} />
-                        <Box p={1}>
-                        <Grid container justify="center" alignItems="center" direction="row">
-                            <Typography variant={'h6'} className={classes.paperHeaderText} >Name / NIF: </Typography>
-                            <Box ml={4} />
-                            <form className={classes.root} noValidate autoComplete="off">
-                                <Input placeholder="Example" />
-                                <Box ml={4} />
-                                <input size="small" type="submit" value="Search"  />
-                            </form>
-                        </Grid>
+                        <Box m={2}>
+                          <CustomGrid columns={productColumns} rows={productRows} handleClick={setproductSelected} />
                         </Box>
-                    </Paper>
+                        <Box m={2} pb={1}>
+                          {!!productSelected 
+                          ? 
+                            <FadeIn>
+                            <Paper elevation={1} className={classes.paperCard2}>
+                              <Grid
+                                container
+                                direction={'row'}
+                                alignItems={'center'}
+                                >
+                                <Grid item xs={3}>
+                                  <Box p={1}>
+                                  <FormControl>
+                                    <OutlinedInput 
+                                      fullWidth={true}
+                                      id="standard-adornment-weight"
+                                      value={0}
+                                      value={valores.quantidade}
+                                      onChange={handleChange('quantidade')}
+                                      size={'small'}
+                                      className={classes.textFieldColor}
+                                      endAdornment={<InputAdornment position="end">Unid</InputAdornment>}
+                                    />
+                                  </FormControl>
+                                  </Box>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <Box p={1} ml={2}>
+                                    <Typography variant="h5" className={classes.paperHeaderText}>{productSelected.name}</Typography>
+                                    <Typography variant="body1" className={classes.paperHeaderText}>€ {productSelected.price}</Typography>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={2}>      
+                                    <Button
+                                      variant="contained"
+                                      color="primary"
+                                      size="large"
+                                      className={classes.customButton}
+                                      startIcon={<AddShoppingCartIcon />} >
+                                      ADD
+                                    </Button>
+                                </Grid>
+                              </Grid>
+                            </Paper>
+                            </FadeIn>
+                          : null }
+                        </Box>
+                  </Paper>
                 </Grid>
                 <Grid item xs={12}>
                 <Paper elevation={2} className={classes.paperCard}>
