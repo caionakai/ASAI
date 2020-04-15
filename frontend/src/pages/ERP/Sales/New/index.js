@@ -6,10 +6,11 @@ import SideB from '../SideB';
 import TopB from '../TopB';
 import CustomTable from './customTable'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import DoneOutlinedIcon from '@material-ui/icons/DoneOutlined';
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
-import { Grid, Paper, Divider, Input, Box, Button, OutlinedInput   } from '@material-ui/core'
+import { Grid, Paper, Divider, Input, Box, Button, IconButton, OutlinedInput   } from '@material-ui/core'
 import { FormLabel, InputAdornment, FormControl  } from '@material-ui/core';
 import CustomGrid from '../CustomGrid';
 import { render } from 'react-dom';
@@ -17,7 +18,6 @@ import { render } from 'react-dom';
 import FadeIn from 'react-fade-in';
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
     '&:hover' : {
       backgroundColor: '#d4d4d4',
     }
+  },
+  removeIcon: {
+    color: '#6e0000'
+  },
+  removeIcon2: {
+    color: '#00065c'
   }
 }));
 
@@ -65,6 +71,19 @@ export default function SalesNew() {
   const  [valores, setValores] = React.useState({
     quantidade: 0
   });
+
+  const [carrinho, setCarrinho] = useState([]);
+
+  const addItem = (item) => {
+    setCarrinho([
+      ...carrinho,
+      {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }
+    ])};
 
   const handleChange = (prop) => (event) => {
     setValores({ ...valores, [prop]: event.target.value });
@@ -105,6 +124,13 @@ export default function SalesNew() {
     {id: 4, name: 'Camisa Polo Xadrez GG', price: 99.98, quantity: 4, select: '' },
   ];
 
+  function insertNewProduct(data) {
+    //setproductSelected(null);
+    setValores({quantidade: 0});
+    addItem(data);
+    //setproductSelected({...productSelected, name: ''})
+  }
+
   
   
   return (
@@ -123,14 +149,10 @@ export default function SalesNew() {
                                 <Typography variant={'h5'} align='center' className={classes.paperHeaderText}>Client Selection</Typography>
                             </Box>
                         </div>
-                        <Divider variant={"middle"} />
-                        <Box m={2}>
-                          <CustomGrid columns={userColumns} rows={userRows} handleClick={handleClick} />
-                        </Box>
-                        <Box m={2} pb={1}>
-                          {!!userSelected 
-                          ? 
-                            <FadeIn>
+                        <Divider variant={"middle"} />                          
+                        {!!userSelected 
+                          ? (
+                        <FadeIn>
                             <Paper elevation={1} className={classes.paperCard2}>
                               <Grid
                                 container
@@ -140,20 +162,24 @@ export default function SalesNew() {
                                 <Grid item xs={2}>
                                 <Grid container justify={'center'}><AccountCircleOutlinedIcon className={classes.paperHeaderText} fontSize={'large'}/></Grid>
                                 </Grid>
-                                <Grid item xs={9}>
+                                <Grid item xs={8}>
                                     <Box p={1}>
                                     <Typography variant="h5" className={classes.paperHeaderText}>{userSelected.name}</Typography>
                                     <Typography variant="body1" className={classes.paperHeaderText}>{userSelected.nif}</Typography>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={1}>
-                                  <DoneOutlinedIcon className={classes.paperHeaderText} fontSize={'large'}/>
+                                <Grid item xs={2}>
+                                  <IconButton className={classes.removeButton} onClick={() => setuserSelected(null)}>
+                                    <HighlightOffRoundedIcon className={classes.removeIcon} fontSize={'large'}/>
+                                  </IconButton>
                                 </Grid>
                               </Grid>
-                            </Paper>
-                            </FadeIn>
-                          : null }
+                            </Paper> 
+                          </FadeIn>)
+                          : <Box m={2}><FadeIn>
+                          <CustomGrid columns={userColumns} rows={userRows} handleClick={handleClick} /></FadeIn>
                         </Box>
+                        }
                     </Paper>
                 </Grid>
                 <Grid item xs={7}>
@@ -200,14 +226,13 @@ export default function SalesNew() {
                                     </Box>
                                 </Grid>
                                 <Grid item xs={2}>      
-                                    <Button
+                                    <IconButton
                                       variant="contained"
-                                      color="primary"
-                                      size="large"
+                                      onClick={() => insertNewProduct(productSelected)}
                                       className={classes.customButton}
-                                      startIcon={<AddShoppingCartIcon />} >
-                                      ADD
-                                    </Button>
+                                      disabled={valores.quantidade == 0 ? true : false}
+                                    ><AddShoppingCartIcon />
+                                    </IconButton>
                                 </Grid>
                               </Grid>
                             </Paper>
@@ -224,8 +249,37 @@ export default function SalesNew() {
                         </Box>
                     </div>
                     <Divider variant={"middle"} />
-                    <Box p={5}>
-
+                    <Box p={2}>
+                    <Grid container direction="row" spacing={2}>
+                    {carrinho.map(item => (
+                      
+                      <Grid item>
+                        <Box mt={2}>
+                      <FadeIn>
+                        <Paper className={classes.paperCard2} elevation={2}>
+                        
+                          <Grid container spacing={2} direction="row" alignItems="center" justify="center">
+                            <Grid item>
+                            <IconButton><DeleteForeverOutlinedIcon className={classes.removeIcon2}/></IconButton>
+                            </Grid>
+                              <Divider orientation={'vertical'} flexItem={true} />
+                            <Grid item>
+                            <Typography variant="body1" className={classes.paperHeaderText}>{item.name}</Typography>
+                            <Typography variant="body1" className={classes.paperHeaderText}>Quant: {item.quantity}</Typography>
+                            </Grid>
+                              <Divider orientation={'vertical'} flexItem={true} />
+                            <Grid item>
+                              <Box mr={1}>
+                              <Typography variant="h6" className={classes.paperHeaderText}>€ {item.price}</Typography>
+                              </Box>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </FadeIn>
+                      </Box>
+                      </Grid>
+                    ))}
+                    </Grid>
                     </Box>
                     </Paper>
                 </Grid>
