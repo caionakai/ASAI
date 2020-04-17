@@ -12,3 +12,7 @@ Inside the **frontend/src** folder we have two more folders named: **CRM** and *
 ### For backend files
 
 Lucas will decide
+
+
+## How do I submit my code?
+Every group **must** create a PULL REQUEST from a branch. 
