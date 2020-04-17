@@ -13,9 +13,11 @@ Inside the **frontend/src** folder we have two more folders named: **CRM** and *
 
 Lucas will decide
 
+**DO NOT CHANGE ANY BACKEND FILES, WE'RE WAITING FOR THE FINAL VERSION OF THE DATABASE MODEL**
+
 
 ## How do I submit my code?
-Every group **must** create a PULL REQUEST from a branch. 
+Every group **must** create a PULL REQUEST from a branch. (to create a branch you need to be a collaborator, send your github username to this e-mail: caionakai2015@gmail.com so that I can invite you)
 
 In order to avoid conflicts, before creating the PR make sure your branch is up-to-date. To do that use the following commands:
 ```
