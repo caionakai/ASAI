@@ -16,3 +16,11 @@ Lucas will decide
 
 ## How do I submit my code?
 Every group **must** create a PULL REQUEST from a branch. 
+
+In order to avoid conflicts, before creating the PR make sure your branch is up-to-date. To do that use the following commands:
+```
+1. git checkout master
+2. git pull
+3. git checkout -
+4. git rebase master
+```
