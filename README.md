@@ -1,4 +1,4 @@
-# ASAI
+# Administração de Serviços e Aplicações Informáticas (ASAI)
 Repositório para disciplina Administração de Serviços e Aplicações Informáticas - IPB
 
 Professor: Sandro Renato Dias
