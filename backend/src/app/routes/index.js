@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 
-const helloWorld = require('./helloWorldRouter');
+const world = require('./worldRouter');
 
-router.use('/hello', helloWorld);
+router.use('/world', world);
 
 module.exports = router;
