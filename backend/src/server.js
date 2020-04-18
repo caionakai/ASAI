@@ -1,9 +1,11 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const routes = require('./routes/index');
+const routes = require('./app/routes/index');
+require('./app/database'); //Initialize database
+
+const app = express();
 
 var corsOptions = {
   origin: '*', //Change this to the URL of frontend
