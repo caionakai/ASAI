@@ -11,10 +11,6 @@ import RegisterPurchase from "./register-purchase";
 
 import PurchaseTable from "./purchase-table";
 
-import RegisterSupplier from "./register-supplier";
-
-import PurchaseTable from "./purchase-table";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
