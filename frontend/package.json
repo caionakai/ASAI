@@ -15,6 +15,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "query-string": "^6.12.1",
+    "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-table-next": "^4.0.1",
@@ -23,7 +24,9 @@
     "react-dom": "^16.13.1",
     "react-notification-system": "^0.3.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "sweetalert2": "^9.10.12",
+    "sweetalert2-react-content": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
