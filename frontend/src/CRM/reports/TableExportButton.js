@@ -13,12 +13,20 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
   },
   exportButton: {
+<<<<<<< HEAD
     marginTop: "1rem",
+=======
+    marginTop: "2rem",
+>>>>>>> Initial commit.
     float: "right",
   },
 }));
 
+<<<<<<< HEAD
 const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
+=======
+const TableExportButton = ({ tableData }) => {
+>>>>>>> Initial commit.
   const [data, setData] = useState([]);
   const classes = useStyles();
 
@@ -26,6 +34,7 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     setData(tableData);
   }, []);
 
+<<<<<<< HEAD
   const getHeaders = () => {
     let th = [];
     header.forEach(h => {
@@ -34,6 +43,8 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     return th;
   }
 
+=======
+>>>>>>> Initial commit.
   const exportToPDF = () => {
     const unit = "pt";
     const size = "A4";
@@ -41,6 +52,7 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(12);
+<<<<<<< HEAD
     const title = pdfTitle;
     const headers = [getHeaders()];
     const tableCells = tableData.map((elt) => {
@@ -50,6 +62,11 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
       }
       return row;
     });
+=======
+    const title = "Report Title";
+    const headers = [["NAME", "PROFESSION"]];
+    const tableCells = data.map((elt) => [elt.name, elt.profession]);
+>>>>>>> Initial commit.
     let content = {
       startY: 50,
       head: headers,

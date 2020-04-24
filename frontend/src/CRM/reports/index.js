@@ -1,13 +1,21 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+import React from "react";
+>>>>>>> Initial commit.
 import Sidebar from "../../Components/SideBar";
 import TopBar from "../../Components/TopBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TableExportButton from "./TableExportButton";
+<<<<<<< HEAD
 import TableWithFilter from "./Table";
 import TopicCard from "./TopicCard";
 import Swal from "sweetalert2";
 import BarGraph from "./Graphs";
+=======
+import CustomTable from "./CustomTable";
+>>>>>>> Initial commit.
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
+<<<<<<< HEAD
 
 const joinedTables = [
   {
@@ -317,6 +326,19 @@ export default function Reports() {
     }
   };
 
+=======
+
+const data = [
+  { name: "Keanu Reeves", profession: "Actor" },
+  { name: "Lionel Messi", profession: "Football Player" },
+  { name: "Cristiano Ronaldo", profession: "Football Player" },
+  { name: "Jack Nicklaus", profession: "Golf Player" },
+];
+
+export default function Reports() {
+  const classes = useStyles();
+
+>>>>>>> Initial commit.
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -324,6 +346,7 @@ export default function Reports() {
       <Sidebar currentPage={16} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
+<<<<<<< HEAD
         <TableWithFilter
           tableData={tableData}
           tableColumns={tableColumns}
@@ -350,6 +373,11 @@ export default function Reports() {
           tableData={filteredTableData}
         />
         {/* <BarGraph></BarGraph> */}
+=======
+        <CustomTable tableData={data} />
+        <TableExportButton tableData={data} />
+        {/* PUT YOUR CONTENT HERE -> RECOMMEND: GRID AND PAPERS MATERIAL UI */}
+>>>>>>> Initial commit.
       </main>
     </div>
   );
