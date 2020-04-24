@@ -3,6 +3,9 @@ import Sidebar from "../../Components/SideBar";
 import TopBar from "../../Components/TopBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Button from "@material-ui/core/Button";
+import Modal from "@material-ui/core/Modal";
+import TextField from "@material-ui/core/TextField";
 import { Formik, Form, ErrorMessage } from "formik";
 import Swal from "sweetalert2";
 
@@ -21,6 +24,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Purchase() {
   const classes = useStyles();
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -30,119 +43,88 @@ export default function Purchase() {
         <div className={classes.toolbar} />
 
         <div>
-          <div>
-            <Formik
-              initialValues={{ product: "", productsQtt: 1, price: "" }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.product) {
-                  errors.product = "Required";
-                }
-                if (!values.productsQtt) {
-                  errors.productsQtt = "Required";
-                }
-                if (!values.price) {
-                  errors.price = "Required";
-                }
+          <Button
+            variant="contained"
+            color="primary"
+            className="form__button"
+            style={{ marginTop: "1rem" }}
+            onClick={handleOpen}
+          >
+            Register Purchase
+          </Button>
 
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                // setTimeout(() => {
-                //   alert(JSON.stringify(values, null, 2));
-                //   setSubmitting(false);
-                // }, 400);
-                setSubmitting(false);
-                Swal.fire({
-                  icon: "success",
-                  title: "Purchase Registered!",
-                  text: "Everything worked fine!",
-                });
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div
+              style={{
+                position: "absolute",
+                width: "30vw",
+                height: "55vh",
+                backgroundColor: "white",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
               }}
             >
-              {({
-                isSubmitting,
-                touched,
-                errors,
-                values,
-                handleChange,
-                handleBlur,
-              }) => (
-                <Form className="form">
-                  <div>
-                    <p className="label">Product's Name</p>
-                    <input
-                      type="text"
-                      name="product"
-                      value={values.product}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="product"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                  </div>
+              <form>
+                <h2 style={{ marginLeft: "2rem" }}>Register Purchase</h2>
+                <hr />
+                <div>
+                  <TextField
+                    id="standard-error"
+                    label="Product's Name"
+                    defaultValue=""
+                    style={{ marginTop: "1rem", marginLeft: "2rem" }}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-error-helper-text"
+                    label="Unit Price"
+                    type="number"
+                    defaultValue=""
+                    style={{ marginTop: "1rem", marginLeft: "2rem" }}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-error-helper-text"
+                    label="Quantity of Products"
+                    type="number"
+                    defaultValue=""
+                    style={{ marginTop: "1rem", marginLeft: "2rem" }}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-error-helper-text"
+                    label="Purchase Date"
+                    type="date"
+                    defaultValue=""
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    style={{ marginTop: "1rem", marginLeft: "2rem" }}
+                  />
+                </div>
 
-                  <div>
-                    <p className="label">Quantity of Products</p>
-                    <input
-                      type="number"
-                      min="1"
-                      name="productsQtt"
-                      value={values.productsQtt}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="productsQtt"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                  </div>
-
-                  <div>
-                    <p className="label">Unit Price</p>
-                    <input
-                      type="currency"
-                      min="1"
-                      name="price"
-                      value={values.price}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="price"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                  </div>
-
-                  <div>
-                    <p className="label">Purchase Date</p>
-                    <input
-                      type="date"
-                      name="purchase_date"
-                      value={values.date}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="price"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="form__button"
-                    style={{ marginTop: "1rem" }}
-                  >
-                    Register Purchase
-                  </button>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  // disabled={isSubmitting}
+                  className="form__button"
+                  style={{ marginTop: "1rem", marginLeft: "70%" }}
+                >
+                  Confirm
+                </Button>
+              </form>
+            </div>
+          </Modal>
         </div>
       </main>
     </div>
