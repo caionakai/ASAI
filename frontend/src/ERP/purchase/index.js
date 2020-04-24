@@ -11,10 +11,6 @@ import RegisterPurchase from "./register-purchase";
 
 import PurchaseTable from "./purchase-table";
 
-import PurchaseTable from "./purchase-table";
-
-import RegisterPurchase from "./register-purchase";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -50,28 +46,6 @@ export default function Purchase() {
     setOpenModalSupplier((prevState) => {
       return !prevState;
     });
-  };
-
-  const toggleModalSupplier = () => {
-    setOpenModalSupplier((prevState) => {
-      return !prevState;
-    });
-  };
-
-  const [openModalSupplier, setOpenModalSupplier] = React.useState(false);
-  console.log(openModalSupplier);
-  const handleOpenModalSupplier = () => {
-    setOpenModalSupplier(true);
-  };
-
-  const handleCloseModalSupplier = () => {
-    setOpenModalSupplier(false);
-  };
-
-  const [openModalSupplier, setOpenModalSupplier] = React.useState(false);
-  console.log(openModalSupplier);
-  const handleOpenModalSupplier = () => {
-    setOpenModalSupplier(true);
   };
 
   return (
