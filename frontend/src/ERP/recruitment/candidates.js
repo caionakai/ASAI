@@ -7,13 +7,28 @@ import { Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import AddIcon from '@material-ui/icons/Add';
 
 const candidates = [
-  {"name": "candidate 1", "email": "123fz@asdasd.com", "phone": "999999999", "address": "asdaskdj 123123 asdkjasdk as"},
-  {"name": "candidate 2", "email": "dfsd@asdasd.com", "phone": "999999999", "address": "asd 123123 a as"},
-  {"name": "candidate 3", "email": "dfgsd@asdasd.com", "phone": "999999999", "address": "1213 123123 asdkjasdk as"},
-  {"name": "candidate 4", "email": "sdfxx@asdasd.com", "phone": "999999999", "address": "ddddzxd 123123 asdkjasdk as"}
+  {"id":1,"name": "candidate 1", "email": "123fz@asdasd.com", "phone": "999999999", "address": "asdaskdj 123123 asdkjasdk as"},
+  {"id":2,"name": "candidate 2", "email": "dfsd@asdasd.com", "phone": "999999999", "address": "asd 123123 a as"},
+  {"id":3,"name": "candidate 3", "email": "dfgsd@asdasd.com", "phone": "999999999", "address": "1213 123123 asdkjasdk as"},
+  {"id":4,"name": "candidate 4", "email": "sdfxx@asdasd.com", "phone": "999999999", "address": "ddddzxd 123123 asdkjasdk as"}
 ];
+
+function rankFormatter(cell, row, rowIndex, formatExtraData) {
+     return (
+           <div onClick={event =>  window.location.href='/recruit/newinterview/' + row.id}
+               style={{ textAlign: "center",
+                  cursor: "pointer",
+                 lineHeight: "normal" }}>
+
+        <AddIcon
+          style={{ fontSize: 20 }}
+          color="disabled"
+         />
+      </div>
+ ); }
 
 const columns = [
   {
@@ -35,7 +50,16 @@ const columns = [
   dataField: 'address',
   text: 'Address',
   filter: textFilter()
-  }];
+},
+{
+      dataField: "edit",
+      text: "Interview",
+      sort: false,
+      formatter: rankFormatter,
+      headerAttrs: { width: 85 },
+      attrs: { width: 50, class: "AddRow" }
+    }
+];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +85,7 @@ export default function Candidates() {
             <div className={classes.toolbar} />
 
             <a href="newcandidate"><Button bsStyle="success" fill>New Candidate</Button></a><p></p>
-            <BootstrapTable keyField='clienteID' data={ candidates } columns={ columns }
+            <BootstrapTable keyField='id' data={ candidates } columns={ columns }
             pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
 
           </main>
