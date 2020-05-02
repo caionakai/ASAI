@@ -22,7 +22,6 @@ function rankFormatter(cell, row, rowIndex, formatExtraData) {
                style={{ textAlign: "center",
                   cursor: "pointer",
                  lineHeight: "normal" }}>
-
         <AddIcon
           style={{ fontSize: 20 }}
           color="disabled"
