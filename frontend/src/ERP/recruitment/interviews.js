@@ -17,19 +17,19 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function Recruitment() {
+export default function Interviews() {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
           <CssBaseline />
-          <TopBar pageTitle={'Recruitment'}/>
+          <TopBar pageTitle={'Interviews results'}/>
           <Sidebar currentPage={6} />
           <main className={classes.content}>
             <div className={classes.toolbar} />
+
             <div className="mb-2">
-              <a href="/recruit/candidates"><Button bsStyle="success" fill>Candidates</Button></a><p></p>
-              <a href="/recruit/interviews"><Button bsStyle="success" fill>Interviews</Button></a><p></p>
+               interview results
             </div>
 
           </main>
