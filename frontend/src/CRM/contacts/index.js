@@ -14,6 +14,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { Button } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import './styles.css'
 
@@ -44,6 +53,19 @@ export default function Contacts() {
   const [preferredCommunication, setPreferredCommunication] = useState('');
   const [isAssociated, setAssociated] = useState('True');
 
+  const clients = [
+    { name: "Fulano de Tal", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Ta2", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "email", isAssociated: "False" },
+    { name: "Fulano de Ta3", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Ta4", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Tal5", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Tal6", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Tal7", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Tal8", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+    { name: "Fulano de Tal9", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
+
+  ];
+
   const handleChange = (event) => {
     setPreferredCommunication(event.target.value);
   };
@@ -60,6 +82,24 @@ export default function Contacts() {
     setEmail('');
     setPreferredCommunication('');
     setAssociated('True');
+  }
+
+  function handleEdit(user) {
+    console.log("Editing User", user);
+    setName(user.name);
+    setPhone(user.phone);
+    setAddress(user.address);
+    setEmail(user.email);
+    setPreferredCommunication(user.preferredCommunication);
+    setAssociated(user.isAssociated);
+
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0;  // For chrome
+  }
+
+  function handleDelete(user) {
+    console.log("Deleting User", user);
+    // rows =  rows.filter((row) => row.name !== user.name);
   }
 
   return (
@@ -159,8 +199,44 @@ export default function Contacts() {
               </form>
             </div>
           </div>
+
           <div className="list">
-            List contacts
+            <div className="table-text">
+              <h2>Manage here the Clients!</h2>
+            </div>
+
+            <div className="table-container">
+              <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Name</TableCell>
+                      <TableCell align="center">Address</TableCell>
+                      <TableCell align="center">Phone</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">preferredCommunication</TableCell>
+                      <TableCell align="center">isAssociated</TableCell>
+                      <TableCell align="center"></TableCell>
+                      <TableCell align="center"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {clients.map((client) => (
+                      <TableRow key={client.name}>
+                        <TableCell align="center">{client.name}</TableCell>
+                        <TableCell align="center">{client.address}</TableCell>
+                        <TableCell align="center">{client.phone}</TableCell>
+                        <TableCell align="center">{client.email}</TableCell>
+                        <TableCell align="center">{client.preferredCommunication}</TableCell>
+                        <TableCell align="center">{client.isAssociated}</TableCell>
+                        <TableCell><button className="table-button green-button" onClick={() => handleEdit(client)}><EditIcon></EditIcon></button></TableCell>
+                        <TableCell><button className="table-button red-button" onClick={() => handleDelete(client)}><DeleteForeverIcon></DeleteForeverIcon></button></TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
           </div>
         </div>
       </main>
