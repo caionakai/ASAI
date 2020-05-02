@@ -7,7 +7,12 @@ import Sales from './ERP/sales'
 import Inventory from './ERP/inventory'
 import Purchase from './ERP/purchase'
 import FinanceAcc from './ERP/finance_accounting'
-import Recruit from './ERP/recruitment'
+import Recruit from './ERP/recruitment/index'
+import Candidates from './ERP/recruitment/candidates'
+import NewCandidate from './ERP/recruitment/newcandidate'
+import Interview from './ERP/recruitment/interviews'
+
+
 
 import Contacts from './CRM/contacts'
 import Leads from './CRM/leads'
@@ -30,22 +35,25 @@ function App() {
         <Route path="/purchase" exact component={() => <Purchase />}></Route>
         <Route path="/fa" exact component={() => <FinanceAcc />}></Route>
         <Route path="/recruit" exact component={() => <Recruit />}></Route>
+        <Route path="/recruit/candidates" exact component={() => <Candidates />}></Route>
+        <Route path="/recruit/interviews" exact component={() => <Interview />}></Route>
+        <Route path="/recruit/newcandidate" exact component={() => <NewCandidate />}></Route>
 
-        
+
         <Route path="/contacts" exact component={() => <Contacts />}></Route>
         <Route path="/leads" exact component={() => <Leads />}></Route>
         <Route path="/analytics" exact component={() => <Analytics />}></Route>
         <Route path="/marketing" exact component={() => <Marketing />}></Route>
 
-        
+
         <Route path="/sm" exact component={() => <SocialMedia />}></Route>
         <Route path="/sd" exact component={() => <SalesData />}></Route>
         <Route path="/performance" exact component={() => <Performance />}></Route>
         <Route path="/em" exact component={() => <EmailMarketing />}></Route>
         <Route path="/reports" exact component={() => <Reports />}></Route>
-        
+
         <Route path="/" exact component={() => <Sidebar />}></Route>
-        
+
       </Switch>
     </Router>
   )
