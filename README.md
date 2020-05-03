@@ -18,7 +18,7 @@ To execute the backend download the code, execute the command "npm i" inside the
 
 Check if you are using the corrects credentials in the file **/backend/src/config/database.js to make a connection with database.
 
-In the end, routes registered under the file erpRouter.js is gonna be acessed http request under /erp/** and for that are registered under crmRouter.js is gonna be /crm/**.
+In the end, routes registered under the file erpRouter.js is gonna be acessed trought http requests under the urls /erp/** and for that are registered under crmRouter.js is gonna be /crm/**.
 
 **DO NOT CHANGE ANY BACKEND FILES, WE'RE WAITING FOR THE FINAL VERSION OF THE DATABASE MODEL**
 
