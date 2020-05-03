@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import AssessmentIcon from '@material-ui/icons/Assessment';
 import AddIcon from '@material-ui/icons/Add';
 
 const interviews = [
@@ -76,6 +75,7 @@ const columns2 = [
   text: 'End Date'
   },
   {
+  dataField: 'new',
   text: "Add report",
   formatter: rankFormatter,
   headerAttrs: { width: 100 }

@@ -28,9 +28,9 @@ export default function Recruitment() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <div className="mb-2">
-              <a href="/recruit/candidates"><Button bsStyle="success" fill>Candidates</Button></a><p></p>
-              <a href="/recruit/interviews"><Button bsStyle="success" fill>Interviews</Button></a><p></p>
-              <a href="/recruit/hire"><Button bsStyle="success" fill>Hire</Button></a><p></p>
+              <a href="/recruit/candidates"><Button bsStyle="success">Candidates</Button></a><p></p>
+              <a href="/recruit/interviews"><Button bsStyle="success">Interviews</Button></a><p></p>
+              <a href="/recruit/hire"><Button bsStyle="success">Hire</Button></a><p></p>
             </div>
 
           </main>

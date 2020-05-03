@@ -3,7 +3,6 @@ import Sidebar from '../../Components/SideBar'
 import TopBar from '../../Components/TopBar'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
@@ -51,6 +50,7 @@ const columns = [
   filter: textFilter()
   },
   {
+  dataField: "new",
   text: "Hire",
   formatter: rankFormatter,
   headerAttrs: { width: 85 }
