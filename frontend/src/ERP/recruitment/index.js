@@ -30,6 +30,7 @@ export default function Recruitment() {
             <div className="mb-2">
               <a href="/recruit/candidates"><Button bsStyle="success" fill>Candidates</Button></a><p></p>
               <a href="/recruit/interviews"><Button bsStyle="success" fill>Interviews</Button></a><p></p>
+              <a href="/recruit/hire"><Button bsStyle="success" fill>Hire</Button></a><p></p>
             </div>
 
           </main>

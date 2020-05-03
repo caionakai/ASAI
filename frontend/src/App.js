@@ -7,12 +7,16 @@ import Sales from './ERP/sales'
 import Inventory from './ERP/inventory'
 import Purchase from './ERP/purchase'
 import FinanceAcc from './ERP/finance_accounting'
+// unknown
 import Recruit from './ERP/recruitment/index'
 import Candidates from './ERP/recruitment/candidates'
 import NewCandidate from './ERP/recruitment/newcandidate'
 import Interview from './ERP/recruitment/interviews'
 import NewInterview from './ERP/recruitment/newinterview'
-
+import NewReport from './ERP/recruitment/newreport'
+import Hire from './ERP/recruitment/hire'
+import NewEmployee from './ERP/recruitment/newemployee'
+//unknown
 
 
 import Contacts from './CRM/contacts'
@@ -35,11 +39,17 @@ function App() {
         <Route path="/inventory" exact component={() => <Inventory />}></Route>
         <Route path="/purchase" exact component={() => <Purchase />}></Route>
         <Route path="/fa" exact component={() => <FinanceAcc />}></Route>
+        //unknown
         <Route path="/recruit" exact component={() => <Recruit />}></Route>
         <Route path="/recruit/candidates" exact component={() => <Candidates />}></Route>
         <Route path="/recruit/interviews" exact component={() => <Interview />}></Route>
         <Route path="/recruit/newcandidate" exact component={() => <NewCandidate />}></Route>
-        <Route path="/recruit/newinterview" exact component={() => <NewInterview />}></Route>
+        <Route path="/recruit/newinterview/:id" exact component={() => <NewInterview />}></Route>
+        <Route path="/recruit/newreport/:id" exact component={() => <NewReport />}></Route>
+        <Route path="/recruit/hire" exact component={() => <Hire />}></Route>
+        <Route path="/recruit/newemployee/:id" exact component={() => <NewEmployee />}></Route>
+        //unknown
+
 
 
         <Route path="/contacts" exact component={() => <Contacts />}></Route>

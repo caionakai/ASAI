@@ -7,9 +7,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
+import CustomDropDownList from '../../Components/CustomDropDownList/CustomDropDownList.jsx';
 
 import axios from 'axios';
 
+const jobs = [
+  {"id": 1, "name": "counting"},
+  {"id": 2, "name": "warehouse"},
+  {"id": 3, "name": "delivery"}
+];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,16 +53,7 @@ class NewCandidateClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        if (!/^[1,2,5,6,8,9][0-9]{8}$/.test(this.state.nif)) {
-            this.addNotification('Error', 'NIF invalid!', 'error');
-            return false;
-        }
-        else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
-            this.addNotification('Error', 'E-Mail invalid!', 'error');
-            return false;
-        }
-
-        axios.post( '/api/candidate', {
+        axios.post('/api/employee', {
           nome: this.state.name,
           telefone:  this.state.phone,
           email: this.state.email,
@@ -73,24 +70,16 @@ class NewCandidateClass extends React.Component{
         });
        }
 
-       changename = (obj) => {
-         this.setState({ name: obj.target.value });
+       changebegincontract = (obj) => {
+         this.setState({ begincontract: obj.target.value });
        }
 
-       changeemail = (obj) => {
-         this.setState({ email: obj.target.value });
+       changeendcontract = (obj) => {
+         this.setState({ endcontract: obj.target.value });
        }
 
-       changenif = (obj) => {
-         this.setState({ nif: obj.target.value });
-       }
-
-       changeaddress = (obj) => {
-         this.setState({ address: obj.target.value });
-       }
-
-       changephone = (obj) => {
-         this.setState({ phone: obj.target.value });
+       changejob = (obj) => {
+         this.setState({ job: obj.target.value });
        }
 
   render(){
@@ -107,18 +96,16 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Name",
-                    onChange: this.changename,
-                    value: this.state.name,
-                    required: true
+                    value: "employee 40",
+                    disabled: true
                   },
                   {
                     label: "Email address",
                     type: "email",
                     bsClass: "form-control",
                     placeholder: "Email",
-                    onChange: this.changeemail,
-                    value: this.state.email,
-                    required: true
+                    value: "asdasd@asdasd.com",
+                    disabled: true
                   }
                 ]}
               />
@@ -130,20 +117,16 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "NIF",
-                    onChange: this.changenif,
-                    value: this.state.nif,
-                    required: true,
-                    minLength: 9,
-                    maxLength: 9
+                    value:"9999999",
+                    disabled: true
                   },
                   {
                     label: "Contact",
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Contact",
-                    onChange: this.changephone,
-                    value: this.state.phone,
-                    required: true
+                    value: "999999999",
+                    disabled: true
                   }
                 ]}
               />
@@ -155,9 +138,8 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Adress",
-                    onChange: this.changeaddress,
-                    value:  this.state.address,
-                    required: true,
+                    value:  "asdasd a12318 asdasdasd",
+                    disabled: true
                   }
                 ]}
               />
@@ -169,17 +151,41 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Locality",
-                    value:  this.state.locality,
-                    onChange: this.changelocality,
-                    required: true,
+                    value: "Bragança",
+                    disabled: true
                   }
                 ]}
               />
+              <FormInputs
+                ncols={["col-md-6", "col-md-6"]}
+                properties={[
+                  {
+                    label: "Begin of contract",
+                    type: "date",
+                    bsClass: "form-control",
+                    placeholder: "begin of contract",
+                    required: true,
+                    onChange: this.changebegincontract
+                  },
+                  {
+                    label: "End of contract",
+                    type: "date",
+                    bsClass: "form-control",
+                    placeholder: "end of contract",
+                    required: true,
+                    onChange: this.changeendcontract
+                  }
+                ]}
+              />
+
+              <label className="control-label">Job</label>
+              <p><CustomDropDownList callback={this.changejob}  data={jobs} dateKey="id" dataText="name"/></p>
+
               <Col md={2} mdOffset={7}>
-              <a href="/recruit/candidates"><Button bsStyle="default">Cancel</Button></a>
+              <a href="/recruit/hire"><Button bsStyle="default">Cancel</Button></a>
               </Col>
               <Col md={3}>
-              <Button bsStyle="success" type="submit">Add Candidate</Button>
+              <Button bsStyle="success" type="submit">Add Employee</Button>
               </Col>
               <div className="clearfix" />
             </form>
@@ -188,13 +194,13 @@ class NewCandidateClass extends React.Component{
   }
 }
 
-export default function NewCandidate() {
+export default function NewEmployee() {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
           <CssBaseline />
-          <TopBar pageTitle={'New Candidate'}/>
+          <TopBar pageTitle={'New employee'}/>
           <Sidebar currentPage={6} />
           <main className={classes.content}>
             <div className={classes.toolbar} />
