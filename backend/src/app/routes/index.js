@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const erpRouter = require('./erpRouter');
+const crmRouter = require('./crmRouter');
 
-//const world = require('./worldRouter');
-//router.use('/world', world); //Example how to associate a file with a route
+router.use('/erp', erpRouter);
+router.use('/crm', crmRouter);
 
 module.exports = router;
