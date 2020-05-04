@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -6,7 +6,6 @@ import "jspdf-autotable";
 import Button from "@material-ui/core/Button";
 import PictureAsPdf from "@material-ui/icons/PictureAsPdf";
 import { makeStyles } from "@material-ui/core/styles";
-import "./TableExportButton.css";
 
 const useStyles = makeStyles((theme) => ({
   pdfIcon: {
@@ -19,12 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
-  const [data, setData] = useState([]);
   const classes = useStyles();
-
-  useEffect(() => {
-    setData(tableData);
-  }, []);
 
   const getHeaders = () => {
     let th = [];
@@ -41,7 +35,7 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(12);
-    const title = pdfTitle;
+    const title = pdfTitle.toUpperCase();
     const headers = [getHeaders()];
     const tableCells = tableData.map((elt) => {
       let row = [];
