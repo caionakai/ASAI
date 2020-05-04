@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -6,7 +6,6 @@ import "jspdf-autotable";
 import Button from "@material-ui/core/Button";
 import PictureAsPdf from "@material-ui/icons/PictureAsPdf";
 import { makeStyles } from "@material-ui/core/styles";
-import "./TableExportButton.css";
 
 const useStyles = makeStyles((theme) => ({
   pdfIcon: {
@@ -34,6 +33,7 @@ const TableExportButton = ({ tableData }) => {
 >>>>>>> Initial commit.
 =======
 const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
+<<<<<<< HEAD
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   const [data, setData] = useState([]);
   const classes = useStyles();
@@ -46,6 +46,10 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
 <<<<<<< HEAD
 =======
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
+=======
+  const classes = useStyles();
+
+>>>>>>> Update Branch crocodilo/reports.
   const getHeaders = () => {
     let th = [];
     header.forEach(h => {
@@ -68,9 +72,13 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     doc.setFontSize(12);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
     const title = pdfTitle;
+=======
+    const title = pdfTitle.toUpperCase();
+>>>>>>> Update Branch crocodilo/reports.
     const headers = [getHeaders()];
     const tableCells = tableData.map((elt) => {
       let row = [];

@@ -571,9 +571,11 @@ export default function Reports() {
   };
 
   const changePerspective = (persp) => {
-    chewDataAndSetTable(persp);
-    setPerspectiveMode(persp);
-    resetAllCharts();
+    if (persp !== perspectiveMode) {
+      chewDataAndSetTable(persp);
+      setPerspectiveMode(persp);
+      resetAllCharts();
+    }
   };
 
   // essa função gera os gráficos do Brands

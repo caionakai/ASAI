@@ -20,6 +20,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.3",
     "material-table": "^1.57.2",
+    "moment": "^2.25.2",
     "react": "^16.13.1",
     "react-bootstrap": "^0.32.4",
     "react-bootstrap-table-next": "^4.0.1",
