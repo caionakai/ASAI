@@ -510,7 +510,7 @@ export default function Reports() {
   // que a Tabela vai usar
   const chewDataAndSetTable = (perspective) => {
     switch (perspective) {
-      case "brand": {
+      case "brands": {
         // brand perspective
         const columns = [
           { title: "Index", field: "index", type: "numeric" },
@@ -582,7 +582,7 @@ export default function Reports() {
   // period pode ser week, month, year, allTimes
   // should use filteredDataTable probably
   const generateBrandsGraph = (period) => {
-    if (perspectiveMode !== "brand") {
+    if (perspectiveMode !== "brands") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -652,6 +652,7 @@ export default function Reports() {
 =======
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
         <TableWithFilter
+          tableTitle={perspectiveMode.toUpperCase()}
           tableData={tableData}
           tableColumns={tableColumns}
           detailPanelData={detailPanelData} // esse "detailPanel" é para os dados q aparecem
@@ -667,7 +668,7 @@ export default function Reports() {
         />
         <TopicCard
           perspective="Brands"
-          changePerspectiveFunction={() => changePerspective("brand")}
+          changePerspectiveFunction={() => changePerspective("brands")}
           generateChart={generateBrandsGraph}
           chart={brandsChart}
         />
