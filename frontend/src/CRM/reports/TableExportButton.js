@@ -13,18 +13,26 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
   },
   exportButton: {
-    marginTop: "2rem",
+    marginTop: "1rem",
     float: "right",
   },
 }));
 
-const TableExportButton = ({ tableData }) => {
+const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
   const [data, setData] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
     setData(tableData);
   }, []);
+
+  const getHeaders = () => {
+    let th = [];
+    header.forEach(h => {
+      th.push(h.title);
+    });
+    return th;
+  }
 
   const exportToPDF = () => {
     const unit = "pt";
@@ -33,9 +41,15 @@ const TableExportButton = ({ tableData }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(12);
-    const title = "Report Title";
-    const headers = [["NAME", "PROFESSION"]];
-    const tableCells = data.map((elt) => [elt.name, elt.profession]);
+    const title = pdfTitle;
+    const headers = [getHeaders()];
+    const tableCells = tableData.map((elt) => {
+      let row = [];
+      for (var key in elt) {
+        row.push(elt[key]);
+      }
+      return row;
+    });
     let content = {
       startY: 50,
       head: headers,
