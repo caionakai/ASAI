@@ -14,19 +14,27 @@ const useStyles = makeStyles((theme) => ({
   },
   exportButton: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     marginTop: "1rem",
 =======
     marginTop: "2rem",
 >>>>>>> Initial commit.
+=======
+    marginTop: "1rem",
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
     float: "right",
   },
 }));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
 =======
 const TableExportButton = ({ tableData }) => {
 >>>>>>> Initial commit.
+=======
+const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   const [data, setData] = useState([]);
   const classes = useStyles();
 
@@ -35,6 +43,9 @@ const TableExportButton = ({ tableData }) => {
   }, []);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   const getHeaders = () => {
     let th = [];
     header.forEach(h => {
@@ -43,8 +54,11 @@ const TableExportButton = ({ tableData }) => {
     return th;
   }
 
+<<<<<<< HEAD
 =======
 >>>>>>> Initial commit.
+=======
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   const exportToPDF = () => {
     const unit = "pt";
     const size = "A4";
@@ -53,6 +67,9 @@ const TableExportButton = ({ tableData }) => {
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(12);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
     const title = pdfTitle;
     const headers = [getHeaders()];
     const tableCells = tableData.map((elt) => {
@@ -62,11 +79,14 @@ const TableExportButton = ({ tableData }) => {
       }
       return row;
     });
+<<<<<<< HEAD
 =======
     const title = "Report Title";
     const headers = [["NAME", "PROFESSION"]];
     const tableCells = data.map((elt) => [elt.name, elt.profession]);
 >>>>>>> Initial commit.
+=======
+>>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
     let content = {
       startY: 50,
       head: headers,
