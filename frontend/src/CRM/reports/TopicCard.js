@@ -3,9 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import CardMedia from "@material-ui/core/CardMedia";
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
+=======
+>>>>>>> Commit b4 Merge.
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 // comp. usado para diferentes tópicos: brand, sales, etc.
