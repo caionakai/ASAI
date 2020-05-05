@@ -16,6 +16,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(routes);
 
-app.listen(3333, async () => {
-  console.log("\n  😎 Server started on port 3333.\n");
+const serverPort = 8000;
+
+app.listen(serverPort, async () => {
+  console.log(`\nServer started on port ${serverPort}.\n`);
 });
