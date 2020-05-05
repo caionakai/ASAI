@@ -1,8 +1,8 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 
 //data is key:value, key is x, value is y
-const BarGraph = ({ xData, yData }) => {
+const BarGraph = ({ xData, yData, period="All Time" }) => {
   const state = {
     labels: xData,
     datasets: [
@@ -22,7 +22,7 @@ const BarGraph = ({ xData, yData }) => {
         options={{
           title: {
             display: true,
-            text: "Sales per Brand",
+            text: "Sales per Brand (" + period.toUpperCase() + ")",
             fontSize: 20,
           },
           legend: {
@@ -35,4 +35,74 @@ const BarGraph = ({ xData, yData }) => {
   );
 };
 
-export default BarGraph;
+const LineGraph = ({ xData, yData, period }) => {
+  const state = {
+    labels: xData,
+    datasets: [
+      {
+        label: "Items Sold",
+        fill: false,
+        lineTension: 0.5,
+        backgroundColor: "rgba(75,192,192,1)",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 2,
+        data: yData,
+      },
+    ],
+  };
+  return (
+    <div>
+      <Line
+        data={state}
+        options={{
+          title: {
+            display: true,
+            text: "Sales Over a Period of Time",
+            fontSize: 20,
+          },
+          legend: {
+            display: true,
+            position: "right",
+          },
+        }}
+      />
+    </div>
+  );
+};
+
+const DoughnutGraph = ({ xData, yData, period }) => {
+  const state = {
+    labels: xData,
+    datasets: [
+      {
+        label: "Items Sold",
+        fill: false,
+        lineTension: 0.5,
+        backgroundColor: "rgba(75,192,192,1)",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 2,
+        data: yData,
+      },
+    ],
+  };
+  return (
+    <div>
+      <Line
+        data={state}
+        options={{
+          title: {
+            display: true,
+            text: "Sales Over a Period of Time",
+            fontSize: 20,
+          },
+          legend: {
+            display: true,
+            position: "right",
+          },
+        }}
+      />
+    </div>
+  );
+};
+
+export { BarGraph, LineGraph, DoughnutGraph };
