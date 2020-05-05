@@ -7,7 +7,9 @@ import TableExportButton from "./TableExportButton";
 import TableWithFilter from "./Table";
 import TopicCard from "./TopicCard";
 import Swal from "sweetalert2";
-import BarGraph from "./Graphs";
+import { BarGraph, LineGraph } from "./Graphs";
+import moment from "moment";
+import "moment-timezone";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,6 +108,34 @@ const joinedTables = [
       },
     ],
   },
+  {
+    idSalesItem: 4,
+    quantity: 2,
+    price: 400,
+    sale: {
+      // um salesItem guarda informações de um 'sale'
+      idSale: 3,
+      purchaseDate: "03-05-2020",
+      discountPercentage: 10,
+      client: {},
+      seller: {},
+    },
+    product: [
+      {
+        idProduct: 23,
+        name: "Jacket",
+        price: 200.0,
+        brand: {
+          idBrand: 3,
+          name: "Adidas",
+        },
+        category: {
+          idCategory: 3,
+          name: "Clothing",
+        }, // supplier: {}, // not needed
+      },
+    ],
+  },
 ];
 
 // which brand or category generated the most income or
@@ -116,6 +146,7 @@ export default function Reports() {
 
   const [brandsChart, setBrandsChart] = useState("");
   const [salesChart, setSalesChart] = useState("");
+  const [categoriesChart, setCategoriesChart] = useState("");
 
   // perspectiveMode isnt very important
   const [perspectiveMode, setPerspectiveMode] = useState("");
@@ -186,10 +217,45 @@ export default function Reports() {
     return data;
   };
 
+  const getDataCategoryItems = () => {
+    let data = [];
+    let index = 0;
+    joinedTables.forEach((saleItem) => {
+      const product = saleItem.product;
+      product.forEach((item) => {
+        data.push({
+          index: index,
+          category: item.category.name,
+          product: item.name,
+          brand: item.brand.name,
+          purchaseDate: saleItem.sale.purchaseDate,
+        });
+        index++;
+      });
+    });
+    return data;
+  };
+
   // essa função pega os dados joinedTables e seta os states
   // que a Tabela vai usar
   const chewDataAndSetTable = (perspective) => {
     switch (perspective) {
+      case "categories": {
+        const columns = [
+          { title: "Index", field: "index", type: "numeric" },
+          { title: "Category", field: "category" },
+          { title: "Product", field: "product" },
+          { title: "Brand", field: "brand" },
+          { title: "Purchase Date", field: "purchaseDate" },
+        ];
+        setTableColumns(columns);
+        const data = getDataCategoryItems();
+        setTableData(data);
+        setFilteredTableData(data);
+        setDetailPanelColumns([]);
+        setDetailPanelData([]);
+        break;
+      }
       case "brands": {
         // brand perspective
         const columns = [
@@ -248,6 +314,50 @@ export default function Reports() {
   const resetAllCharts = () => {
     setBrandsChart("");
     setSalesChart("");
+    setCategoriesChart("");
+  };
+
+  // returns filtered data with period
+  // data is filteredTableData
+  // period is week, month, year, allTime
+  const filterDataByPeriod = (period, data) => {
+    let momentData = [];
+    let currentDate = moment().startOf("day").hour(12);
+    let processedData = [];
+    data.forEach((d) => {
+      momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+    });
+    switch (period) {
+      case "week": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 7) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      case "month": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 30) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      case "year": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 365) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      default: {
+        return data;
+        // all time is default
+      }
+    }
+    return processedData;
   };
 
   const changePerspective = (persp) => {
@@ -269,31 +379,21 @@ export default function Reports() {
         text: "Change perspective to Brands before generating Chart!",
       });
     } else {
-      switch (period) {
-        case "year":
-          break;
-        case "month":
-          break;
-        case "week":
-          break;
-        default: {
-          // allTime
-          let xData = [];
-          let yData = [];
-          // console.log(filteredTableData)
-          filteredTableData.forEach((el) => {
-            let brand = el["brand"];
-            if (!xData.includes(brand)) {
-              xData.push(brand);
-              yData.push(1);
-            } else {
-              const index = xData.findIndex((d) => d === brand);
-              yData[index] = yData[index] + 1;
-            }
-          });
-          setBrandsChart(<BarGraph xData={xData} yData={yData} />);
+      const processedData = filterDataByPeriod(period, filteredTableData);
+      let xData = [];
+      let yData = [];
+      // console.log(filteredTableData)
+      processedData.forEach((el) => {
+        let brand = el["brand"];
+        if (!xData.includes(brand)) {
+          xData.push(brand);
+          yData.push(1);
+        } else {
+          const index = xData.findIndex((d) => d === brand);
+          yData[index] = yData[index] + 1;
         }
-      }
+      });
+      setBrandsChart(<BarGraph xData={xData} yData={yData} period={period} />);
     }
   };
 
@@ -305,17 +405,38 @@ export default function Reports() {
         text: "Change perspective to Sales before generating Chart!",
       });
     } else {
+      const processedData = filterDataByPeriod(period, filteredTableData);
+      let xData = [];
+      let yData = [];
       switch (period) {
-        case "year":
+        case "week":
+          yData = [];
           break;
         case "month":
+          yData = [];
           break;
-        case "week":
+        case "year":
+          yData = [];
           break;
-        default: {
-          // allTime
-        }
+        default:
+        //all time this is gonna be a little harder
       }
+      setSalesChart(<LineGraph xData={xData} yData={yData} period={period} />);
+    }
+  };
+
+  const generateCategoriesGraph = (period) => {
+    if (perspectiveMode !== "categories") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Change perspective to Sales before generating Chart!",
+      });
+    } else {
+      const processedData = filterDataByPeriod(period, filteredTableData);
+      let xData = [];
+      let yData = [];
+      // setSalesChart(<LineGraph xData={xData} yData={yData} period={period} />);
     }
   };
 
@@ -346,6 +467,12 @@ export default function Reports() {
           changePerspectiveFunction={() => changePerspective("brands")}
           generateChart={generateBrandsGraph}
           chart={brandsChart}
+        />
+        <TopicCard
+          perspective="Categories"
+          changePerspectiveFunction={() => changePerspective("categories")}
+          generateChart={generateCategoriesGraph}
+          chart={categoriesChart}
         />
         <TableExportButton
           pdfTitle={perspectiveMode}
