@@ -24,6 +24,14 @@ import Marketing from './CRM/marketing'
 import SocialMedia from './CRM/social_media'
 import SalesData from './CRM/sales_data'
 import Performance from './CRM/performance'
+import Feedbacks from './CRM/performance/feedbacks'
+import NewFeedback from './CRM/performance/new_feedback'
+import NewServiceType from './CRM/performance/new_service_type'
+import NewService from './CRM/performance/new_service'
+import ServiceTypes from './CRM/performance/service_types'
+import Services from './CRM/performance/services'
+import Clients from './CRM/performance/clients'
+import NewClient from './CRM/performance/new_client'
 import EmailMarketing from './CRM/email_marketing'
 import Reports from './CRM/reports'
 
@@ -57,6 +65,14 @@ function App() {
         <Route path="/sm" exact component={() => <SocialMedia />}></Route>
         <Route path="/sd" exact component={() => <SalesData />}></Route>
         <Route path="/performance" exact component={() => <Performance />}></Route>
+        <Route path="/performance/feedbacks" exact component={() => <Feedbacks />}></Route>
+        <Route path="/performance/services" exact component={() => <Services />}></Route>
+        <Route path="/performance/clients" exact component={() => <Clients />}></Route>
+        <Route path="/performance/service_types" exact component={() => <ServiceTypes />}></Route>
+        <Route path="/performance/new_client" exact component={() => <NewClient />}></Route>
+        <Route path="/performance/new_feedback/:id" exact component={() => <NewFeedback />}></Route>
+        <Route path="/performance/new_service" exact component={() => <NewService />}></Route>
+        <Route path="/performance/new_service_type" exact component={() => <NewServiceType />}></Route>
         <Route path="/em" exact component={() => <EmailMarketing />}></Route>
         <Route path="/reports" exact component={() => <Reports />}></Route>
 
