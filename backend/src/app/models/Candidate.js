@@ -10,6 +10,7 @@ class Candidate extends Model {
       curriculum: DataTypes.STRING,
       nif: DataTypes.STRING(255),
       email: DataTypes.STRING(255),
+      passed: DataTypes.INTEGER
     }, {
       sequelize,
       tableName: 'Candidate'

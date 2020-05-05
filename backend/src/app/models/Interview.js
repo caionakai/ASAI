@@ -5,9 +5,9 @@ class Interview extends Model {
     super.init({
       date : DataTypes.DATE,
       beginTime: DataTypes.TIME,
-      endTime: DataTypes.TIME,
       candidate_id : DataTypes.INTEGER,
-      employee_id : DataTypes.INTEGER
+      employee_id : DataTypes.INTEGER,
+      isDone: DataTypes.INTEGER      
     }, {
       sequelize,
       tableName: 'Interview'

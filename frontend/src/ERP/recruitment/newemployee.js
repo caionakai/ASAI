@@ -142,20 +142,7 @@ class NewCandidateClass extends React.Component{
                     disabled: true
                   }
                 ]}
-              />
-              <FormInputs
-                ncols={["col-md-12"]}
-                properties={[
-                  {
-                    label: "Locality",
-                    type: "text",
-                    bsClass: "form-control",
-                    placeholder: "Locality",
-                    value: "Bragança",
-                    disabled: true
-                  }
-                ]}
-              />
+              />            
               <FormInputs
                 ncols={["col-md-6", "col-md-6"]}
                 properties={[

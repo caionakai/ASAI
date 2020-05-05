@@ -160,21 +160,7 @@ class NewCandidateClass extends React.Component{
                     required: true,
                   }
                 ]}
-              />
-              <FormInputs
-                ncols={["col-md-12"]}
-                properties={[
-                  {
-                    label: "Locality",
-                    type: "text",
-                    bsClass: "form-control",
-                    placeholder: "Locality",
-                    value:  this.state.locality,
-                    onChange: this.changelocality,
-                    required: true,
-                  }
-                ]}
-              />
+              />            
               <Col md={2} mdOffset={7}>
               <a href="/recruit/candidates"><Button bsStyle="default">Cancel</Button></a>
               </Col>
