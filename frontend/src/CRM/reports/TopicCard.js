@@ -106,7 +106,7 @@ const TopicCard = ({
             variant="outlined"
             color="primary"
             className={classes.buttonPeriod}
-            onClick={() => generateChart("allTime")}
+            onClick={() => generateChart("all time")}
           >
             All Time
           </Button>
@@ -114,6 +114,7 @@ const TopicCard = ({
       </div>
       <div // put generated graphic here
       // pro Brands pode ser um grafico de barra msm
+      id="graphToPrint"
       className={classes.cover}
       // image="/static/images/cards/live-from-space.jpg"
       // title="Live from space album cover"

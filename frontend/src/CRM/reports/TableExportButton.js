@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import PictureAsPdf from "@material-ui/icons/PictureAsPdf";
 import { makeStyles } from "@material-ui/core/styles";
 
+import html2canvas from "html2canvas";
+
 const useStyles = makeStyles((theme) => ({
   pdfIcon: {
     color: "red",
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
@@ -47,16 +50,32 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
 =======
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
 =======
+=======
+const TableExportButton = ({
+  header,
+  tableData,
+  pdfTitle = "Sales Report",
+  graphComponent,
+}) => {
+>>>>>>> Add categories chart.
   const classes = useStyles();
 
 >>>>>>> Update Branch crocodilo/reports.
   const getHeaders = () => {
     let th = [];
-    header.forEach(h => {
+    header.forEach((h) => {
       th.push(h.title);
     });
     return th;
-  }
+  };
+
+  // const printDocument = () => {
+  //   const input = document.getElementById('graphToPrint');
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     return imgData;
+  //   });
+  // };
 
 <<<<<<< HEAD
 =======
@@ -64,11 +83,8 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
 =======
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   const exportToPDF = () => {
-    const unit = "pt";
-    const size = "A4";
-    const orientation = "portrait";
     const marginLeft = 40;
-    const doc = new jsPDF(orientation, unit, size);
+    const doc = new jsPDF("portrait", "px", "A4");
     doc.setFontSize(12);
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -102,6 +118,16 @@ const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
     };
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
+    // const input = document.getElementById("graphToPrint");
+    // html2canvas(input).then((canvas) => {
+    //   const imgData = canvas.toDataURL("image/png");
+    //   const pdf = new jsPDF("p", "px", "a4");
+    //   var width = doc.internal.pageSize.getWidth();
+    //   var height = doc.internal.pageSize.getHeight();
+    //   doc.addImage(imgData, "JPEG", 0, 0, 200, 200);
+    // });
+    // doc.addImage(() => printDocument(), 'PNG', 10, 10, 200, 200);
+    // doc.add
     doc.save("report.pdf");
   };
 
