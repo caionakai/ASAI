@@ -47,11 +47,14 @@ module.exports = {
   },
 
   //Return an array with 0 on error or 1 in sucess
-  async update(clientId, name){
+  async update(clientId, clientData){
     try {
-        
         const client = await Client.update({
-            name: name,
+            name: clientData.name,
+            address: clientData.address,
+            phone: clientData.phone,
+            email: clientData.email,
+            preferredComunicationMethod: clientData.preferredComunicationMethod,
         },{
             where: {
                 id: clientId

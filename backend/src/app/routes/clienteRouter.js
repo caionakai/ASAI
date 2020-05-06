@@ -47,9 +47,17 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const { name } = request.body;
+  const {name, address, phone, email, preferredComunicationMethod} = request.body;
 
-  const client  = await ClientController.update(id, name);
+  const clientData = {
+    name,
+    address,
+    phone,
+    email,
+    preferredComunicationMethod,
+  }
+
+  const client  = await ClientController.update(id, clientData);
 
   if(!client){
       return response.status(400).json({ error: `Fail to update or nothing changed on client with the id ${id}` });
