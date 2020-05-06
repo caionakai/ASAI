@@ -16,6 +16,7 @@
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
     "d3": "^5.16.0",
+    "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.3",
     "material-table": "^1.57.2",

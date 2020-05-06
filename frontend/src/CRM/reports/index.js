@@ -7,7 +7,7 @@ import TableExportButton from "./TableExportButton";
 import TableWithFilter from "./Table";
 import TopicCard from "./TopicCard";
 import Swal from "sweetalert2";
-import { BarGraph, LineGraph } from "./Graphs";
+import { BarGraph, LineGraph, DoughnutGraph } from "./Graphs";
 import moment from "moment";
 import "moment-timezone";
 
@@ -31,7 +31,7 @@ const joinedTables = [
     sale: {
       // um salesItem guarda informações de um 'sale'
       idSale: 1,
-      purchaseDate: "16-05-2019",
+      purchaseDate: "16-02-2019",
       discountPercentage: 20,
       client: {},
       seller: {},
@@ -159,6 +159,7 @@ export default function Reports() {
   // filteredTableData is used to generate PDF or to update graph
   const [filteredTableData, setFilteredTableData] = useState([]);
 
+  const [today, setToday] = useState("");
   // perspectiva do sale items
   const getDetailDataSaleItems = () => {
     let data = [];
@@ -191,12 +192,21 @@ export default function Reports() {
         quantity: saleItem.quantity,
         purchaseDate: saleItem.sale.purchaseDate,
       };
-      console.log(newRow);
       idx++;
       data.push(newRow);
     });
     return data;
   };
+
+  // const builtChart = () => {
+  //   if (categoriesChart !== "") {
+  //     return categoriesChart;
+  //   } else if (brandsChart !== "") {
+  //     return brandsChart;
+  //   } else if (salesChart !== "") {
+  //     return salesChart;
+  //   }
+  // };
 
   const getDataBrandItems = () => {
     let data = [];
@@ -305,6 +315,7 @@ export default function Reports() {
   useEffect(() => {
     chewDataAndSetTable("sales");
     setPerspectiveMode("sales");
+    setToday(moment());
   }, []);
 
   const filterTableData = (filteredData) => {
@@ -322,7 +333,8 @@ export default function Reports() {
   // period is week, month, year, allTime
   const filterDataByPeriod = (period, data) => {
     let momentData = [];
-    let currentDate = moment().startOf("day").hour(12);
+    // let currentDate = moment().startOf("day").hour(12);
+    let currentDate = moment(today);
     let processedData = [];
     data.forEach((d) => {
       momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
@@ -382,7 +394,6 @@ export default function Reports() {
       const processedData = filterDataByPeriod(period, filteredTableData);
       let xData = [];
       let yData = [];
-      // console.log(filteredTableData)
       processedData.forEach((el) => {
         let brand = el["brand"];
         if (!xData.includes(brand)) {
@@ -397,6 +408,46 @@ export default function Reports() {
     }
   };
 
+  const getDays = (days) => {
+    let keys = [];
+    let currentDate = moment(today);
+    for (let i = 0; i < days; i++) {
+      keys.push(currentDate.format("DD-MM"));
+      currentDate = currentDate.subtract(1, "days");
+    }
+    keys.reverse();
+    return keys;
+  };
+
+  const getMonths = (months) => {
+    let keys = [];
+    let currentDate = moment(today);
+    for (let i = 0; i < months; i++) {
+      keys.push(currentDate.format("MM-YYYY"));
+      currentDate = currentDate.subtract(1, "months");
+    }
+    keys.reverse();
+    return keys;
+  };
+
+  const getMonthsBetweenTwoDates = (data) => {
+    let momentData = [];
+    data.forEach((d) => {
+      momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+    });
+    let keys = [];
+    let currentDate = moment(today);
+    let minDate = moment.min(momentData);
+    while (minDate.isBefore(currentDate)) {
+      keys.push(minDate.format("MM-YYYY"));
+      minDate = minDate.add(1, "months");
+    }
+    if (!keys.includes(moment(today).format("MM-YYYY"))) {
+      keys.push(moment(today).format("MM-YYYY"));
+    }
+    return keys;
+  };
+
   const generateSalesGraph = (period) => {
     if (perspectiveMode !== "sales") {
       Swal.fire({
@@ -409,17 +460,48 @@ export default function Reports() {
       let xData = [];
       let yData = [];
       switch (period) {
-        case "week":
-          yData = [];
+        case "week": {
+          const keys = getDays(7);
+          yData = keys;
+          xData = new Array(yData.length).fill(0);
+          processedData.forEach((data) => {
+            const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+            xData[index]++;
+          });
           break;
-        case "month":
-          yData = [];
+        }
+        case "month": {
+          const keys = getDays(30);
+          yData = keys;
+          console.log(keys);
+          xData = new Array(yData.length).fill(0);
+          processedData.forEach((data) => {
+            const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+            xData[index]++;
+          });
           break;
-        case "year":
-          yData = [];
+        }
+        case "year": {
+          const keys = getMonths(12);
+          yData = keys;
+          xData = new Array(yData.length).fill(0);
+          processedData.forEach((data) => {
+            const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+            xData[index]++;
+          });
           break;
-        default:
-        //all time this is gonna be a little harder
+        }
+        default: {
+          const keys = getMonthsBetweenTwoDates(processedData);
+          yData = keys;
+          xData = new Array(yData.length).fill(0);
+          //all time this is gonna be a little harder
+          processedData.forEach((data) => {
+            const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+            xData[index]++;
+          });
+          break;
+        }
       }
       setSalesChart(<LineGraph xData={xData} yData={yData} period={period} />);
     }
@@ -430,13 +512,26 @@ export default function Reports() {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Change perspective to Sales before generating Chart!",
+        text: "Change perspective to Categories before generating Chart!",
       });
     } else {
       const processedData = filterDataByPeriod(period, filteredTableData);
       let xData = [];
       let yData = [];
-      // setSalesChart(<LineGraph xData={xData} yData={yData} period={period} />);
+      processedData.forEach((el) => {
+        let category = el["category"];
+        if (!xData.includes(category)) {
+          xData.push(category);
+          yData.push(1);
+        } else {
+          const index = xData.findIndex((c) => c === category);
+          yData[index] = yData[index] + 1;
+        }
+      });
+      console.log(xData);
+      setCategoriesChart(
+        <DoughnutGraph xData={xData} yData={yData} period={period} />
+      );
     }
   };
 
@@ -478,6 +573,7 @@ export default function Reports() {
           pdfTitle={perspectiveMode}
           header={tableColumns}
           tableData={filteredTableData}
+          // graphComponent={() => builtChart()}
         />
         {/* <BarGraph></BarGraph> */}
       </main>
