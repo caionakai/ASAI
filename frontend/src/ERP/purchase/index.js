@@ -12,7 +12,7 @@ import RegisterPurchase from "./register-purchase";
 import PurchaseTable from "./purchase-table";
 
 import PurchaseTable from "./purchase-table";
-import RegisterSupplier from "./register-supplier";
+
 import RegisterPurchase from "./register-purchase";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,10 +56,6 @@ export default function Purchase() {
   console.log(openModalSupplier);
   const handleOpenModalSupplier = () => {
     setOpenModalSupplier(true);
-  };
-
-  const handleCloseModalSupplier = () => {
-    setOpenModalSupplier(false);
   };
 
   return (
