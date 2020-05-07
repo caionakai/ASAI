@@ -13,13 +13,12 @@ router.get('/', async (request, response) => {
 
 
 router.post('/', async(request, response) => {
-  const {likes, comments, product_id, preferredComunicationMethod} = request.body;
+  const {likes, comments, product_id} = request.body;
 
   const photoData = {
     likes,
     comments,
-    product_id,
-    preferredComunicationMethod
+    product_id
   }
 
 
@@ -46,13 +45,12 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const {likes, comments, product_id, preferredComunicationMethod} = request.body;
+  const {likes, comments, product_id} = request.body;
 
   const photoData = {
     likes,
     comments,
-    product_id,
-    preferredComunicationMethod,
+    product_id
   }
 
   const photo  = await PhotoController.update(id, photoData);

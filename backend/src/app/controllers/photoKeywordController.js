@@ -17,8 +17,7 @@ module.exports = {
     try {
         const photoKeyword = await PhotoKeyword.create({ 
           photo_id: photokeywordData.photo_id,
-          keyword_id: photokeywordData.keyword_id,
-          preferredComunicationMethod: photokeywordData.preferredComunicationMethod
+          keyword_id: photokeywordData.keyword_id
         });
 
         return photoKeyword;
@@ -49,8 +48,7 @@ module.exports = {
     try {
         const photoKeyword = await PhotoKeyword.update({
             photo_id: photokeywordData.photo_id,
-            keyword_id: photokeywordData.keyword_id,
-            preferredComunicationMethod: photokeywordData.preferredComunicationMethod,
+            keyword_id: photokeywordData.keyword_id
         },{
             where: {
                 id: photoKeywordId

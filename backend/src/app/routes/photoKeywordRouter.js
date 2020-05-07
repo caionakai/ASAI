@@ -13,12 +13,11 @@ router.get('/', async (request, response) => {
 
 
 router.post('/', async(request, response) => {
-  const {photo_id, keyword_id, preferredComunicationMethod} = request.body;
+  const {photo_id, keyword_id} = request.body;
 
   const photoKeywordData = {
     photo_id,
-    keyword_id,
-    preferredComunicationMethod
+    keyword_id
   }
 
 
@@ -45,12 +44,11 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const {photo_id, keyword_id, preferredComunicationMethod} = request.body;
+  const {photo_id, keyword_id} = request.body;
 
   const photoKeywordData = {
     photo_id,
-    keyword_id,
-    preferredComunicationMethod
+    keyword_id
   }
 
   const photoKeyword  = await PhotoKeywordController.update(id, photoKeywordData);
