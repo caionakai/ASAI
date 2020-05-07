@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewInterviewClass extends React.Component{
-
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = { name: '', email: '', nif: '', address: '',  phone: ''};
+    this.state = { hour: '',  date: ''};
      this.add_informationClick = this.add_informationClick.bind(this);
   }
 
@@ -43,11 +43,11 @@ class NewInterviewClass extends React.Component{
           .catch(function (error) {
             console.log(error);
           })
-          console.log(this.props.match.params);
-          axios.get( URL + '/erp/candidate/' + this.props.match.params.id)
+
+          axios.get( URL + '/erp/candidate/' + 2)
           .then(response => {
             const data = response.data;
-            this.setState({ employee: data});
+            this.setState({ candidate: data.res.name});
           })
           .catch(function (error) {
             console.log(error);
@@ -68,11 +68,11 @@ class NewInterviewClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post(URL + '/api/interview', {
-          candidate: this.props.match.params.id,
-          employee:  this.state.employee,
-          date: this.state.email,
-          hour: this.state.nif
+        axios.post(URL + '/erp/interview', {
+          candidate_id: 2,
+          employee_id:  this.state.employee,
+          date: this.state.date,
+          time: this.state.hour
         })
         .then(response => {
           this.setState({ employee: '', date: '', hour: '' });
@@ -109,8 +109,7 @@ class NewInterviewClass extends React.Component{
                     label: "Candidate",
                     type: "text",
                     bsClass: "form-control",
-                    placeholder: "Name",
-                    value: "Candidate 2",
+                    value: this.state.candidate,
                     disabled : true
                   }
                 ]}
@@ -129,13 +128,15 @@ class NewInterviewClass extends React.Component{
                     label: "Date",
                     type: "date",
                     required:true,
-                    bsClass: "form-control"
+                    bsClass: "form-control",
+                    onChange: this.changedate
                   },
                   {
                     label: "Hour",
                     type: "time",
                     required:true,
-                    bsClass: "form-control"
+                    bsClass: "form-control",
+                    onChange: this.changehour
                   }
                 ]}
               />

@@ -7,21 +7,19 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import AddIcon from '@material-ui/icons/Add';
+import {URL} from '../../Variables.jsx'
+import axios from 'axios';
 
-const interviews = [
-  {"id":1, "candidate": "candidate 1", "employee":"okasd asda", "date": "4/10/2010", "hour":"10:10"},
-  {"id":2,"candidate": "candidate 2", "employee":"asdf asda", "date": "1/10/2010", "hour":"10:10"},
-  {"id":3,"candidate": "candidate 3", "employee":"fxcv asda", "date": "10/10/2010", "hour":"10:10"}
-];
+
 
 const columns = [
   {
-  dataField: 'candidate',
+  dataField: 'candidate_id',
   text: 'Candidate',
   filter: textFilter()
   },
   {
-  dataField: 'employee',
+  dataField: 'employee_id',
   text: 'Employee',
   filter: textFilter()
   },
@@ -30,7 +28,7 @@ const columns = [
   text: 'Date'
   },
   {
-  dataField: 'hour',
+  dataField: 'time',
   text: 'Time'
   }
 ];
@@ -94,6 +92,41 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+
+  class InterviewClass extends React.Component{
+
+    constructor(props) {
+              super(props);
+              this.state = { interview: [] };
+      }
+
+      componentWillMount() {
+              axios.get( URL + '/erp/interview/')
+              .then(response => {
+                this.setState({ interview: response.data });
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          }
+
+    render(){
+      return(
+        <div className="content">
+        <h1>Interviews</h1>
+      <BootstrapTable keyField='id' data={ this.state.interview } columns={ columns }
+      pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+
+      <p></p>
+
+      <h1>Waiting report</h1>
+    <BootstrapTable keyField='id' data={ interviews2 } columns={ columns2 }
+    pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+        </div>
+      );
+    }
+  }
+
 export default function Interviews() {
     const classes = useStyles();
 
@@ -104,16 +137,7 @@ export default function Interviews() {
           <Sidebar currentPage={6} />
           <main className={classes.content}>
             <div className={classes.toolbar} />
-              <h1>Interviews</h1>
-            <BootstrapTable keyField='id' data={ interviews } columns={ columns }
-            pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
-
-            <p></p>
-
-            <h1>Waiting report</h1>
-          <BootstrapTable keyField='id' data={ interviews2 } columns={ columns2 }
-          pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
-
+            <InterviewClass />
           </main>
         </div>
     );
