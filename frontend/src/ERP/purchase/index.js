@@ -41,10 +41,10 @@ export default function Purchase() {
     setOpenModalSupplier(true);
   };
 
-  const [openModalSupplier, setOpenModalSupplier] = React.useState(false);
-  console.log(openModalSupplier);
-  const handleOpenModalSupplier = () => {
-    setOpenModalSupplier(true);
+  const toggleModalSupplier = () => {
+    setOpenModalSupplier((prevState) => {
+      return !prevState;
+    });
   };
 
   return (
