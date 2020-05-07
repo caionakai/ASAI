@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import TextField from "@material-ui/core/TextField";
@@ -18,7 +18,7 @@ export default function RegisterPurchase({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [supplierSelected, setSupplierSelected] = useState(null);
-  const [allSuppliers, setAllSuppliers] = useState(null);
+  const [allSuppliers, setAllSuppliers] = useState([]);
 
   const getRequest = async () => {
     await axios
@@ -129,10 +129,11 @@ export default function RegisterPurchase({
               id="demo-simple-select"
               value={supplierSelected}
               onChange={handleSupplierSelectedChange}
+              style={{ marginTop: "1rem", marginLeft: "2rem" }}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {allSuppliers.map((supp) => {
+                return <MenuItem value={supp.id}>{supp.name}</MenuItem>;
+              })}
             </Select>
             <div>
               <TextField
