@@ -34,8 +34,11 @@ export default function Supplier() {
     email: "",
   });
 
+<<<<<<< HEAD
   const [supplierId, setSupplierId] = React.useState(null);
 
+=======
+>>>>>>> supplier crud operation
   const handleChange = (evt) => {
     const value = evt.target.value;
     setSupplierInputs({ ...supplierInputs, [evt.target.name]: value });
