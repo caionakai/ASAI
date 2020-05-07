@@ -78,6 +78,62 @@ const PurchaseTable = (props) => {
       supplierName: "Mori",
       total: "1000£",
     },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
+    {
+      name: "Red Dress",
+      price: "100£",
+      quantity: 10,
+      supplierName: "Mori",
+      total: "1000£",
+    },
   ];
 
   return (
