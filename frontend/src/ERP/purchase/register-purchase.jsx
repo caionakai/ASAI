@@ -97,7 +97,6 @@ export default function RegisterPurchase({
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        style={{ boxShadow: "none", border: "none" }}
       >
         <div
           style={{
