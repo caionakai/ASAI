@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 
 import PurchaseTable from "./purchase-table";
 
-
 import RegisterPurchase from "./register-purchase";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,12 +43,15 @@ export default function Purchase() {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const handleCloseModalSupplier = () => {
     setOpenModalSupplier(false);
   };
 
 >>>>>>> register supplier form + purchase table + refactoring
+=======
+>>>>>>> supplier crud operation
   return (
     <div className={classes.root}>
       <CssBaseline />
