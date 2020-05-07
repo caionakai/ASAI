@@ -20,6 +20,7 @@ const BarGraph = ({ xData, yData, period = "All Time" }) => {
       <Bar
         data={state}
         options={{
+          responsive: true,
           title: {
             display: true,
             text: "Sales per Brand (" + period.toUpperCase() + ")",
@@ -55,6 +56,7 @@ const LineGraph = ({ xData, yData, period }) => {
       <Line
         data={state}
         options={{
+          responsive: true,
           title: {
             display: true,
             text: "Sales Over a Period of Time (" + period.toUpperCase() + ")",
@@ -87,6 +89,7 @@ const DoughnutGraph = ({ xData, yData, period }) => {
       <Doughnut
         data={state}
         options={{
+          responsive: true,
           title: {
             display: true,
             text: "Sales Based on Categories (" + period.toUpperCase() + ")",
@@ -102,4 +105,102 @@ const DoughnutGraph = ({ xData, yData, period }) => {
   );
 };
 
-export { BarGraph, LineGraph, DoughnutGraph };
+const LineBarGraph = ({ xData, yData, moneyData, period = "all time" }) => {
+  const data = {
+    // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label: "Items Sold",
+        type: "line",
+        data: xData,
+        fill: false,
+        borderColor: "black",
+        backgroundColor: "black",
+        pointBorderColor: "red",
+        pointBackgroundColor: "red",
+        pointHoverBackgroundColor: "red",
+        pointHoverBorderColor: "red",
+        yAxisID: "y-axis-2",
+      },
+      {
+        type: "bar",
+        label: "Total Price",
+        data: moneyData,
+        fill: false,
+        backgroundColor: "yellow",  
+        borderColor: "black",
+        hoverBackgroundColor: "yellow",
+        hoverBorderColor: "yellow",
+        yAxisID: "y-axis-1",
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    labels: xData,
+    tooltips: {
+      mode: "label",
+    },
+    elements: {
+      line: {
+        fill: false,
+      },
+    },
+    title: {
+      display: true,
+      text: "Sales Over a Period of Time (" + period.toUpperCase() + ")",
+      fontSize: 20,
+    },
+    legend: {
+      display: true,
+      position: "right",
+    },
+    scales: {
+      xAxes: [
+        {
+          display: true,
+          gridLines: {
+            display: true,
+          },
+
+          labels: yData,
+        },
+      ],
+      yAxes: [
+        {
+          type: "linear",
+          display: true,
+          position: "left",
+          id: "y-axis-1",
+          gridLines: {
+            display: false,
+          },
+          labels: {
+            show: true,
+          },
+        },
+        {
+          type: "linear",
+          display: true,
+          position: "right",
+          id: "y-axis-2",
+          gridLines: {
+            display: true,
+          },
+          labels: {
+            show: true,
+          },
+        },
+      ],
+    },
+  };
+
+  return (
+    <div>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export { BarGraph, LineGraph, DoughnutGraph, LineBarGraph };

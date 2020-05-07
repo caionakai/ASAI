@@ -21,6 +21,7 @@ import TopicCard from "./TopicCard";
 import Swal from "sweetalert2";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import BarGraph from "./Graphs";
 <<<<<<< HEAD
 =======
@@ -33,6 +34,9 @@ import { BarGraph, LineGraph } from "./Graphs";
 =======
 import { BarGraph, LineGraph, DoughnutGraph } from "./Graphs";
 >>>>>>> Add categories chart.
+=======
+import { BarGraph, LineGraph, DoughnutGraph, LineBarGraph } from "./Graphs";
+>>>>>>> Final Table and Chart tweaks.
 import moment from "moment";
 import "moment-timezone";
 >>>>>>> Progress on generating Charts [incomplete].
@@ -436,7 +440,7 @@ const joinedTables = [
   {
     idSalesItem: 4,
     quantity: 2,
-    price: 400,
+    price: 200,
     sale: {
       // um salesItem guarda informações de um 'sale'
       idSale: 3,
@@ -459,6 +463,19 @@ const joinedTables = [
           name: "Clothing",
         }, // supplier: {}, // not needed
       },
+      {
+        idProduct: 23,
+        name: "Jacket",
+        price: 200.0,
+        brand: {
+          idBrand: 3,
+          name: "Nike",
+        },
+        category: {
+          idCategory: 3,
+          name: "Clothing",
+        }, // supplier: {}, // not needed
+      },
     ],
   },
 ];
@@ -475,7 +492,7 @@ export default function Reports() {
   const [brandsChart, setBrandsChart] = useState("");
   const [salesChart, setSalesChart] = useState("");
   const [categoriesChart, setCategoriesChart] = useState("");
-
+  const [dataForTable, setDataForTable] = useState([]);
   // perspectiveMode isnt very important
   const [perspectiveMode, setPerspectiveMode] = useState("");
   // contains columns required for material-table
@@ -589,6 +606,7 @@ export default function Reports() {
         setTableColumns(columns);
         const data = getDataCategoryItems();
         setTableData(data);
+        setDataForTable(data);
         setFilteredTableData(data);
         setDetailPanelColumns([]);
         setDetailPanelData([]);
@@ -607,6 +625,7 @@ export default function Reports() {
         const data = getDataBrandItems();
         setTableData(data);
         setFilteredTableData(data);
+        setDataForTable(data);
         setDetailPanelColumns([]);
         setDetailPanelData([]);
         break;
@@ -630,6 +649,7 @@ export default function Reports() {
         ];
         setDetailPanelColumns(detailColumns);
         const data = getDataSalesItems();
+        setDataForTable(data);
         setTableData(data);
         const detailData = getDetailDataSaleItems();
         setDetailPanelData(detailData);
@@ -693,10 +713,11 @@ export default function Reports() {
         break;
       }
       default: {
-        return data;
+        processedData = data;
         // all time is default
       }
     }
+    setDataForTable(processedData); // this was modified
     return processedData;
   };
 
@@ -787,13 +808,16 @@ export default function Reports() {
       const processedData = filterDataByPeriod(period, filteredTableData);
       let xData = [];
       let yData = [];
+      let moneyData = [];
       switch (period) {
         case "week": {
           const keys = getDays(7);
           yData = keys;
+          moneyData = new Array(yData.length).fill(0);
           xData = new Array(yData.length).fill(0);
           processedData.forEach((data) => {
             const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+            moneyData[index] += data.price;
             xData[index]++;
           });
           break;
@@ -801,10 +825,11 @@ export default function Reports() {
         case "month": {
           const keys = getDays(30);
           yData = keys;
-          console.log(keys);
+          moneyData = new Array(yData.length).fill(0);
           xData = new Array(yData.length).fill(0);
           processedData.forEach((data) => {
             const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+            moneyData[index] += data.price;
             xData[index]++;
           });
           break;
@@ -812,9 +837,11 @@ export default function Reports() {
         case "year": {
           const keys = getMonths(12);
           yData = keys;
+          moneyData = new Array(yData.length).fill(0);
           xData = new Array(yData.length).fill(0);
           processedData.forEach((data) => {
             const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+            moneyData[index] += data.price;
             xData[index]++;
           });
           break;
@@ -822,16 +849,18 @@ export default function Reports() {
         default: {
           const keys = getMonthsBetweenTwoDates(processedData);
           yData = keys;
+          moneyData = new Array(yData.length).fill(0);
           xData = new Array(yData.length).fill(0);
           //all time this is gonna be a little harder
           processedData.forEach((data) => {
             const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+            moneyData[index] += data.price;
             xData[index]++;
           });
           break;
         }
       }
-      setSalesChart(<LineGraph xData={xData} yData={yData} period={period} />);
+      setSalesChart(<LineBarGraph xData={xData} yData={yData} period={period} moneyData={moneyData} />);
     }
   };
 
@@ -877,7 +906,7 @@ export default function Reports() {
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
         <TableWithFilter
           tableTitle={perspectiveMode.toUpperCase()}
-          tableData={tableData}
+          tableData={dataForTable}
           tableColumns={tableColumns}
           detailPanelData={detailPanelData} // esse "detailPanel" é para os dados q aparecem
           detailPanelColumns={detailPanelColumns} //quando clica na flexinha para aparecer os produtos
