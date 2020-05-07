@@ -10,12 +10,8 @@ import NotificationSystem from 'react-notification-system';
 import CustomDropDownList from '../../Components/CustomDropDownList/CustomDropDownList.jsx';
 
 import axios from 'axios';
+import {URL} from '../../Variables.jsx'
 
-const employee = [
-  {"id": 1, "name": "emplouee 1"},
-  {"id": 2, "name": "emplouee 2"},
-  {"id": 3, "name": "emplouee 3"}
-];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,6 +34,26 @@ class NewInterviewClass extends React.Component{
      this.add_informationClick = this.add_informationClick.bind(this);
   }
 
+  componentWillMount() {
+          axios.get( URL + '/erp/employee')
+          .then(response => {
+            const data = response.data;
+            this.setState({ employee: data});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          console.log(this.props.match.params);
+          axios.get( URL + '/erp/candidate/' + this.props.match.params.id)
+          .then(response => {
+            const data = response.data;
+            this.setState({ employee: data});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
+
   addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
     notification.addNotification({
@@ -52,9 +68,9 @@ class NewInterviewClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post('/api/interview', {
-          candidate: this.state.name,
-          employee:  this.state.phone,
+        axios.post(URL + '/api/interview', {
+          candidate: this.props.match.params.id,
+          employee:  this.state.employee,
           date: this.state.email,
           hour: this.state.nif
         })
@@ -70,7 +86,6 @@ class NewInterviewClass extends React.Component{
 
        changeemployee = (obj) => {
          this.setState({employee: obj.target.value.id});
-         console.log(this.state.employee);
        }
 
        changedate = (obj) => {
@@ -101,7 +116,11 @@ class NewInterviewClass extends React.Component{
                 ]}
               />
               <label className="control-label">Employee</label>
-              <p><CustomDropDownList callback={this.changeemployee}  data={employee} dateKey="id" dataText="name"/></p>
+              <p>
+                { this.state.employee &&
+              <CustomDropDownList callback={this.changeemployee}  data={this.state.employee} dateKey="id" dataText="name"/>
+                }
+              </p>
 
               <FormInputs
                 ncols={["col-md-6", "col-md-6"]}

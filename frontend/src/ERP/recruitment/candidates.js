@@ -9,12 +9,38 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import AddIcon from '@material-ui/icons/Add';
 
-const candidates = [
-  {"id":1,"name": "candidate 1", "email": "123fz@asdasd.com", "phone": "999999999", "address": "asdaskdj 123123 asdkjasdk as"},
-  {"id":2,"name": "candidate 2", "email": "dfsd@asdasd.com", "phone": "999999999", "address": "asd 123123 a as"},
-  {"id":3,"name": "candidate 3", "email": "dfgsd@asdasd.com", "phone": "999999999", "address": "1213 123123 asdkjasdk as"},
-  {"id":4,"name": "candidate 4", "email": "sdfxx@asdasd.com", "phone": "999999999", "address": "ddddzxd 123123 asdkjasdk as"}
-];
+
+import {URL} from '../../Variables.jsx'
+import axios from 'axios';
+
+
+class CandidatesClass extends React.Component{
+
+  constructor(props) {
+            super(props);
+            this.state = { candidates: [] };
+    }
+
+    componentWillMount() {
+            axios.get( URL + '/erp/candidate/')
+            .then(response => {
+              this.setState({ candidates: response.data });
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
+
+  render(){
+    return(
+      <div className="content">
+        <a href="newcandidate"><Button bsStyle="success">New Candidate</Button></a><p></p>
+        <BootstrapTable keyField='id' data={ this.state.candidates } columns={ columns }
+        pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+      </div>
+    );
+  }
+}
 
 function rankFormatter(cell, row, rowIndex, formatExtraData) {
      return (
@@ -73,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Candidates() {
     const classes = useStyles();
 
+
+
+
     return (
         <div className={classes.root}>
           <CssBaseline />
@@ -81,9 +110,7 @@ export default function Candidates() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
 
-            <a href="newcandidate"><Button bsStyle="success">New Candidate</Button></a><p></p>
-            <BootstrapTable keyField='id' data={ candidates } columns={ columns }
-            pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+            <CandidatesClass />
 
           </main>
         </div>
