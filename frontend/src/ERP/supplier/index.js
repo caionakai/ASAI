@@ -34,6 +34,8 @@ export default function Supplier() {
     email: "",
   });
 
+  const [supplierId, setSupplierId] = React.useState(null);
+
   const handleChange = (evt) => {
     const value = evt.target.value;
     setSupplierInputs({ ...supplierInputs, [evt.target.name]: value });
@@ -53,28 +55,47 @@ export default function Supplier() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <Button
-          color="primary"
-          variant="outlined"
-          className="form__button"
-          style={{ marginTop: "1rem", marginLeft: "1rem" }}
-          onClick={() => {
-            setSupplierInputs({
-              address: "",
-              name: "",
-              email: "",
-            });
-            toggleModalSupplier();
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "1rem",
           }}
         >
-          Register Supplier
-        </Button>
-
-        <h2>Suppliers</h2>
+          <h2
+            style={{
+              height: "100%",
+              margin: 0,
+            }}
+          >
+            Supplier's Table
+          </h2>
+          <Button
+            color="primary"
+            variant="outlined"
+            className="form__button"
+            style={{
+              height: "100%",
+            }}
+            onClick={() => {
+              setSupplierInputs({
+                address: "",
+                name: "",
+                email: "",
+              });
+              setSupplierId(null); // this is the difference between edit and create a new supplier
+              toggleModalSupplier();
+            }}
+          >
+            Register Supplier
+          </Button>
+        </div>
 
         <SupplierTable
           setSupplierInputs={setSupplierInputs}
           toggleModalSupplier={toggleModalSupplier}
+          setSupplierId={setSupplierId}
         />
 
         <RegisterSupplier
@@ -82,6 +103,7 @@ export default function Supplier() {
           handleClose={toggleModalSupplier}
           handleChange={handleChange}
           supplierInputs={supplierInputs}
+          supplierId={supplierId}
         />
       </main>
     </div>

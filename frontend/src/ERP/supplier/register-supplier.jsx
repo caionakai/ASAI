@@ -13,25 +13,45 @@ export default function RegisterSupplier({
   handleClose,
   handleChange,
   supplierInputs,
+  supplierId,
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const postRequest = async (supplierData) => {
-    await axios
-      .post("http://localhost:8000/erp/supplier/", supplierData)
-      .then(function (response) {
-        console.log(response);
-        setIsLoading(false);
-        alert("SUPPLIER CREATED");
-        handleClose();
-        window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error.response.status);
-        if (error.response.status == 504) {
-          postRequest(supplierData);
-        }
-      });
+    // if there's a id then it's a update request
+    if (supplierId) {
+      await axios
+        .put(`http://localhost:8000/erp/supplier/${supplierId}`, supplierData)
+        .then(function (response) {
+          console.log(response);
+          setIsLoading(false);
+          alert("SUPPLIER UPDATED");
+          handleClose();
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error.response.status);
+          if (error.response.status == 504) {
+            postRequest(supplierData);
+          }
+        });
+    } else {
+      await axios
+        .post("http://localhost:8000/erp/supplier/", supplierData)
+        .then(function (response) {
+          console.log(response);
+          setIsLoading(false);
+          alert("SUPPLIER CREATED");
+          handleClose();
+          window.location.reload();
+        })
+        .catch(function (error) {
+          console.log(error.response.status);
+          if (error.response.status == 504) {
+            postRequest(supplierData);
+          }
+        });
+    }
   };
 
   const createSupplier = async (e) => {

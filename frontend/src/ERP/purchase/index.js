@@ -5,11 +5,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from "@material-ui/core/Button";
 
-import Swal from "sweetalert2";
-
-import PurchaseTable from "./purchase-table";
+import axios from "axios";
 
 import RegisterPurchase from "./register-purchase";
+
+import PurchaseTable from "./purchase-table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,20 +26,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Purchase() {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const [openModalSupplier, setOpenModalSupplier] = React.useState(false);
-  console.log(openModalSupplier);
-  const handleOpenModalSupplier = () => {
-    setOpenModalSupplier(true);
+
+  const [purchaseInputs, setPurchaseInputs] = React.useState({
+    name: "",
+    price: "",
+    quantity: "",
+    date: "",
+  });
+
+  const [purchaseId, setPurchaseId] = React.useState(null);
+
+  const handleChange = (evt) => {
+    const value = evt.target.value;
+    setPurchaseInputs({ ...purchaseInputs, [evt.target.name]: value });
+  };
+
+  const toggleModalSupplier = () => {
+    setOpenModalSupplier((prevState) => {
+      return !prevState;
+    });
   };
 
   return (
@@ -50,22 +56,54 @@ export default function Purchase() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
-        <div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "1rem",
+          }}
+        >
+          <h2
+            style={{
+              height: "100%",
+              margin: 0,
+            }}
+          >
+            Purchase's Table
+          </h2>
           <Button
             color="primary"
             variant="outlined"
             className="form__button"
-            style={{ marginTop: "1rem" }}
-            onClick={handleOpen}
+            style={{ marginTop: "1rem", marginLeft: "1rem" }}
+            onClick={() => {
+              setPurchaseInputs({
+                address: "",
+                name: "",
+                email: "",
+              });
+              setPurchaseId(null); // this is the difference between edit and create a new supplier
+              toggleModalSupplier();
+            }}
           >
             Register Purchase
           </Button>
-
-          <h2>History</h2>
-          <PurchaseTable />
-
-          <RegisterPurchase open={open} handleClose={handleClose} />
         </div>
+
+        <PurchaseTable
+          setPurchaseInputs={setPurchaseInputs}
+          toggleModalSupplier={toggleModalSupplier}
+          setPurchaseId={setPurchaseId}
+        />
+
+        <RegisterPurchase
+          open={openModalSupplier}
+          handleClose={toggleModalSupplier}
+          handleChange={handleChange}
+          purchaseInputs={purchaseInputs}
+          purchaseId={purchaseId}
+        />
       </main>
     </div>
   );
