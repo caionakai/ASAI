@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../Components/SideBar'
 import TopBar from '../../Components/TopBar'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import TextField from '@material-ui/core/TextField';
 import blue from '@material-ui/core/colors/blue';
+import green from '@material-ui/core/colors/green';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import { Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -25,6 +22,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import './styles.css'
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000'
+})
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   palette: {
-    primary: blue
+    primary: blue,
+    secndary: green,
   }
 }));
 
@@ -50,57 +53,118 @@ export default function Contacts() {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [preferredCommunication, setPreferredCommunication] = useState('');
-  const [isAssociated, setAssociated] = useState('True');
+  const [preferredComunicationMethod, setPreferredComunicationMethod] = useState('');
+  const [selectedClient, setSelectedClient] = useState({});
+  const [clients, setClients] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
+  const [buttonColor, setButtonColor] = useState('primary');
 
-  const clients = [
-    { name: "Fulano de Tal", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Ta2", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "email", isAssociated: "False" },
-    { name: "Fulano de Ta3", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Ta4", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Tal5", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Tal6", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Tal7", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Tal8", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
-    { name: "Fulano de Tal9", address: "street croconaw", phone: "123456789", email: "Crocodile@gmail.com", preferredCommunication: "phone", isAssociated: "True" },
 
-  ];
+
+  useEffect(() => {
+
+    try {
+      api.get('crm/clients/', {}).then(response => {
+        setClients(response.data);
+      })
+    } catch (err) {
+      console.log('Error on get users list')
+    }
+
+
+  }, [])
 
   const handleChange = (event) => {
-    setPreferredCommunication(event.target.value);
+    setPreferredComunicationMethod(event.target.value);
   };
 
   async function handleCreate(e) {
     e.preventDefault();
-    console.log('nome: ', name, '\nAddress: ', address, '\nphone: ', phone, '\nemail: ', email, '\npreferred: ', preferredCommunication, '\nisAssociated:', isAssociated)
-  }
 
-  function handleClean() {
-    setName('');
-    setAddress('');
-    setPhone('');
-    setEmail('');
-    setPreferredCommunication('');
-    setAssociated('True');
+    const data = {
+      name,
+      address,
+      phone,
+      email,
+      preferredComunicationMethod
+    }
+
+    if (isEdit === true) {
+      try {
+        const res = await api.put(`crm/clients/${selectedClient.id}`, data);
+        console.log('success', res);
+
+        clients.forEach(client => {
+          if (client.id === selectedClient.id) {
+            console.log('achei');
+            client.name = name;
+            client.address = address;
+            client.phone = phone;
+            client.email = email;
+            client.preferredComunicationMethod = preferredComunicationMethod
+          }
+        });
+
+        setClients([...clients]);
+      } catch (err) {
+        alert('Error on register user, try again ...', err);
+      }
+    } else {
+      try {
+        const res = await api.post('crm/clients/', data);
+        console.log('success', res);
+
+        setClients([...clients, res.data]);
+      } catch (err) {
+        alert('Error on register user, try again ...', err);
+      }
+    }
+    handleClean();
   }
 
   function handleEdit(user) {
-    console.log("Editing User", user);
     setName(user.name);
+    setEmail(user.email);
     setPhone(user.phone);
     setAddress(user.address);
-    setEmail(user.email);
-    setPreferredCommunication(user.preferredCommunication);
-    setAssociated(user.isAssociated);
+    setPreferredComunicationMethod(user.preferredComunicationMethod);
+
+    setSelectedClient(user);
+    setIsEdit(true);
+    setButtonColor('inherit');
 
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0;  // For chrome
   }
 
-  function handleDelete(user) {
-    console.log("Deleting User", user);
-    // rows =  rows.filter((row) => row.name !== user.name);
+
+  async function handleDelete(user) {
+    try {
+
+      const res = await api.delete(`crm/clients/${user.id}`);
+
+      if(res){
+        const clientsIndex = clients.findIndex(client => client.id === user.id);
+        clients.splice(clientsIndex, 1);
+        setClients([...clients]);
+      }
+    } catch (err) {
+      console.log('Error in delete of user', err);
+    }
   }
+
+  function handleClean() {
+    setButtonColor('primary');
+    setIsEdit(false);
+    setName('');
+    setAddress('');
+    setPhone('');
+    setEmail('');
+    setPreferredComunicationMethod('');
+  }
+
+
+
 
   return (
     <div className={classes.root}>
@@ -162,13 +226,6 @@ export default function Contacts() {
                   />
                 </div>
                 <div className="associateds">
-                  <div className="radio-group">
-                    <span>Is associated?</span>
-                    <RadioGroup row aria-label="isAssociated" name="isAssociated" value={isAssociated} onChange={e => setAssociated(e.target.value)}>
-                      <FormControlLabel value='True' control={<Radio />} label="Yes" labelPlacement="bottom" />
-                      <FormControlLabel value='False' control={<Radio />} label="No" labelPlacement="bottom" />
-                    </RadioGroup>
-                  </div>
                   <div className="register-select">
                     <span>Select a communication method:</span>
                     <FormControl variant="filled" className={classes.formControl}>
@@ -176,7 +233,7 @@ export default function Contacts() {
                       <Select
                         labelId="demo-simple-select-filled-label"
                         id="demo-simple-select-filled"
-                        value={preferredCommunication}
+                        value={preferredComunicationMethod}
                         onChange={handleChange}
 
                       >
@@ -191,9 +248,10 @@ export default function Contacts() {
                   </div>
                 </div>
                 <div className="register-item register-actions">
-                  <Button variant="contained" color="primary" type="submit">
-                    Register
-                    </Button>
+                  <Button variant="contained" color={buttonColor} type="submit">
+                    {isEdit === false && 'Register'}
+                    {isEdit === true && 'Update'}
+                  </Button>
                   <Button variant="contained" color="secondary" onClick={handleClean}>Clean</Button>
                 </div>
               </form>
@@ -214,21 +272,19 @@ export default function Contacts() {
                       <TableCell align="center">Address</TableCell>
                       <TableCell align="center">Phone</TableCell>
                       <TableCell align="center">Email</TableCell>
-                      <TableCell align="center">preferredCommunication</TableCell>
-                      <TableCell align="center">isAssociated</TableCell>
+                      <TableCell align="center">preferredComunicationMethod</TableCell>
                       <TableCell align="center"></TableCell>
                       <TableCell align="center"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {clients.map((client) => (
-                      <TableRow key={client.name}>
+                      <TableRow key={client.id}>
                         <TableCell align="center">{client.name}</TableCell>
                         <TableCell align="center">{client.address}</TableCell>
                         <TableCell align="center">{client.phone}</TableCell>
                         <TableCell align="center">{client.email}</TableCell>
-                        <TableCell align="center">{client.preferredCommunication}</TableCell>
-                        <TableCell align="center">{client.isAssociated}</TableCell>
+                        <TableCell align="center">{client.preferredComunicationMethod}</TableCell>
                         <TableCell><button className="table-button green-button" onClick={() => handleEdit(client)}><EditIcon></EditIcon></button></TableCell>
                         <TableCell><button className="table-button red-button" onClick={() => handleDelete(client)}><DeleteForeverIcon></DeleteForeverIcon></button></TableCell>
                       </TableRow>
