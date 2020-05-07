@@ -171,6 +171,7 @@ export default function RegisterPurchase({
                 style={{ marginTop: "1rem", marginLeft: "2rem" }}
               />
             </div>
+
             <hr style={{ marginTop: "2rem" }} />
             <Button
               variant="contained"
