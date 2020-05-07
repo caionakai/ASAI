@@ -59,13 +59,12 @@ export default function Contacts() {
   const [isEdit, setIsEdit] = useState(false);
   const [buttonColor, setButtonColor] = useState('primary');
 
-
-
   useEffect(() => {
-
     try {
       api.get('crm/clients/', {}).then(response => {
-        setClients(response.data);
+        if (response.data !== '') {
+          setClients(response.data);
+        }
       })
     } catch (err) {
       console.log('Error on get users list')
@@ -143,7 +142,7 @@ export default function Contacts() {
 
       const res = await api.delete(`crm/clients/${user.id}`);
 
-      if(res){
+      if (res) {
         const clientsIndex = clients.findIndex(client => client.id === user.id);
         clients.splice(clientsIndex, 1);
         setClients([...clients]);
