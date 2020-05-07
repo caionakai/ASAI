@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
 import PurchaseTable from "./purchase-table";
-
 import RegisterPurchase from "./register-purchase";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,16 +41,6 @@ export default function Purchase() {
     setOpenModalSupplier(true);
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  const handleCloseModalSupplier = () => {
-    setOpenModalSupplier(false);
-  };
-
->>>>>>> register supplier form + purchase table + refactoring
-=======
->>>>>>> supplier crud operation
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -71,32 +60,10 @@ export default function Purchase() {
             Register Purchase
           </Button>
 
-<<<<<<< HEAD
           <h2>History</h2>
           <PurchaseTable />
 
           <RegisterPurchase open={open} handleClose={handleClose} />
-=======
-          <Button
-            color="primary"
-            variant="outlined"
-            className="form__button"
-            style={{ marginTop: "1rem", marginLeft: "1rem" }}
-            onClick={handleOpenModalSupplier}
-          >
-            Register Supplier
-          </Button>
-
-          <h2>History</h2>
-          <PurchaseTable />
-
-          <RegisterPurchase open={open} handleClose={handleClose} />
-
-          <RegisterSupplier
-            open={openModalSupplier}
-            handleClose={handleCloseModalSupplier}
-          />
->>>>>>> register supplier form + purchase table + refactoring
         </div>
       </main>
     </div>

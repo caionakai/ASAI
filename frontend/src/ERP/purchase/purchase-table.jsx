@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const PurchaseTable = (props) => {
+const PurchaseTable = ({ props, setPurchaseInputs }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [page, setPage] = React.useState(0);
 
