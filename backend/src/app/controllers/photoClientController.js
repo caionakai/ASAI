@@ -17,8 +17,7 @@ module.exports = {
     try {
         const photoClient = await PhotoClient.create({ 
           photo_id: photoClientData.photo_id,
-          client_id: photoClientData.client_id,
-          preferredComunicationMethod: photoClientData.preferredComunicationMethod
+          client_id: photoClientData.client_id
         });
 
         return photoClient;
@@ -49,8 +48,7 @@ module.exports = {
     try {
         const photoClient = await PhotoClient.update({
             photo_id: photoClientData.photo_id,
-            client_id: photoClientData.client_id,
-            preferredComunicationMethod: photoClientData.preferredComunicationMethod,
+            client_id: photoClientData.client_id
         },{
             where: {
                 id: photoClientId

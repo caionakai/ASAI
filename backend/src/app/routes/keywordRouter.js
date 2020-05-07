@@ -13,11 +13,10 @@ router.get('/', async (request, response) => {
 
 
 router.post('/', async(request, response) => {
-  const {word, preferredComunicationMethod} = request.body;
+  const {word} = request.body;
 
   const keywordData = {
-    word,
-    preferredComunicationMethod
+    word
   }
 
 
@@ -44,11 +43,10 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const {word, preferredComunicationMethod} = request.body;
+  const {word} = request.body;
 
   const keywordData = {
-    word,
-    preferredComunicationMethod,
+    word
   }
 
   const keyword  = await KeywordController.update(id, keywordData);

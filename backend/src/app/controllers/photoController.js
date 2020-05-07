@@ -18,8 +18,7 @@ module.exports = {
         const photo = await Photo.create({ 
           likes: photoData.likes,
           comments: photoData.comments,
-          product_id: photoData.product_id,
-          preferredComunicationMethod: photoData.preferredComunicationMethod
+          product_id: photoData.product_id
         });
 
         return photo;
@@ -51,8 +50,7 @@ module.exports = {
         const photo = await Photo.update({
             likes: photoData.likes,
             comments: photoData.comments,
-            product_id: photoData.product_id,
-            preferredComunicationMethod: photoData.preferredComunicationMethod
+            product_id: photoData.product_id
         },{
             where: {
                 id: photoId

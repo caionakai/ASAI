@@ -16,8 +16,7 @@ module.exports = {
   async store(keywordData) {
     try {
         const keyword = await Keyword.create({
-          word: keywordData.word,
-          preferredComunicationMethod: keywordData.preferredComunicationMethod
+          word: keywordData.word
         });
 
         return keyword;
@@ -47,8 +46,7 @@ module.exports = {
   async update(keywordId, keywordData){
     try {
         const keyword = await Keyword.update({
-            word: keywordData.word,
-            preferredComunicationMethod: keywordData.preferredComunicationMethod
+            word: keywordData.word
         },{
             where: {
                 id: keywordId
