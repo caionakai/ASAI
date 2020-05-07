@@ -15,7 +15,11 @@ import "./supplier.styles.css";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const SupplierTable = ({ setSupplierInputs, toggleModalSupplier }) => {
+const SupplierTable = ({
+  setSupplierInputs,
+  toggleModalSupplier,
+  setSupplierId,
+}) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [supplierData, setSupplierData] = useState([]);
@@ -114,6 +118,7 @@ const SupplierTable = ({ setSupplierInputs, toggleModalSupplier }) => {
                             name: row.name,
                             email: row.email,
                           });
+                          setSupplierId(row.id);
                           toggleModalSupplier();
                         }}
                       />
