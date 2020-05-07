@@ -1,9 +1,83 @@
 const Sequelize = require('sequelize');
 const dbConfig = require('../../config/database') ;
-const World = require('../models/World');
+const EmailMarketing = require('../models/EmailMarketing');
+const EmailProduct = require('../models/EmailProduct');
+const Store = require('../models/Store');
+const Stock = require('../models/Stock');
+const PhotoKeyword = require('../models/PhotoKeyword');
+const Keyword = require('../models/Keyword');
+const Photo = require('../models/Photo');
+const Brand = require('../models/Brand');
+const ProductCategory = require('../models/ProductCategory');
+const PhotoClient = require('../models/PhotoClient');
+const Client = require('../models/Client');
+const Product = require('../models/Product');
+const PurchaseRequest = require('../models/PurchaseRequest');
+const InterviewResut = require('../models/InterviewResut');
+const Supplier = require('../models/Supplier');
+const SaleItem = require('../models/SaleItem');
+const Interview = require('../models/Interview');
+const Candidate = require('../models/Candidate');
+const Sale = require('../models/Sale');
+const Marketing = require('../models/Marketing');
+const Loyalty = require('../models/Loyalty');
+const SpecialOffer = require('../models/SpecialOffer');
+const Employee = require('../models/Employee');
+const Service = require('../models/Service');
+const ServiceType = require('../models/ServiceType');
+const Feedback = require('../models/Feedback');
+const Job = require('../models/Job');
+const JobType = require('../models/JobType');
+
 
 const connection = new Sequelize(dbConfig);
 
-World.init(connection);
+//Init models
+EmailMarketing.init(connection);
+EmailProduct.init(connection);
+Store.init(connection);
+Stock.init(connection);
+PhotoKeyword.init(connection);
+Keyword.init(connection);
+Photo.init(connection);
+Brand.init(connection);
+ProductCategory.init(connection);
+PhotoClient.init(connection);
+Client.init(connection);
+Product.init(connection);
+PurchaseRequest.init(connection);
+InterviewResut.init(connection);
+Supplier.init(connection);
+SaleItem.init(connection);
+Interview.init(connection);
+Candidate.init(connection);
+Sale.init(connection);
+Marketing.init(connection);
+Loyalty.init(connection);
+SpecialOffer.init(connection);
+Employee.init(connection);
+Service.init(connection);
+ServiceType.init(connection);
+Feedback.init(connection);
+Job.init(connection);
+JobType.init(connection);
+
+//Create Relations
+EmailProduct.associate(connection.models);
+Stock.associate(connection.models);
+PhotoKeyword.associate(connection.models);
+Photo.associate(connection.models);
+PhotoClient.associate(connection.models);
+Product.associate(connection.models);
+PurchaseRequest.associate(connection.models);
+InterviewResut.associate(connection.models);
+SaleItem.associate(connection.models);
+Interview.associate(connection.models);
+Sale.associate(connection.models);
+Marketing.associate(connection.models);
+Employee.associate(connection.models);
+Service.associate(connection.models);
+Feedback.associate(connection.models);
+Job.associate(connection.models);
 
 module.exports = connection;

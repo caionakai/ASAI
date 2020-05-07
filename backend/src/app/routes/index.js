@@ -1,9 +1,9 @@
-  
 const express = require('express');
 const router = express.Router();
+const erpRouter = require('./erpRouter');
+const crmRouter = require('./crmRouter');
 
-const world = require('./worldRouter');
-
-router.use('/world', world);
+router.use('/erp', erpRouter);
+router.use('/crm', crmRouter);
 
 module.exports = router;
