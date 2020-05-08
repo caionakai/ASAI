@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 =======
 import React from "react";
@@ -7,11 +8,15 @@ import React from "react";
 =======
 import React, { useEffect, useState } from "react";
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
+=======
+import React, { useEffect, useState } from "react";
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 import Sidebar from "../../Components/SideBar";
 import TopBar from "../../Components/TopBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TableExportButton from "./TableExportButton";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -46,12 +51,20 @@ import "moment-timezone";
 import LoadingSpinner from 'loading-spinner';
 >>>>>>> Still trying to Fix Stuff.
 =======
+=======
+import TableWithFilter from "./Table";
+import TopicCard from "./TopicCard";
+import Swal from "sweetalert2";
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 import { BarGraph, DoughnutGraph, LineBarGraph } from "./Graphs";
 import moment from "moment";
 import "moment-timezone";
 import "./index.css";
 import Loader from "react-loader-spinner";
+<<<<<<< HEAD
 >>>>>>> Plz help fix state :).
+=======
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 
 import axios from "axios";
 
@@ -70,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 const joinedTables = [
@@ -158,6 +172,8 @@ const joinedTables = [
     ],
   },
 ];
+=======
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 
 // which brand or category generated the most income or
 // most quantities sold
@@ -167,7 +183,13 @@ export default function Reports() {
 
   const [brandsChart, setBrandsChart] = useState("");
   const [salesChart, setSalesChart] = useState("");
+<<<<<<< HEAD
 
+=======
+  const [categoriesChart, setCategoriesChart] = useState("");
+  const [dataForTable, setDataForTable] = useState([]);
+  const [joinedTables, setJoinedTables] = useState([]);
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   // perspectiveMode isnt very important
   const [perspectiveMode, setPerspectiveMode] = useState("");
   // contains columns required for material-table
@@ -176,9 +198,17 @@ export default function Reports() {
   // contains all data without table filters
   const [tableData, setTableData] = useState([]);
   const [detailPanelData, setDetailPanelData] = useState([]);
+<<<<<<< HEAD
   // filteredTableData is used to generate PDF or to update graph
   const [filteredTableData, setFilteredTableData] = useState([]);
 
+=======
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  // filteredTableData is used to generate PDF or to update graph
+  const [filteredTableData, setFilteredTableData] = useState([]);
+
+  const [today, setToday] = useState("");
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   // perspectiva do sale items
   const getDetailDataSaleItems = () => {
     let data = [];
@@ -204,6 +234,10 @@ export default function Reports() {
   const getDataSalesItems = () => {
     let data = [];
     let idx = 0;
+<<<<<<< HEAD
+=======
+    // console.log('isempty', joinedTables)
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     joinedTables.forEach((saleItem) => {
       let newRow = {
         index: idx,
@@ -211,7 +245,10 @@ export default function Reports() {
         quantity: saleItem.quantity,
         purchaseDate: saleItem.sale.purchaseDate,
       };
+<<<<<<< HEAD
       console.log(newRow);
+=======
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
       idx++;
       data.push(newRow);
     });
@@ -237,11 +274,54 @@ export default function Reports() {
     return data;
   };
 
+<<<<<<< HEAD
+=======
+  const getDataCategoryItems = () => {
+    let data = [];
+    let index = 0;
+    joinedTables.forEach((saleItem) => {
+      const product = saleItem.product;
+      product.forEach((item) => {
+        data.push({
+          index: index,
+          category: item.category.name,
+          product: item.name,
+          brand: item.brand.name,
+          purchaseDate: saleItem.sale.purchaseDate,
+        });
+        index++;
+      });
+    });
+    return data;
+  };
+
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   // essa função pega os dados joinedTables e seta os states
   // que a Tabela vai usar
   const chewDataAndSetTable = (perspective) => {
     switch (perspective) {
+<<<<<<< HEAD
       case "brand": {
+=======
+      case "categories": {
+        const columns = [
+          { title: "Index", field: "index", type: "numeric" },
+          { title: "Category", field: "category" },
+          { title: "Product", field: "product" },
+          { title: "Brand", field: "brand" },
+          { title: "Purchase Date", field: "purchaseDate" },
+        ];
+        setTableColumns(columns);
+        const data = getDataCategoryItems();
+        setTableData(data);
+        setDataForTable(data);
+        setFilteredTableData(data);
+        setDetailPanelColumns([]);
+        setDetailPanelData([]);
+        break;
+      }
+      case "brands": {
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
         // brand perspective
         const columns = [
           { title: "Index", field: "index", type: "numeric" },
@@ -254,6 +334,10 @@ export default function Reports() {
         const data = getDataBrandItems();
         setTableData(data);
         setFilteredTableData(data);
+<<<<<<< HEAD
+=======
+        setDataForTable(data);
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
         setDetailPanelColumns([]);
         setDetailPanelData([]);
         break;
@@ -277,6 +361,10 @@ export default function Reports() {
         ];
         setDetailPanelColumns(detailColumns);
         const data = getDataSalesItems();
+<<<<<<< HEAD
+=======
+        setDataForTable(data);
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
         setTableData(data);
         const detailData = getDetailDataSaleItems();
         setDetailPanelData(detailData);
@@ -288,9 +376,33 @@ export default function Reports() {
   //when changing perspective, also reset filteredTableData for PDF
 
   useEffect(() => {
+<<<<<<< HEAD
     chewDataAndSetTable("sales");
     setPerspectiveMode("sales");
   }, []);
+=======
+    let data = [];
+    try {
+      api
+        .get("crm/reports", {})
+        .then((response) => {
+          if (response.data !== "") {
+            data = response.data;
+            setJoinedTables(data); // qndo isso ficar pronto executar setIsDataLoaded(true)
+          }
+        })
+        .then(() => {
+          console.log(data);
+          setIsDataLoaded(true);
+          setToday(moment());
+          setPerspectiveMode("sales");
+          chewDataAndSetTable("sales");
+        });
+    } catch (err) {
+      console.log("Error fetching reports data.");
+    }
+  }, [isDataLoaded]);
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 
   const filterTableData = (filteredData) => {
     setFilteredTableData(filteredData);
@@ -299,6 +411,7 @@ export default function Reports() {
   const resetAllCharts = () => {
     setBrandsChart("");
     setSalesChart("");
+<<<<<<< HEAD
   };
 
   const changePerspective = (persp) => {
@@ -629,6 +742,64 @@ export default function Reports() {
     }
   };
 
+=======
+    setCategoriesChart("");
+  };
+
+  // returns filtered data with period
+  // data is filteredTableData
+  // period is week, month, year, allTime
+  const filterDataByPeriod = (period, data) => {
+    let momentData = [];
+    // let currentDate = moment().startOf("day").hour(12);
+    let currentDate = moment(today);
+    let processedData = [];
+    data.forEach((d) => {
+      momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+    });
+    switch (period) {
+      case "week": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 7) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      case "month": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 30) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      case "year": {
+        for (let i = 0; i < momentData.length; i++) {
+          if (currentDate.diff(momentData[i], "days") < 365) {
+            processedData.push(data[i]);
+          }
+        }
+        break;
+      }
+      default: {
+        processedData = data;
+        // all time is default
+      }
+    }
+    setDataForTable(processedData); // this was modified
+    return processedData;
+  };
+
+  const changePerspective = (persp) => {
+    if (persp !== perspectiveMode) {
+      chewDataAndSetTable(persp);
+      setPerspectiveMode(persp);
+      resetAllCharts();
+    }
+  };
+
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   // essa função gera os gráficos do Brands
   // period pode ser week, month, year, allTimes
   // should use filteredDataTable probably
@@ -799,6 +970,7 @@ export default function Reports() {
     }
   };
 
+<<<<<<< HEAD
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
   return (
 <<<<<<< HEAD
@@ -856,6 +1028,9 @@ export default function Reports() {
 >>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
       </main>
 =======
+=======
+  return (
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     <div>
       {isDataLoaded ? (
         <div className={classes.root}>
@@ -918,7 +1093,10 @@ export default function Reports() {
           </main>
         </div>
       )}
+<<<<<<< HEAD
 >>>>>>> Still trying to Fix Stuff.
+=======
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     </div>
   );
 }

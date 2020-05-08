@@ -23,7 +23,7 @@
     "jspdf-autotable": "^3.5.3",
     "loading-spinner": "^1.2.1",
     "material-table": "^1.57.2",
-    "moment": "^2.25.2",
+    "moment": "^2.25.3",
     "moment-timezone": "^0.5.28",
     "react": "^16.13.1",
     "react-bootstrap": "^0.32.4",

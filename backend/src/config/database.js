@@ -29,8 +29,11 @@ module.exports = {
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> Connect Backend and Frontend.
 =======
 >>>>>>> Still trying to Fix Stuff.
+=======
+>>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
