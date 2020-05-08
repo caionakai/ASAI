@@ -1,0 +1,206 @@
+.main-contacts * {
+    margin: 0;
+    padding: 0;
+}
+
+.main-contacts input, button{
+    outline: none;
+}
+
+.main-contacts{
+    background: #f0f0f0;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-contacts .register{
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 40px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    align-items: center;
+}
+
+.main-contacts .register .register-title{
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-contacts .register .register-title span{
+    font-size: 2em;
+    color:rgb(92, 92, 92);
+    font-weight: bold;
+}
+
+.main-contacts .register .register-title p{
+    margin-top: 5px;
+    font-size: 1.1em;
+    color: #3f51bb;
+}
+
+.main-contacts .register .input-group{
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.main-contacts .register .input-group .register-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.main-contacts .register .input-group .register-form .register-item{
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+.main-contacts .register .input-group .register-form .associateds{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-contacts .register .input-group .register-form .radio-group{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-contacts .register .input-group .register-form .radio-group span{
+    font-size: 1.2em;
+}
+
+.main-contacts .register .input-group .register-form .register-select{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.main-contacts .register .input-group .register-form .register-select .MuiFormControl-root{
+    width: 50%;
+}
+
+.main-contacts .register .input-group .MuiFilledInput-root{
+    background-color: white;
+}
+
+.main-contacts .register .input-group .MuiFilledInput-root:hover{
+    background-color: rgba(63, 81, 181,0.1);
+    transition: 0.4s;
+}
+
+.main-contacts .register .input-group .register-form .register-select span{
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #3f51bb;
+}
+
+.main-contacts .register .input-group .register-form .register-actions{
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-contacts .register .input-group .register-form .register-actions button{
+    margin: 0 5px 0;
+    min-width: 80px;
+    width: 30%;
+    height: 50px;
+    transition: 0.2s;
+}
+
+.main-contacts .register .input-group .register-form .register-actions button:hover{
+    transform: scale(1.05);
+}
+
+.main-contacts .list{
+    margin: 50px 0px;
+    width: 80%;
+    border-radius: 20px;
+}
+
+.main-contacts .list .table-container{
+    width: 100%;
+}
+
+.main-contacts .list .table-button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.main-contacts .list .green-button:hover{
+    color: #3f51b5;
+    scale: 1.1;
+    transform: scale(1.1);
+}
+
+.main-contacts .list .red-button:hover{
+    color: #df2626;
+    transform: scale(1.1);
+}
+
+.list .MuiTableHead-root{
+    background-color: #3f51b5;
+    color: #ffffff !important;
+}
+
+.main-contacts .list .table-text{
+    display: flex;
+    justify-content: center;
+    font-size: 1.5em;
+    color: #353535;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #585858;
+}
+
+.main-contacts .list .table-text:hover h2{
+    
+    transition: 0.3s;
+    transform: scale(1.1);
+    cursor: default;
+    color: #3f51b5;
+
+}
+
+.main-contacts .list .table-text:hover{
+    border-color: #3f51b5;
+    transition: 1s;
+}
+
+.MuiTableHead-root .MuiTableCell-root{
+    color: white !important;
+    font-weight: bold !important;
+}
+
+tbody .MuiTableRow-root:hover{
+    background-color: #dbdbdb;
+    transition: 0.5s;
+}
+
+
+
+
+
+
+
+
+
