@@ -32,7 +32,6 @@ export default function Performance() {
               <a href="/performance/service_types"><Button bsStyle="success" fill>Service Types</Button></a><p></p>
               <a href="/performance/feedbacks"><Button bsStyle="success" fill>Feedbacks</Button></a><p></p>
               <a href="/performance/services"><Button bsStyle="success" fill>Services</Button></a><p></p>
-              <a href="/performance/clients"><Button bsStyle="success" fill>Clients</Button></a><p></p>
             </div>
 
           </main>
