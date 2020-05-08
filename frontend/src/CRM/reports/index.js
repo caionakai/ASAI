@@ -31,37 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const fixedJoinedTables = [
-  {
-    idSalesItem: 1,
-    quantity: 1,
-    price: 5.0,
-    sale: {
-      // um salesItem guarda informações de um 'sale'
-      idSale: 1,
-      purchaseDate: "16-02-2019",
-      discountPercentage: 20,
-      client: {},
-      seller: {},
-    },
-    product: [
-      {
-        idProduct: 1,
-        name: "Cornflakes",
-        price: 5.0,
-        brand: {
-          idBrand: 1,
-          name: "Kellogs",
-        },
-        category: {
-          idCategory: 1,
-          name: "Food",
-        }, // supplier: {}, // not needed
-      },
-    ],
-  },
-];
-
 // which brand or category generated the most income or
 // most quantities sold
 
@@ -124,16 +93,6 @@ export default function Reports() {
     });
     return data;
   };
-
-  // const builtChart = () => {
-  //   if (categoriesChart !== "") {
-  //     return categoriesChart;
-  //   } else if (brandsChart !== "") {
-  //     return brandsChart;
-  //   } else if (salesChart !== "") {
-  //     return salesChart;
-  //   }
-  // };
 
   const getDataBrandItems = () => {
     let data = [];
@@ -555,7 +514,7 @@ export default function Reports() {
               color="#00BFFF"
               height={100}
               width={100}
-              timeout={5000} //3 secs
+              timeout={3000} //3 secs
               className={"spinner"}
             />
           </main>

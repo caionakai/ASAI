@@ -13,19 +13,29 @@ const listAll = async () => {
         include: [
           {
             model: Sale,
+            foreignKey: 'id',
+            as: 'sale',
           }
         ],
         include: [
+          // this.hasMany(models.Brand, { foreignKey: 'id', as: 'brand' });
+          // this.hasMany(models.ProductCategory, { foreignKey: 'id', as: 'category' });
           {
             model: Product,
+            foreignKey: 'id',
+            as: 'product',
             include: [
               {
                 model: Brand,
+                foreignKey: 'id',
+                as: 'brand',
               }
             ],
             include: [
               {
                 model: ProductCategory,
+                foreignKey: 'id',
+                as: 'category',
               }
             ]
           }
@@ -83,8 +93,8 @@ const listAll = async () => {
 }
 
 router.get("/", (request, response) => {
-  // const joinedTables = await listAll();
-  
+  // const tables = listAll();
+  // console.log(tables);
   const joinedTables = [
     {
       idSalesItem: 1,
