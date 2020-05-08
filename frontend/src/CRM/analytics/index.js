@@ -1,32 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/SideBar";
 import TopBar from "../../Components/TopBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const data = {
-  january: 100,
-  february: 200,
-  march: 300,
-  april: 40,
-  may: 79,
-};
+import axios from "axios";
 
-const formatedData = Object.keys(data).map((val) => {
-  return {
-    name: val,
-    vendas: data[val],
-  };
-});
+import LineChartCustom from "./line-chart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +24,44 @@ const useStyles = makeStyles((theme) => ({
 export default function Analytics() {
   const classes = useStyles();
 
+  const [analyticsData, setAnalyticsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getRequest = async (year) => {
+    await axios
+      .get(`http://localhost:8000/crm/analytics/${year}`)
+      .then(function (response) {
+        const formatedData = Object.keys(response.data.res).map((val) => {
+          return {
+            name: val,
+            sales: response.data.res[val],
+          };
+        });
+        setAnalyticsData((prevState) => {
+          let tmpAnalyticsData = [...prevState];
+          tmpAnalyticsData.push(formatedData);
+          return tmpAnalyticsData;
+        });
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        if (error.response && error.response.status == 504) {
+          setIsLoading(true);
+          getRequest(year);
+        }
+      });
+  };
+
+  useEffect(() => {
+    for (let i = 2016; i <= 2019; i++) {
+      getRequest(i);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(analyticsData);
+  }, [analyticsData]);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -50,30 +69,16 @@ export default function Analytics() {
       <Sidebar currentPage={10} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <LineChart
-          width={500}
-          height={300}
-          data={formatedData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="vendas"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
-        </LineChart>
+
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          analyticsData.map((analyData, idx) => {
+            return (
+              <LineChartCustom analyticsData={analyData} year={2016 + idx} />
+            );
+          })
+        )}
       </main>
     </div>
   );
