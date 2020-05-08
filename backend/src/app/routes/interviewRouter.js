@@ -3,11 +3,9 @@ const router = express.Router();
 
 const InterviewController = require('../controllers/InterviewController');
 
-
 //List all Clients
 router.get('/', async (request, response) => {
   const clients = await InterviewController.listAll();
-
   return response.json(clients);
 });
 
@@ -16,11 +14,7 @@ router.get('/:id', async (req, res) => {
 
     const response = await InterviewController.getById(id);
 
-    if(!response['successful']){
-        return error(response, res)
-    }
-
-    return res.send(response);
+    return res.json(response[0]);
 });
 
 router.post('/', async(request, response) => {
@@ -33,7 +27,7 @@ router.post('/', async(request, response) => {
     date,
     time,
     employee_id,
-    candidate_id,
+    candidate_id
   }
 
     const contact = await InterviewController.store(clientData)
@@ -59,13 +53,16 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const {  date,time,employee_id,candidate_id} = request.body;
+  const {  date,time,employee_id,candidate_id,isDone,isPassed,isEvaluated} = request.body;
 
   const clientData = {
     date,
     time,
     employee_id,
     candidate_id,
+    isDone,
+    isPassed,
+    isEvaluated,
   }
 
   const client  = await InterviewController.update(id, clientData);

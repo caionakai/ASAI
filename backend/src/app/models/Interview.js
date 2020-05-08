@@ -6,7 +6,10 @@ class Interview extends Model {
       date : DataTypes.DATE,
       time: DataTypes.TIME,
       candidate_id : DataTypes.INTEGER,
-      employee_id : DataTypes.INTEGER  
+      employee_id : DataTypes.INTEGER,
+      isDone: DataTypes.INTEGER,
+      isPassed: DataTypes.INTEGER,
+      isEvaluated:  DataTypes.INTEGER
     }, {
       sequelize,
       tableName: 'Interview'

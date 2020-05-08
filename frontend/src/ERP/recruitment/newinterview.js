@@ -12,6 +12,7 @@ import CustomDropDownList from '../../Components/CustomDropDownList/CustomDropDo
 import axios from 'axios';
 import {URL} from '../../Variables.jsx'
 
+var candidate_id_prop;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +45,7 @@ notificationSystem = React.createRef();
             console.log(error);
           })
 
-          axios.get( URL + '/erp/candidate/' + 2)
+          axios.get( URL + '/erp/candidate/' + candidate_id_prop)
           .then(response => {
             const data = response.data;
             this.setState({ candidate: data.res.name});
@@ -69,7 +70,7 @@ notificationSystem = React.createRef();
         event.preventDefault();
 
         axios.post(URL + '/erp/interview', {
-          candidate_id: 2,
+          candidate_id: candidate_id_prop,
           employee_id:  this.state.employee,
           date: this.state.date,
           time: this.state.hour
@@ -154,8 +155,9 @@ notificationSystem = React.createRef();
   }
 }
 
-export default function NewCandidate() {
+export default function NewCandidate(p) {
     const classes = useStyles();
+    candidate_id_prop=p.match.params.id
 
     return (
         <div className={classes.root}>

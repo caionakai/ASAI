@@ -14,7 +14,7 @@ import axios from 'axios';
 
 function rankFormatter(cell, row, rowIndex, formatExtraData) {
      return (
-           <div onClick={event =>  window.location.href='/recruit/newemployee/' + row.id}
+           <div onClick={event =>  window.location.href='/recruit/newemployee/' + row.candidate_id}
                style={{ textAlign: "center",
                   cursor: "pointer",
                  lineHeight: "normal" }}>
@@ -24,26 +24,31 @@ function rankFormatter(cell, row, rowIndex, formatExtraData) {
            </div>
  ); }
 
+   const selectOptions = {
+     1: '',
+     0: ''
+   };
+
 
 const columns = [
   {
-  dataField: 'name',
-  text: 'Name',
+  dataField: 'candidate_name',
+  text: 'Candidate',
   filter: textFilter()
   },
   {
-  dataField: 'email',
-  text: 'E-Mail ',
-  filter: textFilter()
-  },
-  {
-  dataField: 'phone',
-  text: 'Contact',
-  filter: textFilter()
-  },
-  {
-  dataField: 'address',
+  dataField: 'candidate_address',
   text: 'Address',
+  filter: textFilter()
+  },
+  {
+  dataField: 'candidate_phone',
+  text: 'Phone',
+  filter: textFilter()
+  },
+  {
+  dataField: 'candidate_email',
+  text: 'Email',
   filter: textFilter()
   },
   {
@@ -51,6 +56,15 @@ const columns = [
   text: "Hire",
   formatter: rankFormatter,
   headerAttrs: { width: 85 }
+},
+  {
+    dataField: 'isEvaluated.data',
+    text: "",
+    formatter: cell => selectOptions[cell],
+    filter: textFilter({
+    defaultValue: 1,
+    hidden:true,
+    })
   }
 ];
 
@@ -74,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
       }
 
       componentWillMount() {
-              axios.get( URL + '/erp/candidate/')
+              axios.get( URL + '/erp/interview/')
               .then(response => {
                 this.setState({ candidates: response.data });
               })

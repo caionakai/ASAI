@@ -49,10 +49,10 @@ function App() {
         <Route path="/recruit/candidates" exact component={() => <Candidates />}></Route>
         <Route path="/recruit/interviews" exact component={() => <Interview />}></Route>
         <Route path="/recruit/newcandidate" exact component={() => <NewCandidate />}></Route>
-        <Route path="/recruit/newinterview/:id" exact component={() => <NewInterview />}></Route>
-        <Route path="/recruit/newreport/:id" exact component={() => <NewReport />}></Route>
+        <Route path="/recruit/newinterview/:id" exact component={(props) => <NewInterview {...props}/>}></Route>
+        <Route path="/recruit/newreport/:id" exact component={(props) => <NewReport {...props}/>}></Route>
         <Route path="/recruit/hire" exact component={() => <Hire />}></Route>
-        <Route path="/recruit/newemployee/:id" exact component={() => <NewEmployee />}></Route>
+        <Route path="/recruit/newemployee/:id" exact component={(props) => <NewEmployee {...props}/>}></Route>
 
 
 
