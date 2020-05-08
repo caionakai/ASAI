@@ -255,7 +255,6 @@ export default function Reports() {
         })
         .then(() => {
           console.log(data);
-          // console.log(joinedTables);
           setIsDataLoaded(true);
           setToday(moment());
           setPerspectiveMode("sales");
@@ -264,7 +263,7 @@ export default function Reports() {
     } catch (err) {
       console.log("Error fetching reports data.");
     }
-  }, []);
+  }, [isDataLoaded]);
 
   const filterTableData = (filteredData) => {
     setFilteredTableData(filteredData);
