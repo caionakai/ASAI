@@ -24,14 +24,15 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async(request, response) => {
-  const {name, address, phone, email, nif} = request.body;
+  const {name, address, phone, email, nif,job_id} = request.body;
 
   const clientData = {
     name,
     address,
     phone,
     email,
-    nif
+    nif,
+    job_id
   }
 
     const contact = await EmployeeController.store(clientData)
@@ -57,7 +58,7 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const { id } = request.params;
-  const {name, address, phone, email, nif} = request.body;
+  const {name, address, phone, email, nif,job_id} = request.body;
 
   const clientData = {
     name,
@@ -65,6 +66,7 @@ router.put('/:id', async (request, response) => {
     phone,
     email,
     nif,
+    job_id
   }
 
   const client  = await EmployeeController.update(id, clientData);

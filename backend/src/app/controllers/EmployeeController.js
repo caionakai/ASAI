@@ -29,7 +29,8 @@ module.exports = {
           address: clientData.address,
           phone: clientData.phone,
           email: clientData.email,
-          nif: clientData.nif
+          nif: clientData.nif,
+          job_id:clientData.job_id
         });
 
         return client;
@@ -63,7 +64,8 @@ module.exports = {
             address: clientData.address,
             phone: clientData.phone,
             email: clientData.email,
-            nif: clientData.nif
+            nif: clientData.nif,
+              job_id:clientData.job_id
         },{
             where: {
                 id: clientId

@@ -8,14 +8,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
 import CustomDropDownList from '../../Components/CustomDropDownList/CustomDropDownList.jsx';
-
+import {URL} from '../../Variables.jsx'
 import axios from 'axios';
 
-const jobs = [
-  {"id": 1, "name": "counting"},
-  {"id": 2, "name": "warehouse"},
-  {"id": 3, "name": "delivery"}
-];
+var candidate_id_prop;
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewCandidateClass extends React.Component{
-
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
@@ -50,24 +47,44 @@ class NewCandidateClass extends React.Component{
     });
   };
 
+  componentWillMount() {
+          axios.get( URL + '/erp/jobtype')
+          .then(response => {
+            const data = response.data;
+            this.setState({ jobs: data});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+
+          axios.get( URL + '/erp/candidate/' + candidate_id_prop)
+          .then(response => {
+            const data = response.data.res;
+            this.setState({  name: data.name, email: data.email, nif: data.nif, address: data.address, phone: data.phone});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
+
   add_informationClick(event) {
         event.preventDefault();
-/*
-        axios.post('/api/employee', {
-          nome: this.state.name,
-          telefone:  this.state.phone,
+
+        axios.post(URL + '/erp/employee', {
+          name: this.state.name,
+          phone:  this.state.phone,
           email: this.state.email,
           nif: this.state.nif,
           address: this.state.address,
+          job_id: this.state.jobid
         })
         .then(response => {
-          this.setState({ name: '', email: '', nif: '', address: '', phone: '' });
-          this.addNotification('Sucess', 'Candidate added successfully', 'success');
+          this.addNotification('Sucess', 'Employee added successfully', 'success');
         })
         .catch(error => {
           this.addNotification('Error', 'Unknown error', 'error');
           console.log(error);
-        });*/
+        });
        }
 
        changebegincontract = (obj) => {
@@ -79,7 +96,7 @@ class NewCandidateClass extends React.Component{
        }
 
        changejob = (obj) => {
-         this.setState({ job: obj.target.value });
+         this.setState({ jobid: obj.target.value.id });
        }
 
   render(){
@@ -96,15 +113,14 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Name",
-                    value: "employee 40",
+                    value: this.state.name,
                     disabled: true
                   },
                   {
                     label: "Email address",
                     type: "email",
                     bsClass: "form-control",
-                    placeholder: "Email",
-                    value: "asdasd@asdasd.com",
+                    value: this.state.email,
                     disabled: true
                   }
                 ]}
@@ -117,7 +133,7 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "NIF",
-                    value:"9999999",
+                    value: this.state.nif,
                     disabled: true
                   },
                   {
@@ -125,7 +141,7 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Contact",
-                    value: "999999999",
+                    value: this.state.phone,
                     disabled: true
                   }
                 ]}
@@ -138,7 +154,7 @@ class NewCandidateClass extends React.Component{
                     type: "text",
                     bsClass: "form-control",
                     placeholder: "Adress",
-                    value:  "asdasd a12318 asdasdasd",
+                    value: this.state.address,
                     disabled: true
                   }
                 ]}
@@ -166,7 +182,9 @@ class NewCandidateClass extends React.Component{
               />
 
               <label className="control-label">Job</label>
-              <p><CustomDropDownList callback={this.changejob}  data={jobs} dateKey="id" dataText="name"/></p>
+              <p>  { this.state.jobs &&
+              <CustomDropDownList callback={this.changejob}  data={this.state.jobs} dateKey="id" dataText="designation"/>}
+              </p>
 
               <Col md={2} mdOffset={7}>
               <a href="/recruit/hire"><Button bsStyle="default">Cancel</Button></a>
@@ -181,8 +199,9 @@ class NewCandidateClass extends React.Component{
   }
 }
 
-export default function NewEmployee() {
+export default function NewEmployee(p) {
     const classes = useStyles();
+    candidate_id_prop = p.match.params.id;
 
     return (
         <div className={classes.root}>
