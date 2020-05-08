@@ -6,7 +6,6 @@ class Employee extends Model {
         name : DataTypes.STRING(255),
         address : DataTypes.STRING(255),
         phone : DataTypes.STRING(255),
-        curriculum: DataTypes.STRING,
         nif: DataTypes.STRING(255),
         email: DataTypes.STRING(255),
         job_id: DataTypes.INTEGER

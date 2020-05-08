@@ -10,12 +10,8 @@ import NotificationSystem from 'react-notification-system';
 import CustomDropDownList from '../../Components/CustomDropDownList/CustomDropDownList.jsx';
 
 import axios from 'axios';
+import {URL} from '../../Variables.jsx'
 
-const employee = [
-  {"id": 1, "name": "emplouee 1"},
-  {"id": 2, "name": "emplouee 2"},
-  {"id": 3, "name": "emplouee 3"}
-];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,13 +26,33 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewInterviewClass extends React.Component{
-
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = { name: '', email: '', nif: '', address: '',  phone: ''};
+    this.state = { hour: '',  date: ''};
      this.add_informationClick = this.add_informationClick.bind(this);
   }
+
+  componentWillMount() {
+          axios.get( URL + '/erp/employee')
+          .then(response => {
+            const data = response.data;
+            this.setState({ employee: data});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+
+          axios.get( URL + '/erp/candidate/' + 2)
+          .then(response => {
+            const data = response.data;
+            this.setState({ candidate: data.res.name});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
 
   addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
@@ -52,11 +68,11 @@ class NewInterviewClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post('/api/interview', {
-          candidate: this.state.name,
-          employee:  this.state.phone,
-          date: this.state.email,
-          hour: this.state.nif
+        axios.post(URL + '/erp/interview', {
+          candidate_id: 2,
+          employee_id:  this.state.employee,
+          date: this.state.date,
+          time: this.state.hour
         })
         .then(response => {
           this.setState({ employee: '', date: '', hour: '' });
@@ -70,7 +86,6 @@ class NewInterviewClass extends React.Component{
 
        changeemployee = (obj) => {
          this.setState({employee: obj.target.value.id});
-         console.log(this.state.employee);
        }
 
        changedate = (obj) => {
@@ -94,14 +109,17 @@ class NewInterviewClass extends React.Component{
                     label: "Candidate",
                     type: "text",
                     bsClass: "form-control",
-                    placeholder: "Name",
-                    value: "Candidate 2",
+                    value: this.state.candidate,
                     disabled : true
                   }
                 ]}
               />
               <label className="control-label">Employee</label>
-              <p><CustomDropDownList callback={this.changeemployee}  data={employee} dateKey="id" dataText="name"/></p>
+              <p>
+                { this.state.employee &&
+              <CustomDropDownList callback={this.changeemployee}  data={this.state.employee} dateKey="id" dataText="name"/>
+                }
+              </p>
 
               <FormInputs
                 ncols={["col-md-6", "col-md-6"]}
@@ -110,13 +128,15 @@ class NewInterviewClass extends React.Component{
                     label: "Date",
                     type: "date",
                     required:true,
-                    bsClass: "form-control"
+                    bsClass: "form-control",
+                    onChange: this.changedate
                   },
                   {
                     label: "Hour",
                     type: "time",
                     required:true,
-                    bsClass: "form-control"
+                    bsClass: "form-control",
+                    onChange: this.changehour
                   }
                 ]}
               />

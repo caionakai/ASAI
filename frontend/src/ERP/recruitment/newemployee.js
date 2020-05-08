@@ -52,7 +52,7 @@ class NewCandidateClass extends React.Component{
 
   add_informationClick(event) {
         event.preventDefault();
-
+/*
         axios.post('/api/employee', {
           nome: this.state.name,
           telefone:  this.state.phone,
@@ -67,7 +67,7 @@ class NewCandidateClass extends React.Component{
         .catch(error => {
           this.addNotification('Error', 'Unknown error', 'error');
           console.log(error);
-        });
+        });*/
        }
 
        changebegincontract = (obj) => {
@@ -142,7 +142,7 @@ class NewCandidateClass extends React.Component{
                     disabled: true
                   }
                 ]}
-              />            
+              />
               <FormInputs
                 ncols={["col-md-6", "col-md-6"]}
                 properties={[
