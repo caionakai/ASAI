@@ -99,10 +99,10 @@ router.get("/", (request, response) => {
     {
       idSalesItem: 1,
       quantity: 1,
-      price: 5.0,
+      price: 1000.0,
       sale: {
         idSale: 1,
-        purchaseDate: "16-02-2019",
+        purchaseDate: "16-01-2019",
         discountPercentage: 20,
         client: {},
         seller: {},
@@ -110,15 +110,15 @@ router.get("/", (request, response) => {
       product: [
         {
           idProduct: 1,
-          name: "Cornflakes",
-          price: 5.0,
+          name: "Watch",
+          price: 1000.0,
           brand: {
             idBrand: 1,
-            name: "Kellogs",
+            name: "Rolex",
           },
           category: {
             idCategory: 1,
-            name: "Food",
+            name: "Jewellery",
           },
         },
       ],
@@ -180,7 +180,7 @@ router.get("/", (request, response) => {
     {
       idSalesItem: 4,
       quantity: 2,
-      price: 200,
+      price: 550,
       sale: {
         idSale: 3,
         purchaseDate: "03-05-2020",
@@ -204,6 +204,19 @@ router.get("/", (request, response) => {
         },
         {
           idProduct: 23,
+          name: "Pants",
+          price: 150.0,
+          brand: {
+            idBrand: 3,
+            name: "Adidas",
+          },
+          category: {
+            idCategory: 3,
+            name: "Clothing",
+          },
+        },
+        {
+          idProduct: 23,
           name: "Jacket",
           price: 200.0,
           brand: {
@@ -213,6 +226,60 @@ router.get("/", (request, response) => {
           category: {
             idCategory: 3,
             name: "Clothing",
+          },
+        },
+      ],
+    },
+    {
+      idSalesItem: 4,
+      quantity: 3,
+      price: 90,
+      sale: {
+        idSale: 3,
+        purchaseDate: "03-01-2020",
+        discountPercentage: 30,
+        client: {},
+        seller: {},
+      },
+      product: [
+        {
+          idProduct: 30,
+          name: "Pants",
+          price: 30.0,
+          brand: {
+            idBrand: 3,
+            name: "Spalding",
+          },
+          category: {
+            idCategory: 3,
+            name: "Clothing",
+          },
+        },
+      ],
+    },
+    {
+      idSalesItem: 4,
+      quantity: 2,
+      price: 80,
+      sale: {
+        idSale: 3,
+        purchaseDate: "01-12-2019",
+        discountPercentage: 30,
+        client: {},
+        seller: {},
+      },
+      product: [
+        {
+          idProduct: 30,
+          name: "Hat",
+          price: 20.0,
+          brand: {
+            idBrand: 3,
+            name: "Mizuno",
+          },
+          category: {
+            idCategory: 3,
+            name: "Accessories",
           },
         },
       ],
