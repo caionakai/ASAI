@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { BarGraph, LineGraph, DoughnutGraph, LineBarGraph } from "./Graphs";
 import moment from "moment";
 import "moment-timezone";
+import LoadingSpinner from 'loading-spinner';
 
 import axios from "axios";
 
@@ -207,6 +208,7 @@ export default function Reports() {
   // contains all data without table filters
   const [tableData, setTableData] = useState([]);
   const [detailPanelData, setDetailPanelData] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   // filteredTableData is used to generate PDF or to update graph
   const [filteredTableData, setFilteredTableData] = useState([]);
 
@@ -236,7 +238,7 @@ export default function Reports() {
   const getDataSalesItems = () => {
     let data = [];
     let idx = 0;
-    console.log('isempty', joinedTables)
+    // console.log('isempty', joinedTables)
     joinedTables.forEach((saleItem) => {
       let newRow = {
         index: idx,
@@ -373,7 +375,7 @@ export default function Reports() {
       api.get("crm/reports", {}).then((response) => {
         if (response.data !== "") {
           data = response.data;
-          console.log(data)
+          // console.log(data)
           setJoinedTables(data);
         }
       });
@@ -383,7 +385,7 @@ export default function Reports() {
     setToday(moment());
     setPerspectiveMode("sales");
     chewDataAndSetTable("sales");
-  }, [joinedTables]);
+  }, []);
 
   const filterTableData = (filteredData) => {
     setFilteredTableData(filteredData);
@@ -611,7 +613,7 @@ export default function Reports() {
           yData[index] = yData[index] + 1;
         }
       });
-      console.log(xData);
+      // console.log(xData);
       setCategoriesChart(
         <DoughnutGraph xData={xData} yData={yData} period={period} />
       );
@@ -619,47 +621,53 @@ export default function Reports() {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <TopBar pageTitle={"Reports"} />
-      <Sidebar currentPage={16} />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <TableWithFilter
-          tableTitle={perspectiveMode.toUpperCase()}
-          tableData={dataForTable}
-          tableColumns={tableColumns}
-          detailPanelData={detailPanelData} // esse "detailPanel" é para os dados q aparecem
-          detailPanelColumns={detailPanelColumns} //quando clica na flexinha para aparecer os produtos
-          // então para o Brands nao precisa setar esses valores só o tableData e tableColumns
-          updateFilteredDataFunction={filterTableData}
-        />
-        <TopicCard
-          perspective="Sales"
-          changePerspectiveFunction={() => changePerspective("sales")}
-          generateChart={generateSalesGraph}
-          chart={salesChart}
-        />
-        <TopicCard
-          perspective="Brands"
-          changePerspectiveFunction={() => changePerspective("brands")}
-          generateChart={generateBrandsGraph}
-          chart={brandsChart}
-        />
-        <TopicCard
-          perspective="Categories"
-          changePerspectiveFunction={() => changePerspective("categories")}
-          generateChart={generateCategoriesGraph}
-          chart={categoriesChart}
-        />
-        <TableExportButton
-          pdfTitle={perspectiveMode}
-          header={tableColumns}
-          tableData={filteredTableData}
-          // graphComponent={() => builtChart()}
-        />
-        {/* <BarGraph></BarGraph> */}
-      </main>
+    <div>
+      {isDataLoaded ? (
+        <div className={classes.root}>
+          <CssBaseline />
+          <TopBar pageTitle={"Reports"} />
+          <Sidebar currentPage={16} />
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <TableWithFilter
+              tableTitle={perspectiveMode.toUpperCase()}
+              tableData={dataForTable}
+              tableColumns={tableColumns}
+              detailPanelData={detailPanelData} // esse "detailPanel" é para os dados q aparecem
+              detailPanelColumns={detailPanelColumns} //quando clica na flexinha para aparecer os produtos
+              // então para o Brands nao precisa setar esses valores só o tableData e tableColumns
+              updateFilteredDataFunction={filterTableData}
+            />
+            <TopicCard
+              perspective="Sales"
+              changePerspectiveFunction={() => changePerspective("sales")}
+              generateChart={generateSalesGraph}
+              chart={salesChart}
+            />
+            <TopicCard
+              perspective="Brands"
+              changePerspectiveFunction={() => changePerspective("brands")}
+              generateChart={generateBrandsGraph}
+              chart={brandsChart}
+            />
+            <TopicCard
+              perspective="Categories"
+              changePerspectiveFunction={() => changePerspective("categories")}
+              generateChart={generateCategoriesGraph}
+              chart={categoriesChart}
+            />
+            <TableExportButton
+              pdfTitle={perspectiveMode}
+              header={tableColumns}
+              tableData={filteredTableData}
+              // graphComponent={() => builtChart()}
+            />
+            {/* <BarGraph></BarGraph> */}
+          </main>
+        </div>
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 }
