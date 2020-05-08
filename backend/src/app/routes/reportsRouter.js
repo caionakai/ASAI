@@ -82,7 +82,7 @@ const listAll = async () => {
   }
 }
 
-router.get("/", async (request, response) => {
+router.get("/", (request, response) => {
   // const joinedTables = await listAll();
   
   const joinedTables = [
