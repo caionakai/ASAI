@@ -11,4 +11,3 @@ module.exports = {
     timestamps: false //Don't use created_at and updated_at
   }
 }
-

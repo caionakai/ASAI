@@ -7,9 +7,9 @@ import Button from "@material-ui/core/Button";
 
 import axios from "axios";
 
-import RegisterPurchase from "./register-purchase";
+import RegisterSupplier from "./register-supplier";
 
-import PurchaseTable from "./purchase-table";
+import SupplierTable from "./supplier-table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,23 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Purchase() {
+export default function Supplier() {
   const classes = useStyles();
 
   const [openModalSupplier, setOpenModalSupplier] = React.useState(false);
 
-  const [purchaseInputs, setPurchaseInputs] = React.useState({
+  const [supplierInputs, setSupplierInputs] = React.useState({
+    address: "",
     name: "",
-    price: "",
-    quantity: "",
-    date: "",
+    email: "",
   });
 
-  const [purchaseId, setPurchaseId] = React.useState(null);
+  const [supplierId, setSupplierId] = React.useState(null);
 
   const handleChange = (evt) => {
     const value = evt.target.value;
-    setPurchaseInputs({ ...purchaseInputs, [evt.target.name]: value });
+    setSupplierInputs({ ...supplierInputs, [evt.target.name]: value });
   };
 
   const toggleModalSupplier = () => {
@@ -51,8 +50,8 @@ export default function Purchase() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <TopBar pageTitle={"Purchase"} />
-      <Sidebar currentPage={4} />
+      <TopBar pageTitle={"Supplier"} />
+      <Sidebar currentPage={7} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
@@ -70,39 +69,41 @@ export default function Purchase() {
               margin: 0,
             }}
           >
-            Purchase's Table
+            Supplier's Table
           </h2>
           <Button
             color="primary"
             variant="outlined"
             className="form__button"
-            style={{ marginTop: "1rem", marginLeft: "1rem" }}
+            style={{
+              height: "100%",
+            }}
             onClick={() => {
-              setPurchaseInputs({
+              setSupplierInputs({
                 address: "",
                 name: "",
                 email: "",
               });
-              setPurchaseId(null); // this is the difference between edit and create a new supplier
+              setSupplierId(null); // this is the difference between edit and create a new supplier
               toggleModalSupplier();
             }}
           >
-            Register Purchase
+            Register Supplier
           </Button>
         </div>
 
-        <PurchaseTable
-          setPurchaseInputs={setPurchaseInputs}
+        <SupplierTable
+          setSupplierInputs={setSupplierInputs}
           toggleModalSupplier={toggleModalSupplier}
-          setPurchaseId={setPurchaseId}
+          setSupplierId={setSupplierId}
         />
 
-        <RegisterPurchase
+        <RegisterSupplier
           open={openModalSupplier}
           handleClose={toggleModalSupplier}
           handleChange={handleChange}
-          purchaseInputs={purchaseInputs}
-          purchaseId={purchaseId}
+          supplierInputs={supplierInputs}
+          supplierId={supplierId}
         />
       </main>
     </div>
