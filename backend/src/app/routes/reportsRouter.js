@@ -1,7 +1,90 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (request, response) => {
+const SaleItem = require('../models/SaleItem')
+const Sale = require('../models/Sale')
+const Product = require('../models/Product')
+const Brand = require('../models/Brand')
+const ProductCategory = require('../models/ProductCategory')
+
+const listAll = async () => {
+  try {
+      const reports = await SaleItem.findAll({
+        include: [
+          {
+            model: Sale,
+          }
+        ],
+        include: [
+          {
+            model: Product,
+            include: [
+              {
+                model: Brand,
+              }
+            ],
+            include: [
+              {
+                model: ProductCategory,
+              }
+            ]
+          }
+        ]
+      }).then((reports) => {
+        const resObj = reports.map((report) => {
+          return Object.assign(
+            {},
+            {
+              quantity: report.quantity,
+              price: report.price,
+              sale: report.Sale.map((sale) => {
+                return Object.assign(
+                  {},
+                  {
+                    purchaseDate: sale.purchase_date,
+                    discountPercentage: sale.discount_percentage,
+                  }
+                )
+              }),
+              product: report.Product.map((product) => {
+                return Object.assign(
+                  {},
+                  {
+                    name: product.name,
+                    price: product.price,
+                    brand: product.Brand.map((brand) => {
+                      return Object.assign(
+                        {},
+                        {
+                          name: brand.name,
+                        }
+                      )
+                    }),
+                    category: product.ProductCategory.map((category) => {
+                      return Object.assign(
+                        {},
+                        {
+                          name: category.name,
+                        }
+                      )
+                    })
+                  }
+                )
+              })
+            }
+          )
+        })
+      }
+      );
+      return reports;
+  } catch (error) {
+      console.error("\nError fetching REPORTS MODULE tables.\n\n", error);
+  }
+}
+
+router.get("/", async (request, response) => {
+  // const joinedTables = await listAll();
+  
   const joinedTables = [
     {
       idSalesItem: 1,
