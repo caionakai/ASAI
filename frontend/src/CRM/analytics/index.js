@@ -33,7 +33,7 @@ export default function Analytics() {
       .then(function (response) {
         const formatedData = Object.keys(response.data.res).map((val) => {
           return {
-            name: val,
+            name: val.charAt(0).toUpperCase() + val.slice(1),
             sales: response.data.res[val],
           };
         });
@@ -69,7 +69,7 @@ export default function Analytics() {
       <Sidebar currentPage={10} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-
+        <h2 style={{ marginLeft: "3.6rem" }}> Sales quantity by year</h2>
         {isLoading ? (
           <CircularProgress />
         ) : (
