@@ -1,5 +1,4 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
 import Sidebar from '../../Components/SideBar'
 import TopBar from '../../Components/TopBar'
 import { Col } from "react-bootstrap";
@@ -8,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
-
+import {URL} from '../../Variables.jsx'
 import axios from 'axios';
 
 
@@ -25,21 +24,21 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewServiceClass extends React.Component{
-  notificationSystem = React.createRef();
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = {designation: '', idclient: '', idemployee: '', idservicetype: '', date: ''};
+    this.state = { designation: '', client_id: 1, employee_id: 1, serviceType_id: 1, date: ''};
 
      this.add_informationClick = this.add_informationClick.bind(this);
   }
 
-  addNotification = (title_performance, message_performance, level_performance) => {
+  addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
     notification.addNotification({
-      title: title_performance,
-      message: message_performance,
-      level: level_performance,
+      title: tittle_p,
+      message: message_p,
+      level: level_p,
       autoDismiss: 2.5,
       position: 'tc'
     });
@@ -48,15 +47,15 @@ class NewServiceClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post( '/api/service', {
+        axios.post( URL + '/crm/services', {
           designation: this.state.designation,
-          idservicetype: this.state.idservicetype,
-          idemployee: this.state.idemployee,
-          idclient: this.state.idclient,
+          client_id: this.state.client_id,
+          employee_id: this.state.employee_id,
+          serviceType_id: this.state.serviceType_id,
           date: this.state.date
         })
         .then(response => {
-          this.setState({ designation: '', idservicetype: '', idemployee: '', idclient: '', date: ''});
+          this.setState({ designation: '', client_id: 1, employee_id: 1, serviceType_id: 1, date: ''});
           this.addNotification('Success', 'Service added successfully', 'success');
         })
         .catch(error => {
@@ -64,22 +63,13 @@ class NewServiceClass extends React.Component{
           console.log(error);
         });
        }
-       changeservicetype = (obj) => {
-        this.setState({ idservicetype: obj.target.value.id });
-       }
-       changeemployee = (obj) => {
-        this.setState({ idemployee: obj.target.value.id });
-       }
-       changeclient = (obj) => {
-        this.setState({ idclient: obj.target.value.id });
-       }
-       changedesignation = (obj) => {
-        this.setState({ designation: obj.target.value });
-      }
-      changedate = (obj) => {
-        this.setState({ date: obj.target.value });
-      }
 
+       changedesignation = (obj) => {
+         this.setState({ designation: obj.target.value });
+       }
+       changedate = (obj) => {
+        this.setState({ date: obj.target.value });
+       }
 
   render(){
     return(
@@ -102,52 +92,14 @@ class NewServiceClass extends React.Component{
                   {
                     label: "Date",
                     type: "date",
-                    bsClass: "form-control",
+                    required:true,
                     onChange: this.changedate,
-                    value: this.state.date,
-                    required: true
-                    }
-                ]}
-              />
-              <FormInputs
-                ncols={["col-md-6", "col-md-6"]}
-                properties={[
-                  {
-                    label: "Service Type",
-                    type: "text",
-                    bsClass: "form-control",
-                    onChange: this.changeservicetype,
-                    value: "service type x",
-                    required: false,
-                    disabled: true
-                  },
-                  {
-                    label: "Client",
-                    type: "text",
-                    bsClass: "form-control",
-                    onChange: this.changeclient,
-                    value: "client x",
-                    required: false,
-                    disabled: true
-                  }
-                ]}
-              />
-              <FormInputs
-                ncols={["col-md-6"]}
-                properties={[
-                  {
-                    label: "Employee",
-                    type: "text",
-                    bsClass: "form-control",
-                    onChange: this.changeemployee,
-                    value: "employee x",
-                    required: false,
-                    disabled: true
+                    bsClass: "form-control"
                   }
                 ]}
               />
               <Col md={2} mdOffset={7}>
-              <a href="/performance/services"><Button bsStyle="default">Cancel</Button></a>
+              <a href="/performance/service_types"><Button bsStyle="default">Cancel</Button></a>
               </Col>
               <Col md={3}>
               <Button bsStyle="success" type="submit">Save</Button>
@@ -172,4 +124,5 @@ export default function NewService() {
               <NewServiceClass />
           </main>
         </div>
-    )};
+    );
+}
