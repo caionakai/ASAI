@@ -1,5 +1,4 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
 import Sidebar from '../../Components/SideBar'
 import TopBar from '../../Components/TopBar'
 import { Col } from "react-bootstrap";
@@ -8,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
-
+import {URL} from '../../Variables.jsx'
 import axios from 'axios';
 
 
@@ -25,21 +24,21 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewServiceTypeClass extends React.Component{
-  notificationSystem = React.createRef();
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = {description: ''};
+    this.state = { designation: ''};
 
      this.add_informationClick = this.add_informationClick.bind(this);
   }
 
-  addNotification = (title_performance, message_performance, level_performance) => {
+  addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
     notification.addNotification({
-      title: title_performance,
-      message: message_performance,
-      level: level_performance,
+      title: tittle_p,
+      message: message_p,
+      level: level_p,
       autoDismiss: 2.5,
       position: 'tc'
     });
@@ -48,11 +47,11 @@ class NewServiceTypeClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post( '/api/service_type', {
-          description: this.state.description
+        axios.post( URL + '/crm/service_types', {
+          designation: this.state.designation
         })
         .then(response => {
-          this.setState({ description: ''});
+          this.setState({ designation: '' });
           this.addNotification('Success', 'Service type added successfully', 'success');
         })
         .catch(error => {
@@ -61,8 +60,8 @@ class NewServiceTypeClass extends React.Component{
         });
        }
 
-       changedescription = (obj) => {
-         this.setState({ description: obj.target.value });
+       changedesignation = (obj) => {
+         this.setState({ designation: obj.target.value });
        }
 
 
@@ -76,12 +75,12 @@ class NewServiceTypeClass extends React.Component{
                 ncols={["col-md-6"]}
                 properties={[
                   {
-                    label: "Description",
+                    label: "Designation",
                     type: "text",
                     bsClass: "form-control",
-                    placeholder: "Description",
-                    onChange: this.changedescription,
-                    value: this.state.description,
+                    placeholder: "Designation",
+                    onChange: this.changedesignation,
+                    value: this.state.designation,
                     required: true
                   }
                 ]}
@@ -112,4 +111,5 @@ export default function NewServiceType() {
               <NewServiceTypeClass />
           </main>
         </div>
-    )};
+    );
+}
