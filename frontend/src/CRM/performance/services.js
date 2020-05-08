@@ -44,7 +44,7 @@ class ServicesClass extends React.Component{
 
 function rankFormatter(cell, row, rowIndex, formatExtraData) {
      return (
-           <div onClick={event =>  window.location.href='/recruit/new_feedback/' + row.id}
+           <div onClick={event =>  window.location.href='/performance/new_feedback'}
                style={{ textAlign: "center",
                   cursor: "pointer",
                  lineHeight: "normal" }}>

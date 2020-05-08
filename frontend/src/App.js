@@ -70,7 +70,7 @@ function App() {
         <Route path="/performance/clients" exact component={() => <Clients />}></Route>
         <Route path="/performance/service_types" exact component={() => <ServiceTypes />}></Route>
         <Route path="/performance/new_client" exact component={() => <NewClient />}></Route>
-        <Route path="/performance/new_feedback/:id" exact component={() => <NewFeedback />}></Route>
+        <Route path="/performance/new_feedback" exact component={() => <NewFeedback />}></Route>
         <Route path="/performance/new_service" exact component={() => <NewService />}></Route>
         <Route path="/performance/new_service_type" exact component={() => <NewServiceType />}></Route>
         <Route path="/em" exact component={() => <EmailMarketing />}></Route>
