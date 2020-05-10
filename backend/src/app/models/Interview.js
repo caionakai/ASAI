@@ -4,10 +4,12 @@ class Interview extends Model {
   static init(sequelize) {
     super.init({
       date : DataTypes.DATE,
-      beginTime: DataTypes.TIME,
+      time: DataTypes.TIME,
       candidate_id : DataTypes.INTEGER,
       employee_id : DataTypes.INTEGER,
-      isDone: DataTypes.INTEGER      
+      isDone: DataTypes.INTEGER,
+      isPassed: DataTypes.INTEGER,
+      isEvaluated:  DataTypes.INTEGER
     }, {
       sequelize,
       tableName: 'Interview'

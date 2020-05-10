@@ -8,8 +8,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
 
-import axios from 'axios';
 
+import axios from 'axios';
+import {URL} from '../../Variables.jsx'
+
+var interview_id_prop;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,14 +27,26 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewReportClass extends React.Component{
-
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = { name: '', email: '', nif: '', address: '',  phone: ''};
+    this.state = { name: '', email: '', isActive: 0};
 
      this.add_informationClick = this.add_informationClick.bind(this);
   }
+
+  componentWillMount() {
+          axios.get( URL + '/erp/interview/'+interview_id_prop)
+          .then(response => {
+            const data = response.data;
+
+            this.setState({ name: data.candidate_name, email: data.candidate_email});
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
 
   addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
@@ -44,55 +59,30 @@ class NewReportClass extends React.Component{
     });
   };
 
+  changeactive = (obj) => {
+    if(obj.target.checked){
+      this.setState({ isActive: 1});
+      }
+    else {
+        this.setState({ isActive: 0});
+    }
+  }
+
   add_informationClick(event) {
         event.preventDefault();
 
-        if (!/^[1,2,5,6,8,9][0-9]{8}$/.test(this.state.nif)) {
-            this.addNotification('Error', 'NIF invalid!', 'error');
-            return false;
-        }
-        else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
-            this.addNotification('Error', 'E-Mail invalid!', 'error');
-            return false;
-        }
-
-        axios.post( '/api/candidate', {
-          nome: this.state.name,
-          telefone:  this.state.phone,
-          email: this.state.email,
-          nif: this.state.nif,
-          address: this.state.address,
-        })
+        axios.put( URL + '/erp/interview/'+interview_id_prop, {
+          isPassed: this.state.isActive,
+          isEvaluated: 1
+              } )
         .then(response => {
-          this.setState({ name: '', email: '', nif: '', address: '', phone: '' });
-          this.addNotification('Sucess', 'Candidate added successfully', 'success');
+            this.addNotification('Sucess', 'Report added successfully', 'success');
         })
-        .catch(error => {
-          this.addNotification('Error', 'Unknown error', 'error');
+        .catch(function (error) {
           console.log(error);
-        });
-       }
+        })
 
-       changename = (obj) => {
-         this.setState({ name: obj.target.value });
-       }
-
-       changeemail = (obj) => {
-         this.setState({ email: obj.target.value });
-       }
-
-       changenif = (obj) => {
-         this.setState({ nif: obj.target.value });
-       }
-
-       changeaddress = (obj) => {
-         this.setState({ address: obj.target.value });
-       }
-
-       changephone = (obj) => {
-         this.setState({ phone: obj.target.value });
-       }
-
+}
   render(){
     return(
         <div className="content">
@@ -106,16 +96,15 @@ class NewReportClass extends React.Component{
                     label: "Candidate",
                     type: "text",
                     bsClass: "form-control",
-                    value: "asdaswda",
+                    value: this.state.name,
                     disabled : true
                   },
                   {
                     label: "Email address",
                     type: "email",
                     bsClass: "form-control",
-                    placeholder: "Email",
                     disabled : true,
-                    value: "asdasd@asdas.c"
+                    value: this.state.email
                   }
                 ]}
               />
@@ -132,8 +121,7 @@ class NewReportClass extends React.Component{
                     label: "Passed",
                     type: "checkbox",
                     bsClass: "form-control",
-                    onChange: this.passed,
-                    required: true
+                    onClick: this.changeactive
                   }
                 ]}
               />
@@ -151,8 +139,10 @@ class NewReportClass extends React.Component{
   }
 }
 
-export default function NewCandidate() {
+export default function NewCandidate(p) {
     const classes = useStyles();
+
+    interview_id_prop=p.match.params.id
 
     return (
         <div className={classes.root}>

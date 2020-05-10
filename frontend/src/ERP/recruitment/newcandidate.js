@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
-
+import {URL} from '../../Variables.jsx'
 import axios from 'axios';
 
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewCandidateClass extends React.Component{
-
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
@@ -56,9 +56,9 @@ class NewCandidateClass extends React.Component{
             return false;
         }
 
-        axios.post( '/api/candidate', {
-          nome: this.state.name,
-          telefone:  this.state.phone,
+        axios.post( URL + '/erp/candidate', {
+          name: this.state.name,
+          phone:  this.state.phone,
           email: this.state.email,
           nif: this.state.nif,
           address: this.state.address,
@@ -160,7 +160,7 @@ class NewCandidateClass extends React.Component{
                     required: true,
                   }
                 ]}
-              />            
+              />
               <Col md={2} mdOffset={7}>
               <a href="/recruit/candidates"><Button bsStyle="default">Cancel</Button></a>
               </Col>

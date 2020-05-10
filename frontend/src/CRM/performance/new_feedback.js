@@ -1,5 +1,4 @@
 import React from 'react';
-//import ReactDOM from 'react-dom';
 import Sidebar from '../../Components/SideBar'
 import TopBar from '../../Components/TopBar'
 import { Col } from "react-bootstrap";
@@ -8,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import NotificationSystem from 'react-notification-system';
-
+import {URL} from '../../Variables.jsx'
 import axios from 'axios';
 
 
@@ -25,21 +24,21 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 class NewFeedbackClass extends React.Component{
-  notificationSystem = React.createRef();
+notificationSystem = React.createRef();
   constructor(props)
   {
     super(props)
-    this.state = {idservice: '', description: '', date: '', evaluation: ''};
+    this.state = { description: '', service_id: 1, evaluation: '', date: ''};
 
      this.add_informationClick = this.add_informationClick.bind(this);
   }
 
-  addNotification = (title_performance, message_performance, level_performance) => {
+  addNotification = (tittle_p, message_p, level_p) => {
     const notification = this.notificationSystem.current;
     notification.addNotification({
-      title: title_performance,
-      message: message_performance,
-      level: level_performance,
+      title: tittle_p,
+      message: message_p,
+      level: level_p,
       autoDismiss: 2.5,
       position: 'tc'
     });
@@ -48,14 +47,14 @@ class NewFeedbackClass extends React.Component{
   add_informationClick(event) {
         event.preventDefault();
 
-        axios.post( '/api/feedback', {
-          evaluation: this.state.evaluation,
-          idservice: this.state.idservice,
+        axios.post( URL + '/crm/feedbacks', {
           description: this.state.description,
+          service_id: this.state.service_id,
+          evaluation: this.state.evaluation,
           date: this.state.date
         })
         .then(response => {
-          this.setState({ description: '', evaluation: '', idservice: '', date: ''});
+          this.setState({ description: '', service_id: 1, evaluation: '', date: ''});
           this.addNotification('Success', 'Feedback added successfully', 'success');
         })
         .catch(error => {
@@ -63,19 +62,16 @@ class NewFeedbackClass extends React.Component{
           console.log(error);
         });
        }
-       changeservice = (obj) => {
-        this.setState({ idservice: obj.target.value.id });
-       }
+
        changedescription = (obj) => {
          this.setState({ description: obj.target.value });
        }
        changeevaluation = (obj) => {
         this.setState({ evaluation: obj.target.value });
       }
-      changedate = (obj) => {
+       changedate = (obj) => {
         this.setState({ date: obj.target.value });
-      }
-
+       }
 
   render(){
     return(
@@ -93,8 +89,20 @@ class NewFeedbackClass extends React.Component{
                     placeholder: "Description",
                     onChange: this.changedescription,
                     value: this.state.description,
-                    required: false
+                    required: true
                   },
+                  {
+                    label: "Date",
+                    type: "date",
+                    required:true,
+                    onChange: this.changedate,
+                    bsClass: "form-control"
+                  }
+                ]}
+              />
+                <FormInputs
+                ncols={["col-md-6"]}
+                properties={[
                   {
                     label: "Evaluation",
                     type: "text",
@@ -103,29 +111,7 @@ class NewFeedbackClass extends React.Component{
                     onChange: this.changeevaluation,
                     value: this.state.evaluation,
                     required: true
-                  },
-                ]}
-              />
-              <FormInputs
-                ncols={["col-md-6", "col-md-6"]}
-                properties={[
-                  {
-                    label: "Service",
-                    type: "text",
-                    bsClass: "form-control",
-                    onChange: this.changeservice,
-                    value: "service x",
-                    required: false,
-                    disabled: true
-                  },
-                  {
-                    label: "Date",
-                    type: "date",
-                    bsClass: "form-control",
-                    onChange: this.changedate,
-                    value: this.state.date,
-                    required: true
-                  },
+                  }
                 ]}
               />
               <Col md={2} mdOffset={7}>
@@ -154,4 +140,5 @@ export default function NewFeedback() {
               <NewFeedbackClass />
           </main>
         </div>
-    )};
+    );
+}

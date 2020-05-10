@@ -8,16 +8,13 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import AddIcon from '@material-ui/icons/Add';
 
-const candidates = [
-  {"id":1,"name": "candidate 11", "email": "123fz@asdasd.com", "phone": "999999999", "address": "asdaskdj 123123 asdkjasdk as"},
-  {"id":2,"name": "candidate 21", "email": "dfsd@asdasd.com", "phone": "999999999", "address": "asd 123123 a as"},
-  {"id":3,"name": "candidate 31", "email": "dfgsd@asdasd.com", "phone": "999999999", "address": "1213 123123 asdkjasdk as"},
-  {"id":4,"name": "candidate 41", "email": "sdfxx@asdasd.com", "phone": "999999999", "address": "ddddzxd 123123 asdkjasdk as"}
-];
+import {URL} from '../../Variables.jsx'
+import axios from 'axios';
+
 
 function rankFormatter(cell, row, rowIndex, formatExtraData) {
      return (
-           <div onClick={event =>  window.location.href='/recruit/newemployee/' + row.id}
+           <div onClick={event =>  window.location.href='/recruit/newemployee/' + row.candidate_id}
                style={{ textAlign: "center",
                   cursor: "pointer",
                  lineHeight: "normal" }}>
@@ -27,26 +24,31 @@ function rankFormatter(cell, row, rowIndex, formatExtraData) {
            </div>
  ); }
 
+   const selectOptions = {
+     1: '',
+     0: ''
+   };
+
 
 const columns = [
   {
-  dataField: 'name',
-  text: 'Name',
+  dataField: 'candidate_name',
+  text: 'Candidate',
   filter: textFilter()
   },
   {
-  dataField: 'email',
-  text: 'E-Mail ',
-  filter: textFilter()
-  },
-  {
-  dataField: 'phone',
-  text: 'Contact',
-  filter: textFilter()
-  },
-  {
-  dataField: 'address',
+  dataField: 'candidate_address',
   text: 'Address',
+  filter: textFilter()
+  },
+  {
+  dataField: 'candidate_phone',
+  text: 'Phone',
+  filter: textFilter()
+  },
+  {
+  dataField: 'candidate_email',
+  text: 'Email',
   filter: textFilter()
   },
   {
@@ -54,6 +56,15 @@ const columns = [
   text: "Hire",
   formatter: rankFormatter,
   headerAttrs: { width: 85 }
+},
+  {
+    dataField: 'isEvaluated.data',
+    text: "",
+    formatter: cell => selectOptions[cell],
+    filter: textFilter({
+    defaultValue: 1,
+    hidden:true,
+    })
   }
 ];
 
@@ -69,6 +80,33 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  class HireClass extends React.Component{
+
+    constructor(props) {
+              super(props);
+              this.state = { candidates: [] };
+      }
+
+      componentWillMount() {
+              axios.get( URL + '/erp/interview/')
+              .then(response => {
+                this.setState({ candidates: response.data });
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          }
+
+    render(){
+      return(
+        <div className="content">
+          <BootstrapTable keyField='id' data={ this.state.candidates } columns={ columns }
+          pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+        </div>
+      );
+    }
+  }
+
 export default function Hire() {
     const classes = useStyles();
 
@@ -80,8 +118,7 @@ export default function Hire() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
 
-            <BootstrapTable keyField='id' data={ candidates } columns={ columns }
-            pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+            <HireClass />
 
           </main>
         </div>

@@ -5,24 +5,64 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter, selectFilter } from 'react-bootstrap-table2-filter';
 import AddIcon from '@material-ui/icons/Add';
+import {URL} from '../../Variables.jsx'
+import axios from 'axios';
+import DoneIcon from '@material-ui/icons/Done';
 
-const interviews = [
-  {"id":1, "candidate": "candidate 1", "employee":"okasd asda", "date": "4/10/2010", "hour":"10:10"},
-  {"id":2,"candidate": "candidate 2", "employee":"asdf asda", "date": "1/10/2010", "hour":"10:10"},
-  {"id":3,"candidate": "candidate 3", "employee":"fxcv asda", "date": "10/10/2010", "hour":"10:10"}
-];
+
+
+function nameFormater(cell, row, rowIndex, formatExtraData) {
+  var candidate_name;
+    if (row.employee_name === null)
+      candidate_name = "employee 1";
+    else
+      candidate_name = row.employee_name;
+     return (
+           <div> {candidate_name} </div>
+ ); }
+
+function InterviewDone(id)
+{
+        axios.put( URL + '/erp/interview/'+id, {
+          isDone: 1
+              } )
+        .then(response => {
+          window.location.reload(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+}
+
+ function completeFormatter(cell, row, rowIndex, formatExtraData) {
+      return (
+            <div onClick={event =>  InterviewDone(row.id)}
+                style={{ textAlign: "center",
+                   cursor: "pointer",
+                  lineHeight: "normal" }}>
+                       <DoneIcon
+                         style={{ fontSize: 20 }}
+                        />
+            </div>
+  ); }
+
+  const selectOptions = {
+    1: '',
+    0: ''
+  };
 
 const columns = [
   {
-  dataField: 'candidate',
+  dataField: 'candidate_name',
   text: 'Candidate',
   filter: textFilter()
   },
   {
-  dataField: 'employee',
+  dataField: 'employee_name',
   text: 'Employee',
+  formatter: nameFormater,
   filter: textFilter()
   },
   {
@@ -30,16 +70,26 @@ const columns = [
   text: 'Date'
   },
   {
-  dataField: 'hour',
+  dataField: 'time',
   text: 'Time'
-  }
+},
+  {
+  dataField: 'completed',
+  text: "Completed ?",
+  formatter: completeFormatter,
+  headerAttrs: { width: 120 }
+},
+{
+  dataField: 'isDone.data',
+  text: "",
+  formatter: cell => selectOptions[cell],
+  filter: textFilter({
+  defaultValue: 0,
+  hidden:true,
+  })
+}
 ];
 
-const interviews2 = [
-  {"id":1, "candidate": "candidate 5", "employee":"okasd asda", "date": "4/10/2010", "enddate": "4/10/2010"},
-  {"id":2,"candidate": "candidate 8", "employee":"asdf asda", "date": "1/10/2010", "enddate":"4/10/2010"},
-  {"id":3,"candidate": "candidate 10", "employee":"fxcv asda", "date": "10/10/2010", "enddate":"4/10/2010"}
-];
 
 
 function rankFormatter(cell, row, rowIndex, formatExtraData) {
@@ -57,13 +107,14 @@ function rankFormatter(cell, row, rowIndex, formatExtraData) {
 
 const columns2 = [
   {
-  dataField: 'candidate',
+  dataField: 'candidate_name',
   text: 'Candidate',
   filter: textFilter()
   },
   {
-  dataField: 'employee',
+  dataField: 'employee_name',
   text: 'Employee',
+  formatter: nameFormater,
   filter: textFilter()
   },
   {
@@ -71,15 +122,34 @@ const columns2 = [
   text: 'Date'
   },
   {
-  dataField: 'enddate',
-  text: 'End Date'
-  },
+  dataField: 'time',
+  text: 'Time'
+},
+
   {
   dataField: 'new',
   text: "Add report",
   formatter: rankFormatter,
   headerAttrs: { width: 100 }
-  }
+},
+{
+  dataField: 'isDone.data',
+  text: "",
+  formatter: cell => selectOptions[cell],
+  filter: textFilter({
+  defaultValue: 1,
+  hidden:true,
+  })
+},
+{
+  dataField: 'isEvaluated.data',
+  text: "",
+  formatter: cell => selectOptions[cell],
+  filter: textFilter({
+  defaultValue: 0,
+  hidden:true,
+  })
+}
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -94,6 +164,41 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+
+  class InterviewClass extends React.Component{
+
+    constructor(props) {
+              super(props);
+              this.state = { interview: [] };
+      }
+
+      componentWillMount() {
+              axios.get( URL + '/erp/interview/')
+              .then(response => {
+                this.setState({ interview: response.data });
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          }
+
+    render(){
+      return(
+        <div className="content">
+        <h1>Interviews</h1>
+      <BootstrapTable keyField='id' data={ this.state.interview } columns={ columns }
+      pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+
+      <p></p>
+
+      <h1>Waiting report</h1>
+    <BootstrapTable keyField='id' data={ this.state.interview  } columns={ columns2 }
+    pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
+        </div>
+      );
+    }
+  }
+
 export default function Interviews() {
     const classes = useStyles();
 
@@ -104,16 +209,7 @@ export default function Interviews() {
           <Sidebar currentPage={6} />
           <main className={classes.content}>
             <div className={classes.toolbar} />
-              <h1>Interviews</h1>
-            <BootstrapTable keyField='id' data={ interviews } columns={ columns }
-            pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
-
-            <p></p>
-
-            <h1>Waiting report</h1>
-          <BootstrapTable keyField='id' data={ interviews2 } columns={ columns2 }
-          pagination={ paginationFactory() } filter={ filterFactory() } filterPosition="top" />
-
+            <InterviewClass />
           </main>
         </div>
     );
