@@ -5,7 +5,16 @@ const router = express.Router();
 //router.use('/world', world); //Example how to associate a file with a route
 
 const client = require('./clienteRouter');
-router.use('/clients', client);
+const photo = require('./photoRouter');
+const keyword = require('./keywordRouter');
+const photoKeyword = require('./photoKeywordRouter');
+const page = require('./pageRouter');
 
+
+router.use('/clients', client);
+router.use('/photo', photo);
+router.use('/keyword', keyword);
+router.use('/photokeyword', photoKeyword);
+router.use('/page', page);
 
 module.exports = router;
