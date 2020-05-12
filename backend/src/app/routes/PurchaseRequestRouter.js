@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PurchaseRequest = require("../controllers/PurchaseRequest");
+const purchaseRequestController = require("../controllers/purchaseRequestController");
 
 const isTimeout = (response) => { return response['error']['parent']['errorno'] == 'ETIMEDOUT' }
 
@@ -10,7 +10,7 @@ const error = (response, res) => { return isTimeout(response)? timeout(res) : un
 
 
 router.get('/', async (req, res) => {
-    const response = await PurchaseRequest.getAll();
+    const response = await purchaseRequestController.getAll();
 
     if(!response['successful']){
         return error(response, res)
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
-    const response = await purchaseController.getById(id);
+    const response = await purchaseRequestController.getById(id);
 
     if(!response['successful']){
         return error(response, res)
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const response = await PurchaseRequest.save(req.body);
+    const response = await purchaseRequestController.save(req.body);
 
     if(!response['successful']){
         return error(response, res)
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
 
-    const response = await PurchaseRequest.update(id, req.body);
+    const response = await purchaseRequestController.update(id, req.body);
 
     if(!response['successful']){
         return error(response, res)
@@ -56,7 +56,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
-    const response = await PurchaseRequest.delete(id);
+    const response = await purchaseRequestController.delete(id);
 
     if(!response['successful']){
         return error(response, res)
