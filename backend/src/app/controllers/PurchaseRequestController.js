@@ -1,61 +1,61 @@
-const Supplier = require('../models/Supplier')
+const purchaseRequest = require('../models/PurchaseRequest')
 
 module.exports = {
-    async getById(PurchaseRequestId) {
+    async getById(purchaseRequestId) {
         try {
-            return { successful: true, res: await Supplier.findByPk(PurchaseRequestId) };
+            return { successful: true, res: await purchaseRequest.findByPk(purchaseRequestId) };
         } catch (error) {
-            console.error("\nError in PurchaseRequestController trying to get a PurchaseRequest by ID \n\n", error);
+            console.error("\nError in purchaseRequestController trying to get a purchaseRequest by ID \n\n", error);
             return { successful: false, error: error };
         }
     },
 
     async getAll() {
         try {
-            return { successful: true, res: await PurchaseRequest.findAll() };
+            return { successful: true, res: await purchaseRequest.findAll() };
         } catch (error) {
-            console.error("\nError in PurchaseRequest trying to get all PurchaseRequest \n\n", error);
+            console.error("\nError in purchaseRequest trying to get all purchaseRequest \n\n", error);
             return { successful: false, error: error };
         }
     },
 
-    async save(PurchaseRequest) {
+    async save(newPurchaseRequest) {
         try {
-            return { successful: true, res: await PurchaseRequest.create(PurchaseRequest) };
+            return { successful: true, res: await purchaseRequest.create(newPurchaseRequest) };
         } catch (error) {
-            console.error("\nError in PurchaseRequest trying to create a PurchaseRequest \n\n", error);
+            console.error("\nError in purchaseRequest trying to create a purchaseRequest \n\n", error);
             return { successful: false, error: error };
         }
     },
 
-    async update(PurchaseRequestId, newPurchaseRequest){
+    async update(purchaseRequestId, newPurchaseRequest){
         try {
-            await PurchaseRequest.update(newPurchaseRequest, {
+            await purchaseRequest.update(newPurchaseRequest, {
                 where: {
-                    id: PurchaseRequestId
+                    id: purchaseRequestId
                 }
             });
 
             return { successful: true };
 
         } catch (error) {
-            console.error("\nError in PurchaseRequest trying to update a PurchaseRequest by ID \n\n", error);
+            console.error("\nError in purchaseRequest trying to update a purchaseRequest by ID \n\n", error);
             return { successful: false, error: error };
         }
     },
 
-    async delete(PurchaseRequestId){
+    async delete(purchaseRequestId){
         try {
-            await PurchaseRequest.destroy({
+            await purchaseRequest.destroy({
                 where: {
-                  id: PurchaseRequestId
+                  id: purchaseRequestId
                 }
             });
 
             return { successful: true };
 
         } catch (error) {
-            console.error("\nError in PurchaseRequestController trying to delete a PurchaseRequest \n\n", error);
+            console.error("\nError in purchaseRequestController trying to delete a purchaseRequest \n\n", error);
             return { successful: false, error: error };
         }
     }

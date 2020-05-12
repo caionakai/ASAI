@@ -22,4 +22,9 @@ router.use('/store', store);
 const stock = require('./stockRouter')
 router.use('/stock', stock);
 
+const purchaseRequest = require('./purchaseRequestRouter')
+router.use('/purchaseRequest', purchaseRequest);
+
+
+
 module.exports = router;
