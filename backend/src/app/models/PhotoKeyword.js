@@ -12,8 +12,9 @@ class PhotoKeyword extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Photo, { foreignKey: 'id', as: 'photo' });
-    this.hasMany(models.Keyword, { foreignKey: 'id', as: 'keyword' });
+    this.hasMany(models.Photo, { foreignKey: 'id', as: 'Photo' });
+    this.hasMany(models.Keyword, { foreignKey: 'id', as: 'Keyword' });
+    this.hasMany(models.Product, { foreignKey: 'id', as: 'Product' });
   }
 }
 

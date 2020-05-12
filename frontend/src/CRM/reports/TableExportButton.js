@@ -14,65 +14,19 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
   },
   exportButton: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     marginTop: "1rem",
-=======
-    marginTop: "2rem",
->>>>>>> Initial commit.
-=======
-    marginTop: "1rem",
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-=======
-    marginTop: "1rem",
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     float: "right",
   },
 }));
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
-=======
-const TableExportButton = ({ tableData }) => {
->>>>>>> Initial commit.
-=======
-const TableExportButton = ({ header, tableData, pdfTitle="Sales Report" }) => {
-<<<<<<< HEAD
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-  const [data, setData] = useState([]);
-  const classes = useStyles();
-
-  useEffect(() => {
-    setData(tableData);
-  }, []);
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-=======
-=======
-=======
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
 const TableExportButton = ({
   header,
   tableData,
   pdfTitle = "Sales Report",
   graphComponent,
 }) => {
-<<<<<<< HEAD
->>>>>>> Add categories chart.
   const classes = useStyles();
 
->>>>>>> Update Branch crocodilo/reports.
-=======
-  const classes = useStyles();
-
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   const getHeaders = () => {
     let th = [];
     header.forEach((h) => {
@@ -89,31 +43,11 @@ const TableExportButton = ({
   //   });
   // };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Initial commit.
-=======
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-=======
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
   const exportToPDF = () => {
     const marginLeft = 40;
     const doc = new jsPDF("portrait", "px", "A4");
     doc.setFontSize(12);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-    const title = pdfTitle;
-=======
     const title = pdfTitle.toUpperCase();
->>>>>>> Update Branch crocodilo/reports.
-=======
-    const title = pdfTitle.toUpperCase();
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     const headers = [getHeaders()];
     const tableCells = tableData.map((elt) => {
       let row = [];
@@ -122,17 +56,6 @@ const TableExportButton = ({
       }
       return row;
     });
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    const title = "Report Title";
-    const headers = [["NAME", "PROFESSION"]];
-    const tableCells = data.map((elt) => [elt.name, elt.profession]);
->>>>>>> Initial commit.
-=======
->>>>>>> Add custom table and Sales plus Brands cards for generating Charts [incomplete]
-=======
->>>>>>> 81b8ff1017f2973de647d0624f937799d49bafb3
     let content = {
       startY: 50,
       head: headers,

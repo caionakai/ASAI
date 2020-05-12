@@ -4,8 +4,9 @@ class Photo extends Model {
   static init(sequelize) {
     super.init({
       likes : DataTypes.INTEGER,
-      comments: DataTypes.STRING(500),
-      product_id: DataTypes.INTEGER
+      comments: DataTypes.INTEGER,
+      product_id: DataTypes.INTEGER,
+      page_id: DataTypes.INTEGER
     }, {
       sequelize,
       tableName: 'Photo'
@@ -13,7 +14,8 @@ class Photo extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Product, { foreignKey: 'id', as: 'product' });
+    this.hasMany(models.Product, { foreignKey: 'id', as: 'Product' });
+    this.hasMany(models.Page, { foreignKey: 'id', as: 'Page' });
   }
 }
 

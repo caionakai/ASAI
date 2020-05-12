@@ -1,12 +1,32 @@
 const PhotoKeyword = require('../models/PhotoKeyword')
 
+const Photo = require('../models/Photo')
+const Keyword = require('../models/Keyword')
+const Product = require('../models/Product')
+
 module.exports = {
 
-  async listAll() {
+  /*async listAll() {
     try {
         const photoKeywords = await PhotoKeyword.findAll();
 
         return photoKeywords;
+
+    } catch (error) {
+        console.error("\nError in PhotokeywordController trying to list all photoKeywords \n\n", error);
+    }
+  }, */ 
+
+  async listAll() {
+    try {
+        var words = await PhotoKeyword.findAll({raw: true, include: [{model: Keyword, as:'Keyword'}, {model: Photo, as:'Photo'}, {model: Product, as:'Product'}]});
+        words = JSON.parse(JSON.stringify(words).split('"Photo.id":').join('"photo_id":'));
+        words = JSON.parse(JSON.stringify(words).split('"Photo.likes":').join('"photo_likes":'));
+        words = JSON.parse(JSON.stringify(words).split('"Photo.comments":').join('"photo_comments":'));
+        words = JSON.parse(JSON.stringify(words).split('"Keyword.id":').join('"keyword_id":'));
+        words = JSON.parse(JSON.stringify(words).split('"Keyword.word":').join('"word":'));
+        words = JSON.parse(JSON.stringify(words).split('"Product.name":').join('"product_name":'));
+        return words;
 
     } catch (error) {
         console.error("\nError in PhotokeywordController trying to list all photoKeywords \n\n", error);

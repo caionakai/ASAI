@@ -5,7 +5,6 @@ class Sale extends Model {
     super.init({
       purchase_date : DataTypes.DATE,
       discount_percentage : DataTypes.INTEGER,
-      endTime: DataTypes.TIME,
       client_id : DataTypes.INTEGER,
       seller_id : DataTypes.INTEGER
     }, {
