@@ -16,7 +16,12 @@ function create(client_id, loyalty_id, offer_id, sale_id) {
 function fetch(id) {
   return new Promise((resolve, reject) =>
     db.query(
-      "SELECT * FROM `Marketing` JOIN `Client` ON `Marketing`.`client_id` = `Client`.`id` JOIN `Loyalty` ON `Marketing`.`loyalty_id` = `Loyalty`.`id` JOIN`SpecialOffer` ON`Marketing`.`offer_id` = `SpecialOffer`.`id` JOIN`Sale` ON`Marketing`.`sale_id` = `Sale`.`id` WHERE `Marketing`.`id` = ?",
+      `SELECT * FROM Marketing 
+        JOIN Client ON Marketing.client_id = Client.id 
+        JOIN Loyalty ON Marketing.loyalty_id = Loyalty.id 
+        JOIN SpecialOffer ON Marketing.offer_id = SpecialOffer.id 
+        JOIN Sale ON Marketing.sale_id = Sale.id 
+        WHERE Marketing.id = ?`,
       [id],
       (err, results, fields) => {
         if (err) reject(err);
@@ -29,7 +34,11 @@ function fetch(id) {
 function list() {
   return new Promise((resolve, reject) =>
     db.query(
-      "SELECT * FROM `Marketing` JOIN `Client` ON `Marketing`.`client_id` = `Client`.`id` JOIN `Loyalty` ON `Marketing`.`loyalty_id` = `Loyalty`.`id` JOIN`SpecialOffer` ON`Marketing`.`offer_id` = `SpecialOffer`.`id` JOIN`Sale` ON`Marketing`.`sale_id` = `Sale`.`id`",
+      `SELECT * FROM Marketing 
+        JOIN Client ON Marketing.client_id = Client.id 
+        JOIN Loyalty ON Marketing.loyalty_id = Loyalty.id 
+        JOIN SpecialOffer ON Marketing.offer_id = SpecialOffer.id 
+        JOIN Sale ON Marketing.sale_id = Sale.id `,
       (err, results, fields) => {
         if (err) reject(err);
         resolve(results);
