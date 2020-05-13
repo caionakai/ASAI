@@ -45,19 +45,42 @@ function App() {
         <Route path="/purchase" exact component={() => <Purchase />}></Route>
         <Route path="/fa" exact component={() => <FinanceAcc />}></Route>
         <Route path="/recruit" exact component={() => <Recruit />}></Route>
-        <Route path="/recruit/candidates" exact component={() => <Candidates />}></Route>
-        <Route path="/recruit/interviews" exact component={() => <Interview />}></Route>
-        <Route path="/recruit/newcandidate" exact component={() => <NewCandidate />}></Route>
-        <Route path="/recruit/newinterview/:id" exact component={(props) => <NewInterview {...props}/>}></Route>
-        <Route path="/recruit/newreport/:id" exact component={(props) => <NewReport {...props}/>}></Route>
+        <Route
+          path="/recruit/candidates"
+          exact
+          component={() => <Candidates />}
+        ></Route>
+        <Route
+          path="/recruit/interviews"
+          exact
+          component={() => <Interview />}
+        ></Route>
+        <Route
+          path="/recruit/newcandidate"
+          exact
+          component={() => <NewCandidate />}
+        ></Route>
+        <Route
+          path="/recruit/newinterview/:id"
+          exact
+          component={(props) => <NewInterview {...props} />}
+        ></Route>
+        <Route
+          path="/recruit/newreport/:id"
+          exact
+          component={(props) => <NewReport {...props} />}
+        ></Route>
         <Route path="/recruit/hire" exact component={() => <Hire />}></Route>
-        <Route path="/recruit/newemployee/:id" exact component={(props) => <NewEmployee {...props}/>}></Route>
-
-
+        <Route
+          path="/recruit/newemployee/:id"
+          exact
+          component={(props) => <NewEmployee {...props} />}
+        ></Route>
 
         <Route path="/contacts" exact component={() => <Contacts />}></Route>
         <Route path="/leads" exact component={() => <Leads />}></Route>
         <Route path="/analytics" exact component={() => <Analytics />}></Route>
+        <Route path="/supplier" exact component={() => <Supplier />}></Route>
         <Route path="/marketing" exact component={() => <Marketing />}></Route>
 
         <Route path="/sm" exact component={() => <SocialMedia />}></Route>

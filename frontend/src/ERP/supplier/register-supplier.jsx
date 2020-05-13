@@ -46,10 +46,13 @@ export default function RegisterSupplier({
           window.location.reload();
         })
         .catch(function (error) {
-          console.log(error.response.status);
-          if (error.response.status == 504) {
+          
+          if(error.response){ if (error.response.status == 504) {
             postRequest(supplierData);
           }
+
+        }
+         
         });
     }
   };
@@ -78,7 +81,7 @@ export default function RegisterSupplier({
           style={{
             position: "absolute",
             width: "30vw",
-            height: "47vh",
+            height: "64vh",
             backgroundColor: "white",
             top: "50%",
             left: "50%",
@@ -86,9 +89,9 @@ export default function RegisterSupplier({
             borderRadius: "0.5rem",
           }}
         >
-          {isLoading ? <CircularProgress /> : null}
-          <form>
-            <h2 style={{ marginLeft: "2rem" }}>Register Supplier</h2>
+        
+            <form>
+            <h2 style={{ marginLeft: "2rem", color: "bold" }}>Register Supplier</h2>
             <hr />
             <div>
               <TextField
@@ -109,7 +112,7 @@ export default function RegisterSupplier({
                 onChange={handleChange}
                 value={supplierInputs.address}
               />
-            </div>
+             </div>
             <div>
               <TextField
                 id="standard-error-helper-text"
@@ -120,6 +123,9 @@ export default function RegisterSupplier({
                 onChange={handleChange}
                 value={supplierInputs.email}
               />
+
+              {isLoading ? <CircularProgress /> : null}
+
             </div>
             <hr style={{ marginTop: "2rem" }} />
             <Button
@@ -129,9 +135,10 @@ export default function RegisterSupplier({
               style={{ marginTop: "0.1rem", marginLeft: "70%" }}
               onClick={createSupplier}
               disabled={isLoading}
+              
             >
-              Confirm
-            </Button>
+            Confirm
+         </Button>
           </form>
         </div>
       </Modal>

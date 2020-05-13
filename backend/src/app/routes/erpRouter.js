@@ -19,4 +19,18 @@ router.use('/sale', sale);
 router.use('/saleItem', saleItem);
 router.use('/product', product)
 
+const brand = require('./brandRouter')
+router.use('/brand', brand);
+
+const store = require('./storeRouter')
+router.use('/store', store);
+
+const stock = require('./stockRouter')
+router.use('/stock', stock);
+
+const purchaseRequest = require('./purchaseRequestRouter')
+router.use('/purchaseRequest', purchaseRequest);
+
+
+
 module.exports = router;

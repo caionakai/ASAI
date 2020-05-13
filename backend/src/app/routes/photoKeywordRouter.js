@@ -4,6 +4,7 @@ const router = express.Router();
 const PhotoKeywordController = require('../controllers/photoKeywordController');
 
 
+
 //List all photo keywords
 router.get('/', async (request, response) => {
   const photoKeywords = await PhotoKeywordController.listAll();

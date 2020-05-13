@@ -15,6 +15,17 @@ router.use('/feedbacks', feedback);
 
 const analytics = require('./analyticsRouter');
 const client = require('./clienteRouter');
+const photo = require('./photoRouter');
+const keyword = require('./keywordRouter');
+const photoKeyword = require('./photoKeywordRouter');
+const page = require('./pageRouter');
+
+
+router.use('/clients', client);
+router.use('/photo', photo);
+router.use('/keyword', keyword);
+router.use('/photokeyword', photoKeyword);
+router.use('/page', page);
 
 router.use('/analytics', analytics);
 router.use('/clients', client);

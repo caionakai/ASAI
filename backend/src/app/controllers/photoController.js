@@ -1,15 +1,32 @@
 const Photo = require('../models/Photo')
 
+const Page = require('../models/Page')
+
 module.exports = {
 
-  async listAll() {
+  /*async listAll() {
     try {
+      
         const photos = await Photo.findAll();
 
+        //console.log(loadJOIN());
+        //return loadJOIN();
         return photos;
 
     } catch (error) {
         console.error("\nError in PhotoController trying to list all photos \n\n", error);
+    }
+  },*/
+
+  async listAll() {
+    try {
+        var pages = await Photo.findAll({raw: true, include: [{model: Page, as:'Page'}]});
+        pages = JSON.parse(JSON.stringify(pages).split('"Page.id":').join('"page_id":'));
+        pages = JSON.parse(JSON.stringify(pages).split('"Page.name":').join('"page_name":'));
+        return pages;
+
+    } catch (error) {
+        console.error("\nError in PhotokeywordController trying to list all photoKeywords \n\n", error);
     }
   },
 
