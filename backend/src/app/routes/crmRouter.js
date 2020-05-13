@@ -33,4 +33,9 @@ router.use('/clients', client);
 const reports= require('./reportsRouter');
 router.use('/reports', reports);
 
+const email = require('./emailMarketingRouter');
+router.use('/email_marketing', email);
+const emailProduct = require('./emailProductRouter');
+router.use('/email_product', emailProduct);
+
 module.exports = router;
