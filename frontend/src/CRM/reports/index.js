@@ -212,21 +212,21 @@ export default function Reports() {
   //     client: {},
   //     seller: {},
   //   },
-  //   product: [
-  //     {
-  //       idProduct: 1,
-  //       name: "Watch",
-  //       price: 1000.0,
-  //       brand: {
-  //         idBrand: 1,
-  //         name: "Rolex",
-  //       },
-  //       category: {
-  //         idCategory: 1,
-  //         name: "Jewellery",
-  //       },
+  // product: [
+  //   {
+  //     idProduct: 1,
+  //     name: "Watch",
+  //     price: 1000.0,
+  //     brand: {
+  //       idBrand: 1,
+  //       name: "Rolex",
   //     },
-  //   ],
+  //     category: {
+  //       idCategory: 1,
+  //       name: "Jewellery",
+  //     },
+  //   },
+  // ],
   // },
 
   function isEmpty(ob) {
@@ -237,7 +237,6 @@ export default function Reports() {
   }
 
   const processData = (data) => {
-
     const theData = data;
     const brandPlaceholder = {
       name: "undefined",
@@ -276,28 +275,53 @@ export default function Reports() {
     return theData;
   };
 
-  const fetchData = () => {};
+  const getRequest = async () => {
+    await axios
+      .get(`http://localhost:8000/crm/reports`)
+      .then(function (response) {
+        const pData = processData(response.data);
+        setJoinedTables(pData);
+        setTableData(pData);
+        setIsDataLoaded(true);
+        setToday(moment());
+      })
+      .catch(function (error) {
+        setIsDataLoaded(false);
+        getRequest();
+      });
+  };
+
   useEffect(() => {
-    try {
-      api
-        .get("crm/reports", {})
-        .then((response) => {
-          if (response.data !== "") {
-            const pData = processData(response.data);
-            setJoinedTables(pData); // qndo isso ficar pronto executar setIsDataLoaded(true)
-            setTableData(pData);
-          }
-        })
-        .then(() => {
-          setIsDataLoaded(true);
-          setToday(moment());
-          setPerspectiveMode("sales");
-          chewDataAndSetTable("sales");
-        });
-    } catch (err) {
-      console.log("Error fetching reports data.");
-    }
-  }, [isDataLoaded]);
+    getRequest();
+  }, []);
+
+  useEffect(() => {
+    console.log(joinedTables);
+    setPerspectiveMode("sales");
+    chewDataAndSetTable("sales");
+  }, [joinedTables]);
+
+  // useEffect(() => {
+  //   try {
+  //     api
+  //       .get("crm/reports", {})
+  //       .then((response) => {
+  //         if (response.data !== "") {
+  //           const pData = processData(response.data);
+  //           setJoinedTables(pData); // qndo isso ficar pronto executar setIsDataLoaded(true)
+  //           setTableData(pData);
+  //         }
+  //       })
+  //       .then(() => {
+  //         setIsDataLoaded(true);
+  //         setToday(moment());
+  //         setPerspectiveMode("sales");
+  //         chewDataAndSetTable("sales");
+  //       });
+  //   } catch (err) {
+  //     console.log("Error fetching reports data.");
+  //   }
+  // }, [isDataLoaded]);
 
   // useEffect(() => {
   //   const data = fetchData();
@@ -382,7 +406,7 @@ export default function Reports() {
   };
 
   const changePerspective = (persp) => {
-    if (persp !== perspectiveMode) {
+    if (persp !== perspectiveMode || dataForTable.length === 0) {
       setBrandDataMissing(false);
       setCategoryDataMissing(false);
       chewDataAndSetTable(persp);
@@ -649,7 +673,7 @@ export default function Reports() {
             <TableExportButton
               pdfTitle={perspectiveMode}
               header={tableColumns}
-              tableData={filteredTableData}
+              tableData={dataForTable}
               // graphComponent={() => builtChart()}
             />
             {/* <BarGraph></BarGraph> */}
@@ -667,7 +691,7 @@ export default function Reports() {
               color="#00BFFF"
               height={100}
               width={100}
-              timeout={7000} //3 secs
+              // timeout={7000} //3 secs
               className={"spinner"}
             />
           </main>
