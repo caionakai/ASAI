@@ -18,6 +18,7 @@ export default function RegisterPurchase({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [supplierSelected, setSupplierSelected] = useState(null);
+  const [productSelected, setProductSelected] = useState(null);
   const [allSuppliers, setAllSuppliers] = useState([]);
 
   const getRequest = async () => {
@@ -41,7 +42,10 @@ export default function RegisterPurchase({
     // if there's a id then it's a update request
     if (purchaseId) {
       await axios
-        .put(`http://localhost:8000/erp/supplier/${purchaseId}`, purchaseData)
+        .put(
+          `http://localhost:8000/erp/purchaseRequest/${purchaseId}`,
+          purchaseData
+        )
         .then(function (response) {
           console.log(response);
           setIsLoading(false);
@@ -57,7 +61,7 @@ export default function RegisterPurchase({
         });
     } else {
       await axios
-        .post("http://localhost:8000/erp/supplier/", purchaseData)
+        .post("http://localhost:8000/erp/purchaseRequest/", purchaseData)
         .then(function (response) {
           console.log(response);
           setIsLoading(false);
@@ -77,9 +81,9 @@ export default function RegisterPurchase({
   const createPurchase = async (e) => {
     e.preventDefault();
     const purchaseData = {
-      address: purchaseInputs.address,
-      name: purchaseInputs.name,
-      email: purchaseInputs.email,
+      items_count: purchaseInputs.quantity,
+      supplier_id: supplierSelected,
+      product_id: productSelected,
     };
 
     setIsLoading(true);
@@ -88,6 +92,10 @@ export default function RegisterPurchase({
 
   const handleSupplierSelectedChange = (event) => {
     setSupplierSelected(event.target.value);
+  };
+
+  const productSelectedChange = (event) => {
+    setProductSelected(event.target.value);
   };
 
   return (
@@ -114,16 +122,18 @@ export default function RegisterPurchase({
           <form>
             <h2 style={{ marginLeft: "2rem" }}>Register Purchase</h2>
             <hr />
-            <div>
-              <TextField
-                id="standard-error"
-                label="Product's Name"
-                value={purchaseInputs.name}
-                name="name"
-                onChange={handleChange}
-                style={{ marginTop: "1rem", marginLeft: "2rem" }}
-              />
-            </div>
+
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={productSelected}
+              onChange={productSelectedChange}
+              style={{ marginTop: "1rem", marginLeft: "2rem" }}
+            >
+              <MenuItem value={1}>Product 1</MenuItem>
+              <MenuItem value={2}>Product 2</MenuItem>
+            </Select>
+
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -135,17 +145,7 @@ export default function RegisterPurchase({
                 return <MenuItem value={supp.id}>{supp.name}</MenuItem>;
               })}
             </Select>
-            <div>
-              <TextField
-                id="standard-error-helper-text"
-                label="Unit Price"
-                type="number"
-                value={purchaseInputs.price}
-                name="price"
-                onChange={handleChange}
-                style={{ marginTop: "1rem", marginLeft: "2rem" }}
-              />
-            </div>
+
             <div>
               <TextField
                 id="standard-error-helper-text"
@@ -154,20 +154,6 @@ export default function RegisterPurchase({
                 value={purchaseInputs.quantity}
                 name="quantity"
                 onChange={handleChange}
-                style={{ marginTop: "1rem", marginLeft: "2rem" }}
-              />
-            </div>
-            <div>
-              <TextField
-                id="standard-error-helper-text"
-                label="Purchase Date"
-                type="date"
-                value={purchaseInputs.date}
-                name="date"
-                onChange={handleChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 style={{ marginTop: "1rem", marginLeft: "2rem" }}
               />
             </div>
