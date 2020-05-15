@@ -18,6 +18,18 @@ module.exports = {
     }
   },*/
 
+
+  async getById(id) {
+    try {
+        var pages = await Photo.findAll({where:{'product_id': id},raw: true, include: [{model: Page, as:'Page'}]});
+        pages = JSON.parse(JSON.stringify(pages).split('"Page.id":').join('"page_id":'));
+        pages = JSON.parse(JSON.stringify(pages).split('"Page.name":').join('"page_name":'));
+        return pages;
+  } catch (error) {
+      console.error("\nError in photoController trying to list a photo by ID \n\n", error);
+  }
+},
+
   async listAll() {
     try {
         var pages = await Photo.findAll({raw: true, include: [{model: Page, as:'Page'}]});

@@ -8,7 +8,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 
 const api = axios.create({
@@ -18,35 +18,31 @@ const api = axios.create({
 const headerSortingStyle = { backgroundColor: '#c8e6c9' };
 
 const columns = [
-
   {
-    dataField: 'product_name',
+    dataField: 'id',
+    text: 'Photo id',
     sort: true,
     headerSortingStyle,
-    text: 'Product name',
     filter: textFilter(),
   },
   {
-    dataField: 'photo_likes',
+    dataField: 'page_name',
+    sort: true,
+    headerSortingStyle,
+    text: 'Website',
+    filter: textFilter(),
+  },
+  {
+    dataField: 'likes',
     sort: true,
     headerSortingStyle,
     text: 'Likes',
   },
   {
-    dataField: 'photo_comments',
+    dataField: 'comments',
     sort: true,
     headerSortingStyle,
     text: 'Comments',
-  },
-  {
-    dataField: 'word',
-    text: 'Keywords (tag)',
-    filter: textFilter(),
-    },
-  {
-    dataField: 'photo_id',
-    text: '',
-    formatter: colFormatter,
   },
 
 ];
@@ -57,16 +53,6 @@ const defaultSorted = [
     order: "asc"
   }
 ];
-
-
-
-function colFormatter(cell, row) {
-    let link = `${cell}`
-  return (
-      <a href={'/sm/product/' + link}><Button bsStyle="success" fill>Details</Button></a>
-  )
-}
-
 
 
 
@@ -83,19 +69,23 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
+
+
 export default function SM() {
     const classes = useStyles();
     const [photo, setPhoto] = useState([]);
     var answer;
+
+    var lastItem = window.location.pathname.split("/").pop();
+    
     
     useEffect(() => {
-      try {
-        api.get('crm/photokeyword', {}).then(response => {
+        try {
+            api.get('crm/photo/' + lastItem, {  }).then(response => {
           if (response.data !== '') {
            setPhoto(response.data);
            answer = response.error;
           }
-          
           
         })
         .catch(error => {
@@ -116,7 +106,9 @@ export default function SM() {
           <TopBar pageTitle={'Social Media'}/>
           <Sidebar currentPage={12} />
           <main className={classes.content}>
-            <div className={classes.toolbar} />
+                <div className={classes.toolbar} />
+                <h1> Product {lastItem}</h1>
+                
             <BootstrapTable 
               keyField='id'
               data={ photo }
@@ -135,9 +127,3 @@ export default function SM() {
   
 }
 
-/* Temp code
-
-
-
-
-*/
