@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\src",
+    "\\backend\\src\\app",
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\CRM",
+    "\\frontend\\src\\CRM\\performance",
+    "\\frontend\\src\\CRM\\social_media",
+    "\\frontend\\src\\ERP",
+    "\\frontend\\src\\ERP\\recruitment"
+  ],
+  "PreviewInSolutionExplorer": false
+}
