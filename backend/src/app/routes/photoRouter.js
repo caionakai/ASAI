@@ -20,8 +20,6 @@ router.post('/', async(request, response) => {
     comments,
     product_id
   }
-
-
     const contact = await PhotoController.store(photoData)
 
     if(!contact){
@@ -29,6 +27,18 @@ router.post('/', async(request, response) => {
     }
 
     return response.send(contact);
+});
+
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const photo = await PhotoController.getById(id);
+
+  if(!photo){
+      return res.status(400).json({ error: `Fail to find a photo with the id ${id}` });
+  }
+
+  return res.send(photo);
 });
 
 router.delete('/:id', async (request, response) => {
