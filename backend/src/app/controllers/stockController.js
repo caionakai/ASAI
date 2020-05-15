@@ -2,6 +2,9 @@ const Stock = require('../models/Stock')
 
 const Store = require('../models/Store')
 const Product = require('../models/Product')
+const ProductCategory = require('../models/ProductCategory')
+const Brand = require('../models/Brand')
+
 
 ////-----------------/////
 
@@ -20,11 +23,10 @@ module.exports = {
 
   async listAll() {
     try {
-        var myjoin = await Stock.findAll({raw: true, include: [{model: Store, as:'Store'}, {model: Product, as:'Product'}]});
-        myjoin = JSON.parse(JSON.stringify(myjoin).split('"Product.id":').join('"product_id":'));
-        myjoin = JSON.parse(JSON.stringify(myjoin).split('"Product.name":').join('"product_name":'));
-        myjoin = JSON.parse(JSON.stringify(myjoin).split('"Product.price":').join('"product_price":'));
-        myjoin = JSON.parse(JSON.stringify(myjoin).split('"Product.quantity":').join('"product_quantity":'));
+        var myjoin = await Stock.findAll({raw: true, include: [{model: Store, as:'Store'}, {model: ProductCategory, as:'ProductCategory'}, {model: Brand, as:'Brand'}]});
+        myjoin = JSON.parse(JSON.stringify(myjoin).split('"ProductCategory.id":').join('"productCategory_id":'));
+        myjoin = JSON.parse(JSON.stringify(myjoin).split('"ProductCategory.name":').join('"productCategory_name":'));
+        myjoin = JSON.parse(JSON.stringify(myjoin).split('"Brand.name":').join('"Brand_name":'));
         myjoin = JSON.parse(JSON.stringify(myjoin).split('"Store.id":').join('"store_id":'));
         myjoin = JSON.parse(JSON.stringify(myjoin).split('"Store.name":').join('"store_name":'));
         myjoin = JSON.parse(JSON.stringify(myjoin).split('"Stock.quantity":').join('"stock_qty":'));

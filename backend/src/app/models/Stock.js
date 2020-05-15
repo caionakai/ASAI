@@ -13,8 +13,10 @@ class Stock extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Store, { foreignKey: 'id', as: 'Store' });
+    this.hasMany(models.Brand, { foreignKey: 'id', as: 'Brand' });
     this.hasMany(models.Product, { foreignKey: 'id', as: 'Product' });
+    this.hasMany(models.Store, { foreignKey: 'id', as: 'Store' });
+    this.hasMany(models.ProductCategory, { foreignKey: 'id', as: 'ProductCategory' });
   }
 }
 

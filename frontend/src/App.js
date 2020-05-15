@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Hr from "./ERP/human_resources";
 import Sales from "./ERP/sales";
-import Inventory from "./ERP/inventory";
+import Inventory from './ERP/inventory/index'
+import Product from './ERP/inventory/products'
+import Categories from './ERP/inventory/produtCategory'
+import Brand from './ERP/inventory/productBrand'
 import Purchase from "./ERP/purchase";
 import FinanceAcc from "./ERP/finance_accounting";
 import Recruit from "./ERP/recruitment/index";
@@ -43,6 +46,9 @@ function App() {
         <Route path="/hr" exact component={() => <Hr />}></Route>
         <Route path="/sales" exact component={() => <Sales />}></Route>
         <Route path="/inventory" exact component={() => <Inventory />}></Route>
+        <Route path="/inventory/products" exact component={() => <Product />}></Route>
+        <Route path="/inventory/produtCategory" exact component={() => <Categories />}></Route>
+        <Route path="/inventory/productBrand" exact component={() => <Brand />}></Route>
         <Route path="/purchase" exact component={() => <Purchase />}></Route>
         <Route path="/fa" exact component={() => <FinanceAcc />}></Route>
         <Route path="/recruit" exact component={() => <Recruit />}></Route>
