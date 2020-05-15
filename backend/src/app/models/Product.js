@@ -4,6 +4,7 @@ class Product extends Model {
   static init(sequelize) {
     super.init({
       name : DataTypes.STRING(255),
+      quantity: DataTypes.INTEGER,
       price : DataTypes.DECIMAL(5,2),
       quantity : DataTypes.INTEGER,
       brand_id : DataTypes.INTEGER,
