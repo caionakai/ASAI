@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,8 +35,8 @@ export default function Recruitment() {
                 style={{ textAlign: "center",
                    cursor: "pointer",
                   lineHeight: "normal" }}>
-                    <h2>New Candidate</h2>
-                       <PersonAddIcon
+                    <h2>Candidates</h2>
+                       <PersonIcon
                          style={{ fontSize: 85 }}
                         />
                       <p></p>
