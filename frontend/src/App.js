@@ -22,6 +22,7 @@ import Leads from "./CRM/leads";
 import Analytics from "./CRM/analytics";
 import Marketing from "./CRM/marketing";
 import SocialMedia from "./CRM/social_media";
+import PhotoDetail from "./CRM/social_media/photoDetails"
 import SalesData from "./CRM/sales_data";
 import Performance from "./CRM/performance";
 import Feedbacks from "./CRM/performance/feedbacks";
@@ -84,6 +85,11 @@ function App() {
         <Route path="/marketing" exact component={() => <Marketing />}></Route>
 
         <Route path="/sm" exact component={() => <SocialMedia />}></Route>
+        <Route 
+          path="/sm/product/:id"
+          exact
+          component={() => <PhotoDetail />}
+        ></Route>
         <Route path="/sd" exact component={() => <SalesData />}></Route>
         <Route
           path="/performance"
