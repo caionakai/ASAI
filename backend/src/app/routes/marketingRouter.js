@@ -9,25 +9,11 @@ const Offer = require("../models/SpecialOffer");
 //
 // Loyalty
 //
-
 routes.get("/loyalty", async (request, response) => {
   try {
     const loyalties = await Loyalty.findAll();
 
     return response.status(200).json({ loyalties });
-  } catch (error) {
-    console.log(error);
-    return response.status(500);
-  }
-});
-
-routes.post("/loyalty", async (request, response) => {
-  try {
-    const { name, description } = request.body;
-
-    const loyalty = await Loyalty.create({ name, description });
-
-    return response.status(200).json(loyalty);
   } catch (error) {
     console.log(error);
     return response.status(500);
@@ -44,6 +30,51 @@ routes.get("/loyalty/:id", async (request, response) => {
     });
 
     return response.status(200).json({ loyalty });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+routes.post("/loyalty", async (request, response) => {
+  try {
+    const { name, description } = request.body;
+
+    const loyalty = await Loyalty.create({ name, description });
+
+    return response.status(200).json(loyalty);
+  } catch (error) {
+    console.log(error);
+    return response.status(500);
+  }
+});
+
+routes.put("/loyalty/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { name, description } = request.body;
+
+    const loyalty = await Loyalty.update(
+      { name, description },
+      { where: { id } }
+    );
+
+    return response.status(200).json(loyalty);
+  } catch (error) {
+    console.log(error);
+    return response.status(500);
+  }
+});
+
+routes.delete("/loyalty/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const Loyalty = await Loyalty.destroy({
+      where: {
+        id,
+      },
+    });
+
+    return response.status(200).send();
   } catch (error) {
     console.log(error);
   }
@@ -110,6 +141,26 @@ routes.delete("/:id", async (request, response) => {
         id,
       },
     });
+
+    return response.status(200).json({ marketing });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+routes.put("/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { client_id, loyalty_id, offer_id, sale_id } = request.body;
+
+    const marketing = await Marketing.update(
+      { client_id, loyalty_id, offer_id, sale_id },
+      {
+        where: {
+          id,
+        },
+      }
+    );
 
     return response.status(200).json({ marketing });
   } catch (error) {
