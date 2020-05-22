@@ -1,24 +1,23 @@
 {
-  "name": "cmm-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "author": "Giuseppe Setem <giuseppe7d@gmail.com>",
-  "license": "MIT",
+  "description": "Backend projet for ASAI",
+  "main": "src/server.js",
   "scripts": {
-    "start": "babel-node -r dotenv/config src/index.js",
-    "dev": "nodemon --exec babel-node -r dotenv/config src/index.js"
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.6",
+    "sequelize": "^5.21.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
-    "@babel/preset-env": "^7.9.6",
     "nodemon": "^2.0.3"
   }
 }

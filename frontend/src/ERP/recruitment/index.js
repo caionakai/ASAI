@@ -4,6 +4,9 @@ import TopBar from '../../Components/TopBar'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Button } from 'react-bootstrap';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,9 +31,37 @@ export default function Recruitment() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <div className="mb-2">
-              <a href="/recruit/candidates"><Button bsStyle="success">Candidates</Button></a><p></p>
-              <a href="/recruit/interviews"><Button bsStyle="success">Interviews</Button></a><p></p>
-              <a href="/recruit/hire"><Button bsStyle="success">Hire</Button></a><p></p>
+            <div onClick={event =>  window.location.href="/recruit/candidates"}
+                style={{ textAlign: "center",
+                   cursor: "pointer",
+                  lineHeight: "normal" }}>
+                    <h2>Candidates</h2>
+                       <PersonIcon
+                         style={{ fontSize: 85 }}
+                        />
+                      <p></p>
+                  </div>
+                  <div onClick={event =>  window.location.href="/recruit/interviews"}
+                      style={{ textAlign: "center",
+                         cursor: "pointer",
+                        lineHeight: "normal" }}>
+                          <h2>Interviews</h2>
+                             <SupervisorAccountIcon
+                               style={{ fontSize: 85 }}
+                              />
+
+                        </div>
+  <p></p>
+                    <div onClick={event =>  window.location.href="/recruit/hire"}
+                        style={{ textAlign: "center",
+                           cursor: "pointer",
+                          lineHeight: "normal" }}>
+                            <h2>Hire</h2>
+                               <PersonAddIcon
+                                 style={{ fontSize: 85 }}
+                                />
+
+                          </div>
             </div>
 
           </main>

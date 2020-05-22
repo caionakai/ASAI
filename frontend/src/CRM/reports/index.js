@@ -42,6 +42,8 @@ export default function Reports() {
   const [categoriesChart, setCategoriesChart] = useState("");
   const [dataForTable, setDataForTable] = useState([]);
   const [joinedTables, setJoinedTables] = useState([]);
+  const [categoryDataMissing, setCategoryDataMissing] = useState(true);
+  const [brandDataMissing, setBrandDataMissing] = useState(true);
   // perspectiveMode isnt very important
   const [perspectiveMode, setPerspectiveMode] = useState("");
   // contains columns required for material-table
@@ -146,7 +148,7 @@ export default function Reports() {
         ];
         setTableColumns(columns);
         const data = getDataCategoryItems();
-        setTableData(data);
+        // setTableData(data);
         setDataForTable(data);
         setFilteredTableData(data);
         setDetailPanelColumns([]);
@@ -154,7 +156,6 @@ export default function Reports() {
         break;
       }
       case "brands": {
-        // brand perspective
         const columns = [
           { title: "Index", field: "index", type: "numeric" },
           { title: "Brand", field: "brand" },
@@ -164,7 +165,7 @@ export default function Reports() {
         ];
         setTableColumns(columns);
         const data = getDataBrandItems();
-        setTableData(data);
+        // setTableData(data);
         setFilteredTableData(data);
         setDataForTable(data);
         setDetailPanelColumns([]);
@@ -175,9 +176,9 @@ export default function Reports() {
         // salesItems perspective default case "sales"
         // display saleItems perspective
         const columns = [
-          { title: "Index", field: "index", type: "numeric" },
-          { title: "Price", field: "price", type: "numeric" },
-          { title: "Quantity", field: "quantity", type: "numeric" },
+          { title: "Index", field: "index" },
+          { title: "Price", field: "price" },
+          { title: "Quantity", field: "quantity" },
           { title: "Purchase Date", field: "purchaseDate" },
         ];
         setTableColumns(columns);
@@ -191,7 +192,7 @@ export default function Reports() {
         setDetailPanelColumns(detailColumns);
         const data = getDataSalesItems();
         setDataForTable(data);
-        setTableData(data);
+        // setTableData(data);
         const detailData = getDetailDataSaleItems();
         setDetailPanelData(detailData);
         setFilteredTableData(data);
@@ -200,29 +201,150 @@ export default function Reports() {
   };
 
   //when changing perspective, also reset filteredTableData for PDF
+  // {
+  //   idSalesItem: 1,
+  //   quantity: 1,
+  //   price: 1000.0,
+  //   sale: {
+  //     idSale: 1,
+  //     purchaseDate: "16-01-2019",
+  //     discountPercentage: 20,
+  //     client: {},
+  //     seller: {},
+  //   },
+  // product: [
+  //   {
+  //     idProduct: 1,
+  //     name: "Watch",
+  //     price: 1000.0,
+  //     brand: {
+  //       idBrand: 1,
+  //       name: "Rolex",
+  //     },
+  //     category: {
+  //       idCategory: 1,
+  //       name: "Jewellery",
+  //     },
+  //   },
+  // ],
+  // },
+
+  function isEmpty(ob) {
+    for (var i in ob) {
+      return false;
+    }
+    return true;
+  }
+
+  const processData = (data) => {
+    const theData = data;
+    const brandPlaceholder = {
+      name: "undefined",
+    };
+    const categoryPlaceholder = {
+      name: "undefined",
+    };
+    const salePlacehoder = {
+      purchaseDate: "undefined",
+      discountPercentage: 100,
+    };
+    theData.map((el) => {
+      el.product.map((p) => {
+        let prod = p;
+        if (isEmpty(prod.category)) {
+          prod.category = categoryPlaceholder;
+        } else {
+          setCategoryDataMissing(false);
+        }
+        if (isEmpty(prod.brand)) {
+          prod.brand = brandPlaceholder;
+        } else {
+          setBrandDataMissing(false);
+        }
+        return prod;
+      });
+      if (el.sale.length === 0) {
+        el.sale = salePlacehoder;
+      } else {
+        el.sale = el.sale[0];
+        let date = moment(el.sale.purchaseDate, "YYYY-MM-DD");
+        el.sale.purchaseDate = date.format("DD-MM-YYYY");
+      }
+      return el;
+    });
+    return theData;
+  };
+
+  const getRequest = async () => {
+    await axios
+      .get(`http://localhost:8000/crm/reports`)
+      .then(function (response) {
+        const pData = processData(response.data);
+        setJoinedTables(pData);
+        setTableData(pData);
+        setIsDataLoaded(true);
+        setToday(moment());
+      })
+      .catch(function (error) {
+        setIsDataLoaded(false);
+        getRequest();
+      });
+  };
 
   useEffect(() => {
-    let data = [];
-    try {
-      api
-        .get("crm/reports", {})
-        .then((response) => {
-          if (response.data !== "") {
-            data = response.data;
-            setJoinedTables(data); // qndo isso ficar pronto executar setIsDataLoaded(true)
-          }
-        })
-        .then(() => {
-          console.log(data);
-          setIsDataLoaded(true);
-          setToday(moment());
-          setPerspectiveMode("sales");
-          chewDataAndSetTable("sales");
-        });
-    } catch (err) {
-      console.log("Error fetching reports data.");
-    }
-  }, [isDataLoaded]);
+    getRequest();
+  }, []);
+
+  useEffect(() => {
+    console.log(joinedTables);
+    setPerspectiveMode("sales");
+    chewDataAndSetTable("sales");
+  }, [joinedTables]);
+
+  // useEffect(() => {
+  //   try {
+  //     api
+  //       .get("crm/reports", {})
+  //       .then((response) => {
+  //         if (response.data !== "") {
+  //           const pData = processData(response.data);
+  //           setJoinedTables(pData); // qndo isso ficar pronto executar setIsDataLoaded(true)
+  //           setTableData(pData);
+  //         }
+  //       })
+  //       .then(() => {
+  //         setIsDataLoaded(true);
+  //         setToday(moment());
+  //         setPerspectiveMode("sales");
+  //         chewDataAndSetTable("sales");
+  //       });
+  //   } catch (err) {
+  //     console.log("Error fetching reports data.");
+  //   }
+  // }, [isDataLoaded]);
+
+  // useEffect(() => {
+  //   const data = fetchData();
+  //   setJoinedTables(data); // qndo isso ficar pronto executar setIsDataLoaded(true)
+  //   setTableData(data);
+  //   setIsDataLoaded(true);
+  //   setToday(moment());
+  //   setPerspectiveMode("sales");
+  //   chewDataAndSetTable("sales");
+  // }, [isDataLoaded]);
+
+  // const fetchData = () => {
+  //   try {
+  //     api.get("crm/reports", {}).then((response) => {
+  //       if (response.data !== "") {
+  //         const pData = processData(response.data);
+  //         return pData;
+  //       }
+  //     });
+  //   } catch (err) {
+  //     console.log("Error fetching reports data.");
+  //   }
+  // };
 
   const filterTableData = (filteredData) => {
     setFilteredTableData(filteredData);
@@ -242,14 +364,18 @@ export default function Reports() {
     // let currentDate = moment().startOf("day").hour(12);
     let currentDate = moment(today);
     let processedData = [];
+    let prunedData = [];
     data.forEach((d) => {
-      momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+      if (d.purchaseDate !== "undefined") {
+        momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+        prunedData.push(d);
+      }
     });
     switch (period) {
       case "week": {
         for (let i = 0; i < momentData.length; i++) {
           if (currentDate.diff(momentData[i], "days") < 7) {
-            processedData.push(data[i]);
+            processedData.push(prunedData[i]);
           }
         }
         break;
@@ -257,7 +383,7 @@ export default function Reports() {
       case "month": {
         for (let i = 0; i < momentData.length; i++) {
           if (currentDate.diff(momentData[i], "days") < 30) {
-            processedData.push(data[i]);
+            processedData.push(prunedData[i]);
           }
         }
         break;
@@ -265,13 +391,13 @@ export default function Reports() {
       case "year": {
         for (let i = 0; i < momentData.length; i++) {
           if (currentDate.diff(momentData[i], "days") < 365) {
-            processedData.push(data[i]);
+            processedData.push(prunedData[i]);
           }
         }
         break;
       }
       default: {
-        processedData = data;
+        processedData = prunedData;
         // all time is default
       }
     }
@@ -280,7 +406,9 @@ export default function Reports() {
   };
 
   const changePerspective = (persp) => {
-    if (persp !== perspectiveMode) {
+    if (persp !== perspectiveMode || dataForTable.length === 0) {
+      setBrandDataMissing(false);
+      setCategoryDataMissing(false);
       chewDataAndSetTable(persp);
       setPerspectiveMode(persp);
       resetAllCharts();
@@ -298,20 +426,40 @@ export default function Reports() {
         text: "Change perspective to Brands before generating Chart!",
       });
     } else {
-      const processedData = filterDataByPeriod(period, filteredTableData);
-      let xData = [];
-      let yData = [];
-      processedData.forEach((el) => {
-        let brand = el["brand"];
-        if (!xData.includes(brand)) {
-          xData.push(brand);
-          yData.push(1);
+      if (brandDataMissing) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text:
+            "Category data is empty. Probably caused by malformed database.",
+        });
+      } else {
+        const processedData = filterDataByPeriod(period, filteredTableData);
+        if (processedData.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              "Category data is empty. Probably caused by malformed database: brand || sale are empty.",
+          });
         } else {
-          const index = xData.findIndex((d) => d === brand);
-          yData[index] = yData[index] + 1;
+          let xData = [];
+          let yData = [];
+          processedData.forEach((el) => {
+            let brand = el["brand"];
+            if (!xData.includes(brand)) {
+              xData.push(brand);
+              yData.push(1);
+            } else {
+              const index = xData.findIndex((d) => d === brand);
+              yData[index] = yData[index] + 1;
+            }
+          });
+          setBrandsChart(
+            <BarGraph xData={xData} yData={yData} period={period} />
+          );
         }
-      });
-      setBrandsChart(<BarGraph xData={xData} yData={yData} period={period} />);
+      }
     }
   };
 
@@ -340,7 +488,9 @@ export default function Reports() {
   const getMonthsBetweenTwoDates = (data) => {
     let momentData = [];
     data.forEach((d) => {
-      momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+      if (d.purchaseDate !== "undefined") {
+        momentData.push(moment(d.purchaseDate, "DD-MM-YYYY"));
+      }
     });
     let keys = [];
     let currentDate = moment(today);
@@ -364,68 +514,77 @@ export default function Reports() {
       });
     } else {
       const processedData = filterDataByPeriod(period, filteredTableData);
-      let xData = [];
-      let yData = [];
-      let moneyData = [];
-      switch (period) {
-        case "week": {
-          const keys = getDays(7);
-          yData = keys;
-          moneyData = new Array(yData.length).fill(0);
-          xData = new Array(yData.length).fill(0);
-          processedData.forEach((data) => {
-            const index = keys.indexOf(data.purchaseDate.substring(0, 5));
-            moneyData[index] += data.price;
-            xData[index]++;
-          });
-          break;
+      if (processedData.length === 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text:
+            "Category data is empty. Probably caused by malformed database: sale is empty.",
+        });
+      } else {
+        let xData = [];
+        let yData = [];
+        let moneyData = [];
+        switch (period) {
+          case "week": {
+            const keys = getDays(7);
+            yData = keys;
+            moneyData = new Array(yData.length).fill(0);
+            xData = new Array(yData.length).fill(0);
+            processedData.forEach((data) => {
+              const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+              moneyData[index] += data.price;
+              xData[index]++;
+            });
+            break;
+          }
+          case "month": {
+            const keys = getDays(30);
+            yData = keys;
+            moneyData = new Array(yData.length).fill(0);
+            xData = new Array(yData.length).fill(0);
+            processedData.forEach((data) => {
+              const index = keys.indexOf(data.purchaseDate.substring(0, 5));
+              moneyData[index] += data.price;
+              xData[index]++;
+            });
+            break;
+          }
+          case "year": {
+            const keys = getMonths(12);
+            yData = keys;
+            moneyData = new Array(yData.length).fill(0);
+            xData = new Array(yData.length).fill(0);
+            processedData.forEach((data) => {
+              const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+              moneyData[index] += data.price;
+              xData[index]++;
+            });
+            break;
+          }
+          default: {
+            const keys = getMonthsBetweenTwoDates(processedData);
+            yData = keys;
+            moneyData = new Array(yData.length).fill(0);
+            xData = new Array(yData.length).fill(0);
+            //all time this is gonna be a little harder
+            processedData.forEach((data) => {
+              const index = keys.indexOf(data.purchaseDate.substring(3, 10));
+              moneyData[index] += data.price;
+              xData[index]++;
+            });
+            break;
+          }
         }
-        case "month": {
-          const keys = getDays(30);
-          yData = keys;
-          moneyData = new Array(yData.length).fill(0);
-          xData = new Array(yData.length).fill(0);
-          processedData.forEach((data) => {
-            const index = keys.indexOf(data.purchaseDate.substring(0, 5));
-            moneyData[index] += data.price;
-            xData[index]++;
-          });
-          break;
-        }
-        case "year": {
-          const keys = getMonths(12);
-          yData = keys;
-          moneyData = new Array(yData.length).fill(0);
-          xData = new Array(yData.length).fill(0);
-          processedData.forEach((data) => {
-            const index = keys.indexOf(data.purchaseDate.substring(3, 10));
-            moneyData[index] += data.price;
-            xData[index]++;
-          });
-          break;
-        }
-        default: {
-          const keys = getMonthsBetweenTwoDates(processedData);
-          yData = keys;
-          moneyData = new Array(yData.length).fill(0);
-          xData = new Array(yData.length).fill(0);
-          //all time this is gonna be a little harder
-          processedData.forEach((data) => {
-            const index = keys.indexOf(data.purchaseDate.substring(3, 10));
-            moneyData[index] += data.price;
-            xData[index]++;
-          });
-          break;
-        }
+        setSalesChart(
+          <LineBarGraph
+            xData={xData}
+            yData={yData}
+            period={period}
+            moneyData={moneyData}
+          />
+        );
       }
-      setSalesChart(
-        <LineBarGraph
-          xData={xData}
-          yData={yData}
-          period={period}
-          moneyData={moneyData}
-        />
-      );
     }
   };
 
@@ -437,23 +596,41 @@ export default function Reports() {
         text: "Change perspective to Categories before generating Chart!",
       });
     } else {
-      const processedData = filterDataByPeriod(period, filteredTableData);
-      let xData = [];
-      let yData = [];
-      processedData.forEach((el) => {
-        let category = el["category"];
-        if (!xData.includes(category)) {
-          xData.push(category);
-          yData.push(1);
+      if (categoryDataMissing) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text:
+            "Category data is empty. Probably caused by malformed database.",
+        });
+      } else {
+        const processedData = filterDataByPeriod(period, filteredTableData);
+        if (processedData.length === 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+              "Category data is empty. Probably caused by malformed database: category || sale are empty.",
+          });
         } else {
-          const index = xData.findIndex((c) => c === category);
-          yData[index] = yData[index] + 1;
+          let xData = [];
+          let yData = [];
+          processedData.forEach((el) => {
+            let category = el["category"];
+            if (!xData.includes(category)) {
+              xData.push(category);
+              yData.push(1);
+            } else {
+              const index = xData.findIndex((c) => c === category);
+              yData[index] = yData[index] + 1;
+            }
+          });
+          // console.log(xData);
+          setCategoriesChart(
+            <DoughnutGraph xData={xData} yData={yData} period={period} />
+          );
         }
-      });
-      // console.log(xData);
-      setCategoriesChart(
-        <DoughnutGraph xData={xData} yData={yData} period={period} />
-      );
+      }
     }
   };
 
@@ -496,7 +673,7 @@ export default function Reports() {
             <TableExportButton
               pdfTitle={perspectiveMode}
               header={tableColumns}
-              tableData={filteredTableData}
+              tableData={dataForTable}
               // graphComponent={() => builtChart()}
             />
             {/* <BarGraph></BarGraph> */}
@@ -514,7 +691,7 @@ export default function Reports() {
               color="#00BFFF"
               height={100}
               width={100}
-              timeout={3000} //3 secs
+              // timeout={7000} //3 secs
               className={"spinner"}
             />
           </main>

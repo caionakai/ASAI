@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Hr from "./ERP/human_resources";
 import Sales from "./ERP/sales";
-import Inventory from "./ERP/inventory";
+import Inventory from './ERP/inventory/index'
+import Product from './ERP/inventory/products'
+import Categories from './ERP/inventory/produtCategory'
+import Brand from './ERP/inventory/productBrand'
 import Purchase from "./ERP/purchase";
 import FinanceAcc from "./ERP/finance_accounting";
 import Recruit from "./ERP/recruitment/index";
@@ -22,7 +25,8 @@ import Leads from "./CRM/leads";
 import Analytics from "./CRM/analytics";
 import Marketing from "./CRM/marketing";
 import SocialMedia from "./CRM/social_media";
-import SalesData from "./CRM/sales_data";
+import PhotoDetail from "./CRM/social_media/photoDetails"
+import SalesData from "./CRM/sales_Data";
 import Performance from "./CRM/performance";
 import Feedbacks from "./CRM/performance/feedbacks";
 import NewFeedback from "./CRM/performance/new_feedback";
@@ -42,25 +46,56 @@ function App() {
         <Route path="/hr" exact component={() => <Hr />}></Route>
         <Route path="/sales" exact component={() => <Sales />}></Route>
         <Route path="/inventory" exact component={() => <Inventory />}></Route>
+        <Route path="/inventory/products" exact component={() => <Product />}></Route>
+        <Route path="/inventory/produtCategory" exact component={() => <Categories />}></Route>
+        <Route path="/inventory/productBrand" exact component={() => <Brand />}></Route>
         <Route path="/purchase" exact component={() => <Purchase />}></Route>
         <Route path="/fa" exact component={() => <FinanceAcc />}></Route>
         <Route path="/recruit" exact component={() => <Recruit />}></Route>
-        <Route path="/recruit/candidates" exact component={() => <Candidates />}></Route>
-        <Route path="/recruit/interviews" exact component={() => <Interview />}></Route>
-        <Route path="/recruit/newcandidate" exact component={() => <NewCandidate />}></Route>
-        <Route path="/recruit/newinterview/:id" exact component={(props) => <NewInterview {...props}/>}></Route>
-        <Route path="/recruit/newreport/:id" exact component={(props) => <NewReport {...props}/>}></Route>
+        <Route
+          path="/recruit/candidates"
+          exact
+          component={() => <Candidates />}
+        ></Route>
+        <Route
+          path="/recruit/interviews"
+          exact
+          component={() => <Interview />}
+        ></Route>
+        <Route
+          path="/recruit/newcandidate"
+          exact
+          component={() => <NewCandidate />}
+        ></Route>
+        <Route
+          path="/recruit/newinterview/:id"
+          exact
+          component={(props) => <NewInterview {...props} />}
+        ></Route>
+        <Route
+          path="/recruit/newreport/:id"
+          exact
+          component={(props) => <NewReport {...props} />}
+        ></Route>
         <Route path="/recruit/hire" exact component={() => <Hire />}></Route>
-        <Route path="/recruit/newemployee/:id" exact component={(props) => <NewEmployee {...props}/>}></Route>
-
-
+        <Route
+          path="/recruit/newemployee/:id"
+          exact
+          component={(props) => <NewEmployee {...props} />}
+        ></Route>
 
         <Route path="/contacts" exact component={() => <Contacts />}></Route>
         <Route path="/leads" exact component={() => <Leads />}></Route>
         <Route path="/analytics" exact component={() => <Analytics />}></Route>
+        <Route path="/supplier" exact component={() => <Supplier />}></Route>
         <Route path="/marketing" exact component={() => <Marketing />}></Route>
 
         <Route path="/sm" exact component={() => <SocialMedia />}></Route>
+        <Route 
+          path="/sm/product/:id"
+          exact
+          component={() => <PhotoDetail />}
+        ></Route>
         <Route path="/sd" exact component={() => <SalesData />}></Route>
         <Route
           path="/performance"
