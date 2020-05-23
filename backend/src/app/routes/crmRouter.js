@@ -22,6 +22,7 @@ const reports = require("./reportsRouter");
 const email = require("./emailMarketingRouter");
 const emailProduct = require("./emailProductRouter");
 const marketing = require("./marketingRouter");
+const salesData = require("./SalesDataRouter");
 
 router.use("/clients", client);
 router.use("/photo", photo);
@@ -34,5 +35,6 @@ router.use("/clients", client);
 router.use("/reports", reports);
 router.use("/email_marketing", email);
 router.use("/email_product", emailProduct);
+router.use("/Salesdata", salesData);
 
 module.exports = router;
