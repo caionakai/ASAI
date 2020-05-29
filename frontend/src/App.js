@@ -22,6 +22,7 @@ import NewEmployee from "./ERP/recruitment/newemployee";
 
 import Contacts from "./CRM/contacts";
 import Leads from "./CRM/leads";
+import NewLead from "./CRM/leads/newlead";
 import Analytics from "./CRM/analytics";
 import Marketing from "./CRM/marketing";
 import SocialMedia from "./CRM/social_media";
@@ -86,6 +87,7 @@ function App() {
 
         <Route path="/contacts" exact component={() => <Contacts />}></Route>
         <Route path="/leads" exact component={() => <Leads />}></Route>
+        <Route path="/leads/newlead" exact component={() => <NewLead />}></Route>
         <Route path="/analytics" exact component={() => <Analytics />}></Route>
         <Route path="/supplier" exact component={() => <Supplier />}></Route>
         <Route path="/marketing" exact component={() => <Marketing />}></Route>
