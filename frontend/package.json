@@ -19,7 +19,7 @@
     "d3": "^5.16.0",
     "formik": "^2.1.4",
     "html2canvas": "^1.0.0-rc.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.5.3",
     "loading-spinner": "^1.2.1",
     "material-table": "^1.57.2",
